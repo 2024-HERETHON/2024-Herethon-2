@@ -1,31 +1,41 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 
 # Create your views here.
-from django.contrib.auth.models import User
-from rest_framework import generics, status
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
+def signup(request):
+    if request.method=='POST':    
+        if request.POST['password'] == request.POST['password2']:
+            new_user = User.objects.create_user(
+                username=request.POST['username'],
+                password=request.POST['password'],
+                email=request.POST['email']
+                )
+        elif request.POST['password'] != request.POST['password2']:
+            error_message = "비밀번호가 일치하지 않습니다"
+            return render(request, 'signup.html', {'error_message': error_message})
+        return redirect('accounts:login')
 
-from .serializers import RegisterSerializer, LoginSerializer
+    return render(request, 'signup.html')
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = RegisterSerializer
-
-class LoginView(generics.CreateAPIView):
-    serializer_class = LoginSerializer
-
-    def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        data = serializer.validated_data
-        token = data['token']
-        return Response({"token": token.key}, status=status.HTTP_200_OK)
+def login(request):
+    if request.method=='POST':
+        username=request.POST['username']
+        password=request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            auth_login(request, user)
+            error_message = "로그인 성공"
+            # return render(request, 'login.html', {'error_message': error_message})
+            return redirect('home')
+        
+        else:
+            error_message = "아이디 또는 비밀번호가 잘못되었습니다."
+            return render(request, 'login.html', {'error_message': error_message})
+        
+    else:
+        return render(request, 'login.html')
     
-class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        request.user.auth_token.delete()
-        return Response(status=status.HTTP_200_OK)
+def logout(request):
+    auth_logout(request)
+    return redirect('home')
