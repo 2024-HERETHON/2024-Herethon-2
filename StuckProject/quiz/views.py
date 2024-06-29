@@ -11,6 +11,7 @@ import fitz
 
 # 이미지에서 text 추출
 from google.cloud import vision
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'service_account.json'
 
 # 생성한 퀴즈 pdf 저장
 from django.http import HttpResponse

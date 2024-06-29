@@ -116,7 +116,7 @@
             document.querySelectorAll('.droppable').forEach(function(element) {
                 element.addEventListener('dragover', allowDrop);
                 element.addEventListener('drop', function(event) {
-                    var parentId = {% if category %}{{ category.id }}{% else %}0{% endif %};
+                    var parentId = {% if folder %}{{ folder.id }}{% else %}0{% endif %};
                     drop(event, parentId);
                 });
             });
