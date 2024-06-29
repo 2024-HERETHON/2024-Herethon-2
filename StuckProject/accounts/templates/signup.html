@@ -1,0 +1,33 @@
+<!-- {% load static %} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 페이지</title>
+</head>
+<body>
+    <h1>회원가입</h1>
+    <form class="user" method="POST">
+        {% csrf_token %}
+        <div>
+            <input type="text" name="username" placeholder="ID를 입력하세요.">
+        </div>
+        <div>
+            <input type="password" name="password" placeholder="비밀번호를 입력하세요">
+        </div>
+        <div>
+            <input type="password" name="password2" placeholder="비밀번호를 다시 한 번 입력하세요">
+            {% if error_message %}
+                <p style="color: red;">{{ error_message }}</p>
+            {% endif %} 
+        </div>
+        <div>
+            <input type="email" name="email" placeholder="이메일을 입력하세요" required>
+        </div>
+
+        <input type="submit" value="가입하기">
+    </form>
+
+</body>
+</html>
