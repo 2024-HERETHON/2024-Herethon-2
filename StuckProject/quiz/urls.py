@@ -8,6 +8,7 @@ urlpatterns = [
     path('folder/<int:folder_id>/', view_folder, name='folder-view'),
     path('folder/add/<int:parent_id>/', add_folder, name='add-folder'),
     path('folder/move/<int:folder_id>/to/<int:parent_id>/', move_folder, name='move-folder'),
+    path('quiz/move/<int:current_folder_id>/<int:quiz_id>/to/<int:move_folder_id>/', move_quiz, name='move-quiz'),
 
     # 퀴즈
     path('folder/<int:folder_id>/create-quiz/', create_question, name = 'create-quiz'),

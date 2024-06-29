@@ -75,6 +75,17 @@ def move_folder(request, folder_id, parent_id):
     return redirect('folder-view', folder_id=new_parent.parent.id if new_parent.parent else 0)
 
 
+# 퀴즈 드래그로 이동
+def move_quiz(request, current_folder_id, quiz_id, move_folder_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    move_folder = get_object_or_404(Folder, id=move_folder_id)
+
+    quiz.folder = move_folder
+    quiz.save()
+
+    return redirect('folder-view', folder_id=current_folder_id)
+
+
 # pdf 파일 열기 및 텍스트 추출
 def extract_text_from_pdf(file_path):
     document = fitz.open(file_path)
