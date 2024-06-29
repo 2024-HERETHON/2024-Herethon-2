@@ -8,7 +8,7 @@
 <body>
     <h1>Quiz Results</h1>
     <p>총 {{ total_questions }} 문제 중 {{ correct_count }} 문제를 맞추셨습니다.</p>
-    <a href="{% url 'folder-view' folder_id %}">돌아가기</a>
+    <a href="{% url 'quiz:folder-view' folder_id %}">돌아가기</a>
     
     {% for q in questions %}
         {{q.ai_question|linebreaks}}<br>

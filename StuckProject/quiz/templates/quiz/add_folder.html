@@ -10,20 +10,20 @@
     <ul>
         {% for child in children %}
             <li>
-                <a href="{% url 'folder-view' child.id %}">{{ child.name }}</a>
+                <a href="{% url 'quiz:folder-view' child.id %}">{{ child.name }}</a>
             </li>
         {% endfor %}
     </ul>
     {% if folder %}
-        <form id="add-folder-form" method="POST" action="{% url 'add-folder' folder.id %}">
+        <form id="add-folder-form" method="POST" action="{% url 'quiz:add-folder' folder.id %}">
             {% csrf_token %}
             <label for="folder_name">New Subfolder Name:</label>
             <input type="text" id="folder_name" name="folder_name" required>
             <button type="submit">Add Subfolder</button>
         </form>
-        <a href="{% url 'folder-view' 0 %}">Back to Root</a>
+        <a href="{% url 'quiz:folder-view' 0 %}">Back to Root</a>
     {% else %}
-        <form id="add-folder-form" method="POST" action="{% url 'add-folder' 0 %}">
+        <form id="add-folder-form" method="POST" action="{% url 'quiz:add-folder' 0 %}">
             {% csrf_token %}
             <label for="folder_name">New folder Name:</label>
             <input type="text" id="folder_name" name="folder_name" required>

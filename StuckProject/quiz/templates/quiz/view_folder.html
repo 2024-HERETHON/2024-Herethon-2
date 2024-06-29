@@ -16,7 +16,7 @@
         ondragover="allowDrop(event)">
         {% for child in children %}
             <li id="folder-{{ child.id }}" class="draggable" draggable="true">
-                <a href="{% url 'folder-view' child.id %}">{{ child.name }}</a>
+                <a href="{% url 'quiz:folder-view' child.id %}">{{ child.name }}</a>
             </li>
         {% endfor %}
     </ul>
@@ -26,11 +26,11 @@
         {% for q in folder.quizs.all %}
             <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
                 {{q.title}} {{q.score}} / {{q.question_num}} 
-                <a href="{% url 'view-questions' folder.id q.id %}">문제보기</a>
-                <a href="{% url 'test' folder.id q.id %}">다시풀기</a>
-                <a href="{% url 'view-wrong-questions' folder.id q.id %}">틀린문제만 보기</a>
-                <a href="{% url 'save-quiz-as-pdf' folder.id q.id %}">문제 pdf로 다운로드</a>
-                <a href="{% url 'save-quiz-as-word' folder.id q.id %}">문제 word로 다운로드</a>
+                <a href="{% url 'quiz:view-questions' folder.id q.id %}">문제보기</a>
+                <a href="{% url 'quiz:test' folder.id q.id %}">다시풀기</a>
+                <a href="{% url 'quiz:view-wrong-questions' folder.id q.id %}">틀린문제만 보기</a>
+                <a href="{% url 'quiz:save-quiz-as-pdf' folder.id q.id %}">문제 pdf로 다운로드</a>
+                <a href="{% url 'quiz:save-quiz-as-word' folder.id q.id %}">문제 word로 다운로드</a>
             </li>
         {% endfor %}
     </ul>
@@ -38,26 +38,26 @@
     <br><br>
     <!--현재 폴더가 루트 폴더가 아니라면-->
     {% if folder %}
-        <form action="{% url 'add-folder' folder.id %}" method="POST">
+        <form action="{% url 'quiz:add-folder' folder.id %}" method="POST">
             {% csrf_token %}
             <label for="folder_name">New Subfolder Name:</label>
             <input type="text" id="folder_name" name="folder_name">
             <button type="submit">Add Subfolder</button>
         </form>
-        <a href="{% url 'create-quiz' folder.id %}">퀴즈 생성</a><br>
+        <a href="{% url 'quiz:create-quiz' folder.id %}">퀴즈 생성</a><br>
 
     
          <!--상위 폴더가 루트 폴더라면-->
         {% if folder.parent == None %}
-            <a href="{% url 'folder-view' 0 %}">루트 폴더로 이동</a>
+            <a href="{% url 'quiz:folder-view' 0 %}">루트 폴더로 이동</a>
         <!--상위 폴더가 루트 폴더가 아니라면-->
         {% else %}
-            <a href="{% url 'folder-view' folder.parent.id %}">폴더 뒤로 가기</a>
+            <a href="{% url 'quiz:folder-view' folder.parent.id %}">폴더 뒤로 가기</a>
         {% endif %}
         
     <!--현재 폴더가 루트 폴더라면-->
     {% else %}
-        <form action="{% url 'add-folder' 0 %}" method="POST">
+        <form action="{% url 'quiz:add-folder' 0 %}" method="POST">
             {% csrf_token %}
             <label for="folder_name">New folder Name:</label>
             <input type="text" id="folder_name" name="folder_name">

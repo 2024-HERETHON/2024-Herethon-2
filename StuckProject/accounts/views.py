@@ -27,7 +27,7 @@ def login(request):
             auth_login(request, user)
             error_message = "로그인 성공"
             # return render(request, 'login.html', {'error_message': error_message})
-            return redirect('home')
+            return redirect('quiz:home')
         
         else:
             error_message = "아이디 또는 비밀번호가 잘못되었습니다."
@@ -38,4 +38,4 @@ def login(request):
     
 def logout(request):
     auth_logout(request)
-    return redirect('home')
+    return redirect('quiz:home')

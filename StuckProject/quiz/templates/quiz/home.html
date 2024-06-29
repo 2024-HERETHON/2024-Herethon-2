@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="{% url 'folder-view' 0 %}">내 폴더</a><br>
+    <a href="{% url 'quiz:folder-view' 0 %}">내 폴더</a><br>
     {% if request.user.is_authenticated %}
     <a href="{% url 'accounts:logout' %}">Logout</a> -    {{ request.user.username }}
 

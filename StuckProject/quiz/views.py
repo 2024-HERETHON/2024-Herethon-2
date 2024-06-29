@@ -53,8 +53,8 @@ def add_folder(request, parent_id):
     # print(new_category.id)
 
     if parent == None:
-        return redirect('folder-view', 0)
-    return redirect('folder-view', parent.id)
+        return redirect('quiz:folder-view', 0)
+    return redirect('quiz:folder-view', parent.id)
 
 
 # 폴더 드래그로 이동
@@ -70,9 +70,9 @@ def move_folder(request, folder_id, parent_id):
     folder.save()
 
     if new_parent == None:
-            return redirect('folder-view', 0)
+            return redirect('quiz:folder-view', 0)
     
-    return redirect('folder-view', folder_id=new_parent.parent.id if new_parent.parent else 0)
+    return redirect('quiz:folder-view', folder_id=new_parent.parent.id if new_parent.parent else 0)
 
 
 # 퀴즈 드래그로 이동
@@ -83,7 +83,7 @@ def move_quiz(request, current_folder_id, quiz_id, move_folder_id):
     quiz.folder = move_folder
     quiz.save()
 
-    return redirect('folder-view', folder_id=current_folder_id)
+    return redirect('quiz:folder-view', folder_id=current_folder_id)
 
 
 # pdf 파일 열기 및 텍스트 추출
@@ -251,7 +251,7 @@ def create_question(request, folder_id):
             correct_answer=answers[i]
         )
 
-    return redirect('test', folder_id, quiz.id)
+    return redirect('quiz:test', folder_id, quiz.id)
 
 
 # 퀴즈 풀기
@@ -278,7 +278,7 @@ def test(request, folder_id, quiz_id):
     # 현재 질문 인덱스가 질문 리스트 범위를 벗어나면 결과 페이지로 이동
     if current_question_index >= len(questions):
         request.session['current_question_index'] = 0
-        return redirect('quiz-results', folder_id=folder_id, quiz_id=quiz_id)
+        return redirect('quiz:quiz-results', folder_id=folder_id, quiz_id=quiz_id)
     
     # 현재 질문 가져오기
     current_question = questions[current_question_index]
