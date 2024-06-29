@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+</head>
+<body>
+    <h1>Quiz Question</h1>
+    <p>주관식의 경우 답안은 띄어쓰기 없이 작성해주세요.</p> <!--주관식 채점을 위해 안내 문구-->
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="question_id" value="{{ question.id }}">
+        <p>{{ question.ai_question|linebreaks }}</p>
+        <input type="text" name="answer" required>
+        <button type="submit">
+            {% if is_last_question %}
+                종료
+            {% else %}
+                다음
+            {% endif %}
+        </button>
+    </form>
+</body>
+</html>

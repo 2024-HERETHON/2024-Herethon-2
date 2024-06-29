@@ -16,7 +16,21 @@
         ondragover="allowDrop(event)">
         {% for child in children %}
             <li id="folder-{{ child.id }}" class="draggable" draggable="true">
-                <a href="{% url 'folder-view' child.id %}">{{ child.name }}</a>
+                <a href="{% url 'quiz:folder-view' child.id %}">{{ child.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>file</h3>
+    <ul  ondragover="allowDrop(event)">
+        {% for q in folder.quizs.all %}
+            <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
+                {{q.title}} {{q.score}} / {{q.question_num}} 
+                <a href="{% url 'quiz:view-questions' folder.id q.id %}">문제보기</a>
+                <a href="{% url 'quiz:test' folder.id q.id %}">다시풀기</a>
+                <a href="{% url 'quiz:view-wrong-questions' folder.id q.id %}">틀린문제만 보기</a>
+                <a href="{% url 'quiz:save-quiz-as-pdf' folder.id q.id %}">문제 pdf로 다운로드</a>
+                <a href="{% url 'quiz:save-quiz-as-word' folder.id q.id %}">문제 word로 다운로드</a>
             </li>
         {% endfor %}
     </ul>
@@ -24,24 +38,26 @@
     <br><br>
     <!--현재 폴더가 루트 폴더가 아니라면-->
     {% if folder %}
-        <form action="{% url 'add-folder' folder.id %}" method="POST">
+        <form action="{% url 'quiz:add-folder' folder.id %}" method="POST">
             {% csrf_token %}
             <label for="folder_name">New Subfolder Name:</label>
             <input type="text" id="folder_name" name="folder_name">
             <button type="submit">Add Subfolder</button>
         </form>
+        <a href="{% url 'quiz:create-quiz' folder.id %}">퀴즈 생성</a><br>
+
     
          <!--상위 폴더가 루트 폴더라면-->
         {% if folder.parent == None %}
-            <a href="{% url 'folder-view' 0 %}">루트 폴더로 이동</a>
+            <a href="{% url 'quiz:folder-view' 0 %}">루트 폴더로 이동</a>
         <!--상위 폴더가 루트 폴더가 아니라면-->
         {% else %}
-            <a href="{% url 'folder-view' folder.parent.id %}">폴더 뒤로 가기</a>
+            <a href="{% url 'quiz:folder-view' folder.parent.id %}">폴더 뒤로 가기</a>
         {% endif %}
         
     <!--현재 폴더가 루트 폴더라면-->
     {% else %}
-        <form action="{% url 'add-folder' 0 %}" method="POST">
+        <form action="{% url 'quiz:add-folder' 0 %}" method="POST">
             {% csrf_token %}
             <label for="folder_name">New folder Name:</label>
             <input type="text" id="folder_name" name="folder_name">
@@ -63,16 +79,34 @@
                 event.preventDefault();
                 var data = event.dataTransfer.getData("text");
                 var test = data.split('-')[0];
-                console.log(test)
 
-                var folderId = data.split('/')[4];
-                // 드롭한 위치의 가장 가까운 li 요소 찾기
-                var targetElement = event.target.closest('li'); 
-                // 부모 ID 추출
-                var parentId = targetElement ? targetElement.id.split('-')[1] : '0'; 
-
-                // 생성한 폴더 이동
-                window.location.href = `/folder/move/${folderId}/to/${parentId}/`;
+                if (test == "quiz") {
+                    var quizId = data.split('-')[1];
+                    // 드롭한 위치의 가장 가까운 li 요소 찾기
+                    var targetElement = event.target.closest('li'); 
+                    // 부모 ID 
+                    var newCategoryId = targetElement ? targetElement.id.split('-')[1] : '0'; 
+                    console.log(newCategoryId)
+                    console.log(quizId)
+                    // 현재 경로에서 category id 값 가져오기
+                    var currentUrl = window.location.href;
+                    var categoryId = currentUrl.match(/folder\/(\d+)\//)[1];
+                    console.log(categoryId)
+                    // 생성한 퀴즈 이동 
+                    window.location.href = `/quiz/move/${categoryId}/${quizId}/to/${newCategoryId}/`;
+                }
+                else {
+                    var categoryId = data.split('/')[4];
+                    // 드롭한 위치의 가장 가까운 li 요소 찾기
+                    var targetElement = event.target.closest('li'); 
+                    // 부모 ID 추출
+                    var parentId = targetElement ? targetElement.id.split('-')[1] : '0'; 
+                    console.log(data)
+                    console.log(categoryId)
+                    // 생성한 폴더 이동
+                    window.location.href = `/folder/move/${categoryId}/to/${parentId}/`;
+                }
+            
             }
     
             document.querySelectorAll('.draggable').forEach(function(element) {
@@ -82,7 +116,7 @@
             document.querySelectorAll('.droppable').forEach(function(element) {
                 element.addEventListener('dragover', allowDrop);
                 element.addEventListener('drop', function(event) {
-                    var parentId = {% if folder %}{{ folder.id }}{% else %}0{% endif %};
+                    var parentId = {% if category %}{{ category.id }}{% else %}0{% endif %};
                     drop(event, parentId);
                 });
             });
