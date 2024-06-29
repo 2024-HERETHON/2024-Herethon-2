@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if folder %}{{ folder.name }}{% else %}Root Categories{% endif %}</title>
+
+</head>
+<body>
+    <!--카테고리 이름 출력, 이름이 없다면 Root로 설정-->
+    <h1>{% if folder %}{{ folder.name }}{% else %}Root folder{% endif %}</h1>
+
+    <!--현재 카테고리(폴더) 하위에 있는 폴더 출력-->
+    <h3>folder</h3>
+    <ul ondrop="drop(event, {% if folder %}{{ folder.id }}{% else %}0{% endif %})"
+        ondragover="allowDrop(event)">
+        {% for child in children %}
+            <li id="folder-{{ child.id }}" class="draggable" draggable="true">
+                <a href="{% url 'folder-view' child.id %}">{{ child.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!--현재 카테고리(폴더) 하위에 있는 퀴즈(파일) 출력-->
+    <h3>file</h3>
+    <ul  ondragover="allowDrop(event)">
+        {% for q in folder.quizs.all %}
+            <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
+                {{q.memo}} {{q.score}} / {{q.question_num}} 
+                <a href="{% url 'view-questions' folder.id q.id %}">문제보기</a>
+                <a href="{% url 'test' folder.id q.id %}">다시풀기</a>
+                <a href="{% url 'view-wrong-questions' folder.id q.id %}">틀린문제만 보기</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <br><br>
+    <!--현재 폴더가 루트 폴더가 아니라면-->
+    {% if folder %}
+        <form action="{% url 'add-folder' folder.id %}" method="POST">
+            {% csrf_token %}
+            <label for="folder_name">New Subfolder Name:</label>
+            <input type="text" id="folder_name" name="folder_name">
+            <button type="submit">Add Subfolder</button>
+        </form>
+    
+         <!--상위 폴더가 루트 폴더라면-->
+        {% if folder.parent == None %}
+            <a href="{% url 'folder-view' 0 %}">루트 폴더로 이동</a>
+        <!--상위 폴더가 루트 폴더가 아니라면-->
+        {% else %}
+            <a href="{% url 'folder-view' folder.parent.id %}">폴더 뒤로 가기</a>
+        {% endif %}
+        
+    <!--현재 폴더가 루트 폴더라면-->
+    {% else %}
+        <form action="{% url 'add-folder' 0 %}" method="POST">
+            {% csrf_token %}
+            <label for="folder_name">New folder Name:</label>
+            <input type="text" id="folder_name" name="folder_name">
+            <button type="submit">Add folder</button>
+        </form>
+    {% endif %}
+        <br><br>
+</body>
+</html>
