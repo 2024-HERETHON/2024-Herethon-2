@@ -13,10 +13,10 @@ def signup(request):
                 )
         elif request.POST['password'] != request.POST['password2']:
             error_message = "비밀번호가 일치하지 않습니다"
-            return render(request, 'signup.html', {'error_message': error_message})
+            return render(request, 'accounts/signup.html', {'error_message': error_message})
         return redirect('accounts:login')
 
-    return render(request, 'signup.html')
+    return render(request, 'accounts/signup.html')
 
 def login(request):
     if request.method=='POST':
@@ -31,10 +31,10 @@ def login(request):
         
         else:
             error_message = "아이디 또는 비밀번호가 잘못되었습니다."
-            return render(request, 'login.html', {'error_message': error_message})
+            return render(request, 'accounts/login.html', {'error_message': error_message})
         
     else:
-        return render(request, 'login.html')
+        return render(request, 'accounts/login.html')
     
 def logout(request):
     auth_logout(request)
