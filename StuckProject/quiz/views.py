@@ -20,6 +20,9 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.pdfmetrics import stringWidth
 
+# 생성한 퀴즈 word 저장
+from docx import Document
+
 # 메인페이지
 def home(request):
     # quizs = Quiz.objects.all()
@@ -452,5 +455,49 @@ def save_quiz_as_pdf(request, folder_id, quiz_id):
     # PDF 저장 및 다운로드 진행 
     p.showPage()
     p.save()
+
+    return response
+
+
+# 생성한 퀴즈 word 저장 
+def save_quiz_as_word(request, folder_id, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+
+    # 퀴즈 전체 질문
+    questions = quiz.questions.all()
+
+    # Word 문서 생성
+    document = Document()
+
+    # 제목 추가
+    document.add_heading(f'퀴즈 : {quiz.title}', level=1)
+
+    # 퀴즈 정보 추가
+    document.add_paragraph(f'생성 날짜: {quiz.created_at}')
+    document.add_paragraph(f'유형: {quiz.type}')
+    document.add_paragraph(f'문제 수: {quiz.question_num}')
+    document.add_paragraph()
+
+    # 질문 출력
+    for question in questions:
+        question_text = question.ai_question.split('\n')
+        for line in question_text:
+            document.add_paragraph(line)
+        document.add_paragraph()  # 질문 사이의 간격 추가
+
+    # 새로운 페이지에 답안 출력
+    document.add_page_break()
+    document.add_heading('답안', level=2)
+
+    question_num = 1
+    for question in questions:
+        answer_text = f'{question_num}번 답안: {question.correct_answer}'
+        document.add_paragraph(answer_text)
+        question_num += 1
+
+    # Word 문서 응답
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = f'attachment; filename=quiz_report.docx'
+    document.save(response)
 
     return response
