@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if folder %}{{ folder.name }}{% else %}Root Categories{% endif %}</title>
+</head>
+<body>
+    <h1>{% if folder %}{{ folder.name }}{% else %}Root Categories{% endif %}</h1>
+    <ul>
+        {% for child in children %}
+            <li>
+                <a href="{% url 'folder-view' child.id %}">{{ child.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if folder %}
+        <form id="add-folder-form" method="POST" action="{% url 'add-folder' folder.id %}">
+            {% csrf_token %}
+            <label for="folder_name">New Subfolder Name:</label>
+            <input type="text" id="folder_name" name="folder_name" required>
+            <button type="submit">Add Subfolder</button>
+        </form>
+        <a href="{% url 'folder-view' 0 %}">Back to Root</a>
+    {% else %}
+        <form id="add-folder-form" method="POST" action="{% url 'add-folder' 0 %}">
+            {% csrf_token %}
+            <label for="folder_name">New folder Name:</label>
+            <input type="text" id="folder_name" name="folder_name" required>
+            <button type="submit">Add folder</button>
+        </form>
+    {% endif %}
+</body>
+</html>
