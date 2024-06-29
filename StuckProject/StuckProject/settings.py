@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv #.env
 # import my_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
-    'accounts'
+    'accounts',
+    'quiz',
 ]
 
 MIDDLEWARE = [
@@ -116,9 +119,9 @@ REST_FRAMEWORK = {
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
@@ -130,7 +133,19 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# 미디어 파일
+MEDIA_URL = "/media/" 
+MEDIA_ROOT = os.path.join(BASE_DIR, "media") 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# .env 파일 경로 지정
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+load_dotenv(dotenv_path)
+
+# 환경 변수에서 API 키 가져옴
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
