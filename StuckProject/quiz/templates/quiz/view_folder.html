@@ -21,6 +21,15 @@
         {% endfor %}
     </ul>
 
+    <h3>file</h3>
+    <ul  ondragover="allowDrop(event)">
+        {% for q in folder.quizs.all %}
+            <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
+                {{q.title}} {{q.score}} / {{q.question_num}} 
+            </li>
+        {% endfor %}
+    </ul>
+
     <br><br>
     <!--현재 폴더가 루트 폴더가 아니라면-->
     {% if folder %}
@@ -30,6 +39,8 @@
             <input type="text" id="folder_name" name="folder_name">
             <button type="submit">Add Subfolder</button>
         </form>
+        <a href="{% url 'create-quiz' folder.id %}">퀴즈 생성</a><br>
+
     
          <!--상위 폴더가 루트 폴더라면-->
         {% if folder.parent == None %}

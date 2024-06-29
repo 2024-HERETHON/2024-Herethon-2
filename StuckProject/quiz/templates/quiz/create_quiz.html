@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>퀴즈 생성</title>
+</head>
+<body>
+    <h1>Quiz Creation Form</h1>
+    
+    <form action="{% url 'create-quiz' folder_id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label for="file">파일 업로드</label>
+            <input type="file" id="file" name="file" required>
+        </div>
+        <div>
+            퀴즈 이름 : 
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div>
+            <label for="question_num">생성할 질문 개수</label>
+            <input type="number" id="question_num" name="question_num" min="1" required>
+        </div>
+        <div>
+            <label for="type">질문 유형</label>
+            <select id="type" name="type" required>
+                <option value="객관식">객관식</option>
+                <option value="주관식">주관식</option>
+            </select>
+        </div>
+        <button type="submit">문제 생성</button>
+    </form>
+</body>
+</html>
