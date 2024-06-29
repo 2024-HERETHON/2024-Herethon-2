@@ -12,6 +12,13 @@ import fitz
 # 이미지에서 text 추출
 from google.cloud import vision
 
+# 생성한 퀴즈 pdf 저장
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.pdfmetrics import stringWidth
 
 # 메인페이지
 def home(request):
@@ -306,3 +313,144 @@ def view_wrong_questions(request, folder_id, quiz_id):
     questions = quiz.questions.filter(status=False)
     return render(request, 'quiz/view_questions.html', {'questions':questions, 'folder_id': folder_id})
 
+
+# PDF 너비에 따라 텍스트 줄바꿈 
+def wrap_text(text, width, font_name, font_size):
+    lines = text.split('\n')
+    wrapped_lines = []
+    for line in lines:
+        words = line.split(' ') # 단어 단위로
+        temp_line = ''
+
+        for word in words:
+            # 이전 word 합 + 새로 작성하고자 하는 word 가 텍스트의 너비보다 작은가? (텍스트, 폰트 적용하여 계산) 
+            if stringWidth(temp_line + word + ' ', font_name, font_size) <= width:
+                temp_line += word + ' '
+
+            else:
+                # 지정된 너비를 초과하면 줄바꿈 
+                wrapped_lines.append(temp_line.strip())
+                # 빈 문자 처리
+                temp_line = word + ' ' 
+
+        wrapped_lines.append(temp_line.strip())
+    return wrapped_lines
+
+
+# 질문과 선택 항목 분리
+def format_question_text(text):
+    # 모든 질문은 ?로 끝남 
+    parts = text.split('?')
+
+    # 객관식인가?
+    if len(parts) > 1:
+        # 질문 부분
+        question_part = parts[0] + '?'
+        # 선택 항목 부분
+        options_part = parts[1].strip()
+        # 공백을 기준으로 단어로 나눔 
+        options = options_part.split(' ')
+
+        formatted_options = []
+        option_text = ''
+
+        for option in options:
+            # 각 단어가 숫자와 .으로 시작하는 경우 (ex 1.~~)
+            if option[0].isdigit() and option[1] == '.':
+                if option_text:
+                    # 선택지에 추가
+                    formatted_options.append(option_text.strip())
+                option_text = option + ' '
+
+            else:
+                option_text += option + ' '
+
+        if option_text:
+            formatted_options.append(option_text.strip())
+        
+        # 선택지 리스트를 줄바꿈으로 연결
+        formatted_text = question_part + '\n' + '\n'.join(formatted_options)
+        return formatted_text
+    
+    # 주관식은 len이 1이므로 text만 반환 
+    return text
+
+
+# 생성한 퀴즈 pdf 저장 
+def save_quiz_as_pdf(request, folder_id, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+
+    # 퀴즈 전체 질문
+    questions = quiz.questions.all()
+
+    # 응답
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="Stuck_QUIZ.pdf"'
+
+    # 나눔고딕 폰트
+    pdfmetrics.registerFont(TTFont('NanumGothic', 'static/fonts/NanumGothic.ttf'))
+
+    # PDF 캔버스 생성 
+    p = canvas.Canvas(response, pagesize=letter)
+
+    # 제목
+    title_font_size = 16
+    p.setFont("NanumGothic", title_font_size)
+    title_text = f"퀴즈 : {quiz.title}"
+    title_width = stringWidth(title_text, "NanumGothic", title_font_size)
+    p.drawCentredString(letter[0] / 2, 750, title_text)
+    p.setFont("NanumGothic", 12)
+
+    # 퀴즈 정보
+    p.drawString(90, 710, f"생성 날짜: {quiz.created_at}")
+    p.drawString(90, 690, f"유형: {quiz.type}")
+    p.drawString(90, 670, f"문제 수: {quiz.question_num}")
+
+    y_position = 630 # 첫번째 장의 출력할 y축
+    line_height = 15 # text 한 줄 높이
+    max_width = 450  # 페이지 너비
+
+    # 질문 출력
+    for question in questions:
+        question_text = f"{question.ai_question}"
+        wrapped_lines = wrap_text(question_text, max_width, "NanumGothic", 12)
+        print(wrapped_lines)
+        for wrapped_line in wrapped_lines:
+            if y_position < 50: 
+                p.showPage()  
+                p.setFont("NanumGothic", 12)
+                y_position = 750  
+            
+            p.drawString(90, y_position, wrapped_line)
+            y_position -= line_height
+        
+        y_position -= 20  
+
+    p.showPage()
+    p.setFont("NanumGothic", 12)
+    y_position = 750  
+
+    # 새로운 페이지에 답안 출력
+    y_position -= line_height
+
+    question_num = 1
+    for question in questions:
+        answer_text = f"{question_num}번 답안: {question.correct_answer}"
+        wrapped_lines = wrap_text(answer_text, max_width, "NanumGothic", 12)
+        for wrapped_line in wrapped_lines:
+            if y_position < 50:
+                p.showPage() 
+                p.setFont("NanumGothic", 12)
+                y_position = 750  
+            
+            p.drawString(90, y_position, wrapped_line)
+            y_position -= line_height
+        
+        y_position -= 20  
+        question_num += 1
+
+    # PDF 저장 및 다운로드 진행 
+    p.showPage()
+    p.save()
+
+    return response

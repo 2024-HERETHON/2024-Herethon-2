@@ -29,6 +29,7 @@
                 <a href="{% url 'view-questions' folder.id q.id %}">문제보기</a>
                 <a href="{% url 'test' folder.id q.id %}">다시풀기</a>
                 <a href="{% url 'view-wrong-questions' folder.id q.id %}">틀린문제만 보기</a>
+                <a href="{% url 'save-quiz-as-pdf' folder.id q.id %}">문제 pdf로 다운로드</a>
             </li>
         {% endfor %}
     </ul>

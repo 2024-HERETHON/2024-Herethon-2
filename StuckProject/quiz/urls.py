@@ -15,4 +15,6 @@ urlpatterns = [
     path('folder/<int:folder_id>/result/<int:quiz_id>/', quiz_results, name="quiz-results"),
     path('folder/<int:folder_id>/view-all-questions/<int:quiz_id>/', view_questions, name = "view-questions"),
     path('folder/<int:folder_id>/view-wrong-questions/<int:quiz_id>/', view_wrong_questions, name="view-wrong-questions"),
+    path('folder/<int:folder_id>/download-quiz-as-pdf/<int:quiz_id>/', save_quiz_as_pdf, name="save-quiz-as-pdf"),
+
 ]
