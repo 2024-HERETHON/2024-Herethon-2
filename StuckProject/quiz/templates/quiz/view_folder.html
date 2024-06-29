@@ -26,6 +26,9 @@
         {% for q in folder.quizs.all %}
             <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
                 {{q.title}} {{q.score}} / {{q.question_num}} 
+                <a href="{% url 'view-questions' folder.id q.id %}">문제보기</a>
+                <a href="{% url 'test' folder.id q.id %}">다시풀기</a>
+                <a href="{% url 'view-wrong-questions' folder.id q.id %}">틀린문제만 보기</a>
             </li>
         {% endfor %}
     </ul>

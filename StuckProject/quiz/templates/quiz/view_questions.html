@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>퀴즈 결과</title>
+    <title>Document</title>
 </head>
 <body>
-    <h1>Quiz Results</h1>
-    <p>총 {{ total_questions }} 문제 중 {{ correct_count }} 문제를 맞추셨습니다.</p>
     <a href="{% url 'folder-view' folder_id %}">돌아가기</a>
-    
+
+
     {% for q in questions %}
+        <!--문제 & 문제 항목 출력-->
         {{q.ai_question|linebreaks}}<br>
         정답 - {{q.correct_answer}} <br>
         내가 입력한 답 - {{q.user_answer}}<br>
@@ -21,7 +21,5 @@
         {% endif %}
         <hr>
     {% endfor %}
-
-    <a href="">확인 완료</a>
 </body>
 </html>

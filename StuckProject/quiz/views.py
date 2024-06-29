@@ -292,3 +292,17 @@ def quiz_results(request, folder_id, quiz_id):
     
     return render(request, 'quiz/results.html', context)
 
+
+# 생성된 문제 전체 확인
+def view_questions(request, folder_id, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    questions = quiz.questions.all()
+    return render(request, 'quiz/view_questions.html', {'questions':questions, 'folder_id': folder_id})
+
+
+# 생성된 문제 중 틀린 문제만 확인
+def view_wrong_questions(request, folder_id, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    questions = quiz.questions.filter(status=False)
+    return render(request, 'quiz/view_questions.html', {'questions':questions, 'folder_id': folder_id})
+
