@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import *
+from accounts.models import *
 import os
 
 # openai
@@ -28,7 +29,14 @@ from docx import Document
 # 메인페이지
 def home(request):
     # quizs = Quiz.objects.all()
-    return render(request, 'quiz/home.html')
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+    scraps = ScrapFolder.objects.filter(user=custom_user)
+
+    context = {
+        'scraps': scraps
+    }
+    return render(request, 'quiz/home.html', context)
 
 # 폴더 조회
 @login_required
@@ -546,3 +554,27 @@ def save_quiz_as_word(request, folder_id, quiz_id):
     document.save(response)
 
     return response
+
+
+# 스크랩
+@login_required
+def add_scrap_folder(request, folder_id):
+    folder = get_object_or_404(Folder, id=folder_id)
+    user = get_object_or_404(User, id=request.user.id)
+    print("user : " ,user)
+    custom_user = get_object_or_404(CustomUser, user=user)
+    print("custom_user : " , custom_user)
+    ScrapFolder.objects.get_or_create(user=custom_user, folder=folder)
+    print(request.user.customuser.scrap_folders)
+    return redirect('quiz:folder-view', folder_id=folder.id)
+
+
+# 스크랩 취소
+@login_required
+def remove_scrap_folder(request, folder_id):
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+    folder = get_object_or_404(Folder, id=folder_id)
+    scraps = ScrapFolder.objects.filter(user=custom_user, folder=folder)
+    scraps.delete()
+    return redirect('quiz:folder-view', folder_id)
