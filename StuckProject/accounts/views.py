@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
+from .models import CustomUser
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+
 
 # Create your views here.
 def signup(request):
@@ -11,6 +13,12 @@ def signup(request):
                 password=request.POST['password'],
                 email=request.POST['email']
                 )
+            nickname=request.POST['nickname']
+            univ = request.POST['univ']
+            semester = request.POST['semester']
+            customuser = CustomUser(user=new_user, nickname=nickname, univ=univ, semester=semester)
+            customuser.save()
+
         elif request.POST['password'] != request.POST['password2']:
             error_message = "비밀번호가 일치하지 않습니다"
             return render(request, 'accounts/signup.html', {'error_message': error_message})
@@ -25,8 +33,6 @@ def login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             auth_login(request, user)
-            error_message = "로그인 성공"
-            # return render(request, 'login.html', {'error_message': error_message})
             return redirect('quiz:home')
         
         else:
