@@ -77,6 +77,15 @@
     {% endif %}
         <br><br>
 
+        
+    
+        <h3>즐겨찾기</h3>
+        <ul>
+            {% for scrap in scraps %}
+                <li>{{ scrap.folder.name }} - <a href="{% url 'quiz:folder-view' folder_id=scrap.folder.id %}">폴더 보기</a></li>
+            {% endfor %}
+        </ul>
+
         <script>
             function drag(event) {
                 event.dataTransfer.setData("text", event.target.id);

@@ -50,7 +50,11 @@ def view_folder(request, folder_id=None):
         children = Folder.objects.filter(parent=None, user=request.user) # 루트에 있는 모든 폴더
         path = ""
 
-    return render(request, 'quiz/view_folder.html', {'folder': folder, 'children': children, 'path': path})
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+    scraps = ScrapFolder.objects.filter(user=custom_user)
+
+    return render(request, 'quiz/view_folder.html', {'folder': folder, 'children': children, 'path': path, 'scraps': scraps})
 
 
 # 퀴즈 생성 전 폴더 선택
@@ -83,8 +87,8 @@ def add_folder(request, parent_id):
     # print(new_category.id)
 
     if parent == None:
-        return redirect('quiz:folder-view', 0)
-    return redirect('quiz:folder-view', parent.id)
+        return redirect('quiz:select-folder', 0)
+    return redirect('quiz:select-folder', parent.id)
 
 
 # 폴더 드래그로 이동
