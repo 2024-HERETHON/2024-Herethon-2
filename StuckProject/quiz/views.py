@@ -329,7 +329,18 @@ def view_questions(request, folder_id, quiz_id):
 def view_wrong_questions(request, folder_id, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     questions = quiz.questions.filter(status=False)
-    return render(request, 'quiz/view_questions.html', {'questions':questions, 'folder_id': folder_id})
+
+    correct_count = sum(1 for q in questions if q.status) # 맞은 개수
+    total_questions = questions.count() # 전체 문제 수
+
+    context = {
+        'quiz': quiz,
+        'questions': questions,
+        'correct_count': correct_count,
+        'total_questions': total_questions,
+        'folder_id':folder_id
+    }
+    return render(request, 'quiz/results.html', context)
 
 
 # PDF 너비에 따라 텍스트 줄바꿈 
