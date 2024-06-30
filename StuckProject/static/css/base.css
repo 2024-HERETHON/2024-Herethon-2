@@ -7,6 +7,12 @@
 *{
     font-family: 'Pretendard-Regular';
 }
+h1{font-size: 96px; font-weight: bold;}
+h2{font-size: 60px; font-weight: bold;}
+h3{font-size: 48px; font-weight: bold;}
+h4{font-size: 38px; font-weight: bold;}
+h5{font-size: 24px; font-weight: bold;}
+h6{font-size: 20px; font-weight: bold;}
 body{
     padding: 0;
     margin: 0 ;
@@ -15,6 +21,8 @@ body{
     /*헤더고정*/
     position: sticky;
     top:0;
+    z-index: 999;
+    background-color: white;
     height: 90px;
     border-bottom: 2px solid rgba(0, 0, 0, 0.2);
     justify-content: space-between;
@@ -69,6 +77,6 @@ body{
     color: white;
     font-weight: bold;
     font-size: 20px;
-    background-color: #09A8FA;
+    background-color: rgba(0, 0, 0, 0);
     border: none;
 }

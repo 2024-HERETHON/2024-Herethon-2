@@ -1,25 +1,104 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>STOCK</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'js/home.js' %}">
 </head>
+
 <body>
+
     <a href="{% url 'quiz:folder-view' 0 %}">내 폴더</a><br>
     <a href="{% url 'quiz:select-folder' 0 %}">문제 풀이</a>
     {% if request.user.is_authenticated %}
-    <a href="{% url 'accounts:logout' %}">Logout</a> -    {{ request.user.username }}
+    <a href="{% url 'accounts:logout' %}">Logout</a> - {{ request.user.username }}
 
     {% else %}
     <a href="{% url 'accounts:login' %}">로그인</a>
-    <a href="{% url 'accounts:signup' %}">회원가입</a>    {% endif %}
 
-    <h3>즐겨찾기</h3>
-    <ul>
-        {% for scrap in scraps %}
-            <li>{{ scrap.folder.name }} - <a href="{% url 'quiz:folder-view' folder_id=scrap.folder.id %}">폴더 보기</a></li>
-        {% endfor %}
-    </ul>
+    <a href="{% url 'accounts:signup' %}">회원가입</a> {% endif %}
+
+    <main class="home-main">
+        <section class="top">
+            <div class="profile">
+                <div class="profile-card">
+                    <div class="profile-img">
+                        <img src="{% static 'img/profile.png' %}" alt="profile_img">
+                    </div>
+                    <div class="tag">성실한 천재</div>
+                    <h5 class="name">김똑똑</h5>
+                    <div class="agency">여기대학교 5학기</div>
+                </div>
+            </div>
+
+            <div class="report-list">
+                <div class="ment">
+                    <h5>시작하기 위해 위대해질 필요는 없지만 위대해지기 위해서는 시작해야 합니다.</h5>
+                </div>
+                <div class="empty"></div>
+                <div class="graph">
+                    <div class="month-goal">
+                        <h5 class="date-month">2024년 6월<span id="h6"> 의 월간 목표달성률</span></h5>
+                        <!--막대그래프 생성 style =" width : 진행률" -->
+                        <div class="progress-container">
+                            <div class="progress-bar blue" style="width: 70%;"></div>
+                        </div>
+
+                    </div>
+                    <div class="week-goal">
+                        <h5 class="date-week">2024년 6월 4주차<span id="h6"> 의 주간 목표달성률</span></h5>
+
+
+                        <!--막대그래프 생성 style =" width : 진행률" -->
+                        <div class="progress-container">
+                            <div class="progress-bar lightblue" style="width: 90%;"></div>
+                        </div>
+
+
+                    </div>
+                    <div class="day-goal">
+                        <h5 class="date-day">2024년 6월 29일<span id="h6"> 의 일간 목표달성률</span></h5>
+
+                        <!--막대그래프 생성 style =" width : 진행률" -->
+                        <div class="progress-container">
+                            <div class="progress-bar skyblue" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            </div>
+
+        </section>
+
+        <section class="middle">
+            <h4 class="title-date"> 2024년 6월 </h4>
+            <div class="calender">
+                <div class="week"></div>
+                <div class="routine"></div>
+            </div>
+            <div class="side">
+                <div class="scrap"></div>
+                <div class="recent"></div>
+            </div>
+
+        </section>
+        <section class="bottom">
+            <button class="btn-quiz">교재 내용으로 문제풀기</button>
+            <button class="btn-qna">교재 내용 질문하기</button>
+        </section>
+
+    </main>
+
+
 </body>
+{% endblock %}
+
 </html>
