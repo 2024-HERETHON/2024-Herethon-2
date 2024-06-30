@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+*{
+    font-family: 'Pretendard-Regular';
+}
+body{
+    padding: 0;
+    margin: 0 ;
+}
+.main-header{
+    /*헤더고정*/
+    position: sticky;
+    top:0;
+    height: 90px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    justify-content: space-between;
+    display: flex;
+    padding: 0 5%;
+}
+.navbar_menu{
+    display: flex;
+    list-style: none;
+    
+}
+.navbar_menu li{
+    margin: 0 20px;
+    font-weight: bold;
+    font-size: 24px;
+
+}
+.navbar_menu>li>a{
+    display: flex;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    padding-top: 5px;
+}
+.navbar{
+    flex: 4;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding-right: 2rem;
+}
+
+.logo{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+.logo img{
+    width: 140px;
+}
+.logout{
+    display: flex;
+    height: 40px;
+    width: 100px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background-color: #09A8FA;
+}
+.logout button{
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #09A8FA;
+    border: none;
+}
