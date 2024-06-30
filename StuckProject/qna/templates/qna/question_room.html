@@ -20,12 +20,16 @@
         <button>질문하기</button>
     </form>
 
+    <br><br>
     <!-- memo 입력 폼 -->
     <form action="{% url 'qna:save-question-memo' folder_id question_room.id %}" method="POST">
         {% csrf_token %}
         <textarea name="memo">{{ question_room.memo }}</textarea>
         <button type="submit">memo 저장</button>
     </form>
+
+    <!-- 메모 다운로드 -->
+     <a href="{% url 'qna:save-memo-as-pdf' folder_id question_room.id %}">pdf로 메모 저장</a>
 
 </body>
 </html>

@@ -15,6 +15,19 @@ import fitz
 from google.cloud import vision
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'service_account.json'
 
+# 생성한 퀴즈 pdf 저장
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.pdfmetrics import stringWidth
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+
+
+# 생성한 퀴즈 word 저장
+from docx import Document
 
 # 퀴즈 생성 전 폴더 선택
 @login_required
@@ -175,3 +188,45 @@ def save_question_memo(request, folder_id, question_room_id):
     question_room.save()
 
     return redirect('qna:enter-question-room', folder_id, question_room.id)
+
+
+# 메모 pdf 로 저장
+def save_memo_as_pdf(request, folder_id, question_room_id):
+    question_room = get_object_or_404(QuestionRoom, id=question_room_id)
+    memo = question_room.memo
+    title = question_room.title
+
+    # 응답 설정
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="note.pdf"'
+
+    # PDF 생성
+    pdfmetrics.registerFont(TTFont('NanumGothic', 'static/fonts/NanumGothic.ttf'))
+    styles = getSampleStyleSheet()
+    
+    # 기존 Title 스타일 수정
+    styles['Title'].fontName = 'NanumGothic'
+    styles['Title'].fontSize = 24
+    styles['Title'].leading = 28
+    styles['Title'].spaceAfter = 20
+    
+    styles['Normal'].fontName = 'NanumGothic'
+
+    buffer = []
+    doc = SimpleDocTemplate(response, pagesize=letter)
+
+    # 제목 추가
+    title_paragraph = Paragraph(title, styles['Title'])
+    buffer.append(title_paragraph)
+    buffer.append(Spacer(1, 12))  # Add space after title
+
+    # 메모 내용 추가
+    content = Paragraph(memo, styles['Normal'])
+    buffer.append(content)
+
+    doc.build(buffer)
+
+    return response
+
+
+# 메모 word 로 저장
