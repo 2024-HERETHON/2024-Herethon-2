@@ -1,0 +1,104 @@
+main{
+    width: 80%;
+    margin: 0 auto;
+}
+.top{
+    display: flex;
+    justify-content: center;
+    height: 550px;
+    overflow: hidden;
+}
+.tag, .agency{
+    font-size: 14px;
+}
+#h6{
+    font-size: 20px; font-weight: bold;
+    color: #757575;
+}
+.profile{
+    flex: 1;
+    
+}
+.profile-card{
+    float: right;
+    display: flex;
+    flex-direction: column;
+    background-color: #F1F1F1;
+    width: 280px;
+    height: 550px;
+    border-radius: 20px;
+}
+.profile-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    margin-top: 30px;
+    height: 200px;
+}
+ .name, .agency{
+    line-height: 10px;
+    text-align: center;
+    margin: 0.5rem;
+}
+.tag{
+    margin: 5px auto;
+    line-height: 23px;
+    text-align: center;
+    width: 100px;
+    height: 23px;
+    background-color: #fff;
+    color: #09A8FA;
+    border-radius:10px;
+}
+
+.profile-img img{
+    display: flex;
+    width: 180px;
+    height: 180px;
+    border-radius: 90px;
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: inset 0px 8px 8px rgba(0, 0, 0, 0.25);
+}
+
+.progress-container {
+    width: 575px;
+    background-color: #F1F1F1;
+    border-radius: 25px;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+
+.progress-bar {
+    height: 21px; 
+    border-radius: 25px;
+    transition: width 0.5s ease;
+}
+.blue{background-color: #09A8FA;}
+.lightblue{background-color: #84D4FD;}
+.skyblue{background-color: #C3E3F3;}
+
+.report-list{
+    flex: 3;
+    margin-left: 2rem;
+}
+.ment{
+    display: flex;
+    width: 900px;
+    height: 90px;
+    background-color: #F1F1F1;
+    color: #09A8FA;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    
+}
+.empty{
+    display: block;
+    height: 185px;
+    width: 100%;
+}
+.graph h5{
+    margin: 10px;
+}
+
