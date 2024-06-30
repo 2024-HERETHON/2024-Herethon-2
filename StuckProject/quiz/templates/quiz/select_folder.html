@@ -3,31 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</title>
+    <title>{% if folder %}{{ folder.name }}{% else %}Stuck{% endif %}</title>
 
 </head>
-<body>
-    <a href="{% url 'quiz:home' %}">홈으로</a>
+<body>    
+    <h1>저장할 폴더 선택하기</h1>
     <!--폴더 이름 출력, 이름이 없다면 Root로 설정-->
     <h1>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</h1>
 
-    <!-- 스크랩 -->
     {% if folder %}
-        {% if not folder in request.user.customuser.scrap_folders.all %}
-        <a href="{% url 'quiz:add-scrap-folder' folder_id=folder.id %}">스크랩</a>
-        {% else %}
-        <a href="{% url 'quiz:cancel-scrap-folder' folder_id=folder.id %}">스크랩 취소</a>
-        {% endif %}
+    <form method="POST" action="{% url 'quiz:select-folder' folder.id %}">
+        {% csrf_token %}
+        {{ path }} <button>폴더 선택</button>
+    </form>
     {% endif %}
-
-
     <!--현재 폴더 하위에 있는 폴더 출력-->
     <h3>folder</h3>
     <ul ondrop="drop(event, {% if folder %}{{ folder.id }}{% else %}0{% endif %})"
         ondragover="allowDrop(event)">
         {% for child in children %}
             <li id="folder-{{ child.id }}" class="draggable" draggable="true">
-                <a href="{% url 'quiz:folder-view' child.id %}">{{ child.name }}</a>
+                <a href="{% url 'quiz:select-folder' child.id %}">{{ child.name }}</a>
             </li>
         {% endfor %}
     </ul>
@@ -55,7 +51,7 @@
             <input type="text" id="folder_name" name="folder_name">
             <button type="submit">Add Subfolder</button>
         </form>
-        <!--<a href="{% url 'quiz:create-quiz' folder.id %}">퀴즈 생성</a><br>-->
+        <a href="{% url 'quiz:create-quiz' folder.id %}">퀴즈 생성</a><br>
 
     
          <!--상위 폴더가 루트 폴더라면-->

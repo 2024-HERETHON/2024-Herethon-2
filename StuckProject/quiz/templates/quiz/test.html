@@ -6,20 +6,19 @@
     <title>Quiz</title>
 </head>
 <body>
-    <h1>Quiz Question</h1>
-    <p>주관식의 경우 답안은 띄어쓰기 없이 작성해주세요.</p> <!--주관식 채점을 위해 안내 문구-->
+    <h1>{{ type }}</h1>
+    <h1>제목 : {{ quiz.title }}</h1>
+    <p>{{ message}}</p> <!--주관식이라면 채점 안내 문구 뜸-->
+    <p>생성 날짜 {{quiz.created_at}} 문제 수 {{quiz.question_num}}</p>
     <form method="post">
         {% csrf_token %}
-        <input type="hidden" name="question_id" value="{{ question.id }}">
-        <p>{{ question.ai_question|linebreaks }}</p>
-        <input type="text" name="answer" required>
-        <button type="submit">
-            {% if is_last_question %}
-                종료
-            {% else %}
-                다음
-            {% endif %}
-        </button>
+        {% for question in questions %}
+            <div>
+                <label>{{ question.ai_question|linebreaks }}</label>
+                <input type="text" name="answer_{{ question.id }}" >
+            </div>
+        {% endfor %}
+        <button type="submit">퀴즈 제출</button>
     </form>
 </body>
 </html>

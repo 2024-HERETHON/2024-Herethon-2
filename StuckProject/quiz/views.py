@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import *
+from accounts.models import *
 import os
 
 # openai
@@ -28,7 +29,14 @@ from docx import Document
 # 메인페이지
 def home(request):
     # quizs = Quiz.objects.all()
-    return render(request, 'quiz/home.html')
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+    scraps = ScrapFolder.objects.filter(user=custom_user)
+
+    context = {
+        'scraps': scraps
+    }
+    return render(request, 'quiz/home.html', context)
 
 # 폴더 조회
 @login_required
@@ -36,11 +44,30 @@ def view_folder(request, folder_id=None):
     if folder_id:
         folder = get_object_or_404(Folder, id=folder_id)
         children = folder.get_children() # 하위에 있는 모든 폴더
+        path = "Stuck/" + folder.get_path()
     else:
         folder = None
         children = Folder.objects.filter(parent=None, user=request.user) # 루트에 있는 모든 폴더
+        path = ""
 
-    return render(request, 'quiz/view_folder.html', {'folder': folder, 'children': children})
+    return render(request, 'quiz/view_folder.html', {'folder': folder, 'children': children, 'path': path})
+
+
+# 퀴즈 생성 전 폴더 선택
+@login_required
+def select_folder(request, folder_id=None):
+    if request.method == "POST":
+        return redirect('quiz:create-quiz', folder_id)
+    if folder_id:
+        folder = get_object_or_404(Folder, id=folder_id)
+        children = folder.get_children() # 하위에 있는 모든 폴더
+        path = "Stuck/" + folder.get_path()
+    else:
+        folder = None
+        children = Folder.objects.filter(parent=None, user=request.user) # 루트에 있는 모든 폴더
+        path = ""
+
+    return render(request, 'quiz/select_folder.html', {'folder': folder, 'children': children, 'path': path})
 
 
 # 폴더 추가
@@ -144,7 +171,6 @@ def extract_text_from_image(image_file_path):
         raise Exception(f'{response.error.message}')
 
     return texts[0].description if texts else ''
-
 
 
 # 퀴즈 생성 
@@ -262,34 +288,24 @@ def test(request, folder_id, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     questions = list(quiz.questions.all())
     
-    # 세션에서 현재 질문의 인덱스를 가져옴, 기본값은 0
-    current_question_index = request.session.get('current_question_index', 0)
-    
-    # 사용자가 제출한 답을 처리
     if request.method == 'POST':
-        user_answer = request.POST.get('answer')
-        if user_answer is not None:
-            question_id = request.POST.get('question_id')
-            question = get_object_or_404(Question, id=question_id)
-            question.user_answer = user_answer
-            question.save()
+        for question in questions:
+            user_answer = request.POST.get(f'answer_{question.id}')
+            if user_answer is not None:
+                question.user_answer = user_answer
+                question.save()
         
-        # 다음 질문으로 인덱스 증가
-        current_question_index += 1
-        request.session['current_question_index'] = current_question_index
-    
-    # 현재 질문 인덱스가 질문 리스트 범위를 벗어나면 결과 페이지로 이동
-    if current_question_index >= len(questions):
-        request.session['current_question_index'] = 0
         return redirect('quiz:quiz-results', folder_id=folder_id, quiz_id=quiz_id)
     
-    # 현재 질문 가져오기
-    current_question = questions[current_question_index]
+    message = ""
+    if quiz.type == "주관식":
+        message = "답안은 띄어쓰기 없이 작성해주세요."
 
     context = {
-        'question': current_question,
-         'quiz_id': quiz_id,
-         'is_last_question': current_question_index == len(questions) - 1
+        'questions': questions,
+        'quiz': quiz,
+        'type': quiz.type,
+        'message': message,
     }
     
     return render(request, 'quiz/test.html', context)
@@ -321,14 +337,37 @@ def quiz_results(request, folder_id, quiz_id):
 def view_questions(request, folder_id, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     questions = quiz.questions.all()
-    return render(request, 'quiz/view_questions.html', {'questions':questions, 'folder_id': folder_id})
+
+    correct_count = sum(1 for q in questions if q.status) # 맞은 개수
+    total_questions = questions.count() # 전체 문제 수
+
+    context = {
+        "quiz": quiz,
+        'questions': questions,
+        'correct_count': correct_count,
+        'total_questions': total_questions,
+        'folder_id':folder_id
+    }
+
+    return render(request, 'quiz/results.html', context)
 
 
 # 생성된 문제 중 틀린 문제만 확인
 def view_wrong_questions(request, folder_id, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     questions = quiz.questions.filter(status=False)
-    return render(request, 'quiz/view_questions.html', {'questions':questions, 'folder_id': folder_id})
+
+    correct_count = sum(1 for q in questions if q.status) # 맞은 개수
+    total_questions = questions.count() # 전체 문제 수
+
+    context = {
+        'quiz': quiz,
+        'questions': questions,
+        'correct_count': correct_count,
+        'total_questions': total_questions,
+        'folder_id':folder_id
+    }
+    return render(request, 'quiz/results.html', context)
 
 
 # PDF 너비에 따라 텍스트 줄바꿈 
@@ -515,3 +554,27 @@ def save_quiz_as_word(request, folder_id, quiz_id):
     document.save(response)
 
     return response
+
+
+# 스크랩
+@login_required
+def add_scrap_folder(request, folder_id):
+    folder = get_object_or_404(Folder, id=folder_id)
+    user = get_object_or_404(User, id=request.user.id)
+    print("user : " ,user)
+    custom_user = get_object_or_404(CustomUser, user=user)
+    print("custom_user : " , custom_user)
+    ScrapFolder.objects.get_or_create(user=custom_user, folder=folder)
+    print(request.user.customuser.scrap_folders)
+    return redirect('quiz:folder-view', folder_id=folder.id)
+
+
+# 스크랩 취소
+@login_required
+def remove_scrap_folder(request, folder_id):
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+    folder = get_object_or_404(Folder, id=folder_id)
+    scraps = ScrapFolder.objects.filter(user=custom_user, folder=folder)
+    scraps.delete()
+    return redirect('quiz:folder-view', folder_id)
