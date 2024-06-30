@@ -262,34 +262,24 @@ def test(request, folder_id, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     questions = list(quiz.questions.all())
     
-    # 세션에서 현재 질문의 인덱스를 가져옴, 기본값은 0
-    current_question_index = request.session.get('current_question_index', 0)
-    
-    # 사용자가 제출한 답을 처리
     if request.method == 'POST':
-        user_answer = request.POST.get('answer')
-        if user_answer is not None:
-            question_id = request.POST.get('question_id')
-            question = get_object_or_404(Question, id=question_id)
-            question.user_answer = user_answer
-            question.save()
+        for question in questions:
+            user_answer = request.POST.get(f'answer_{question.id}')
+            if user_answer is not None:
+                question.user_answer = user_answer
+                question.save()
         
-        # 다음 질문으로 인덱스 증가
-        current_question_index += 1
-        request.session['current_question_index'] = current_question_index
-    
-    # 현재 질문 인덱스가 질문 리스트 범위를 벗어나면 결과 페이지로 이동
-    if current_question_index >= len(questions):
-        request.session['current_question_index'] = 0
         return redirect('quiz:quiz-results', folder_id=folder_id, quiz_id=quiz_id)
     
-    # 현재 질문 가져오기
-    current_question = questions[current_question_index]
+    message = ""
+    if quiz.type == "주관식":
+        message = "답안은 띄어쓰기 없이 작성해주세요."
 
     context = {
-        'question': current_question,
-         'quiz_id': quiz_id,
-         'is_last_question': current_question_index == len(questions) - 1
+        'questions': questions,
+        'quiz': quiz,
+        'type': quiz.type,
+        'message': message,
     }
     
     return render(request, 'quiz/test.html', context)

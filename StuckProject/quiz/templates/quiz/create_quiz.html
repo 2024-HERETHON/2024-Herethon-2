@@ -7,7 +7,7 @@
     <title>퀴즈 생성</title>
 </head>
 <body>
-    <h1>Quiz Creation Form</h1>
+    <h1>퀴즈 생성</h1>
     
     <form action="{% url 'quiz:create-quiz' folder_id %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
