@@ -163,3 +163,15 @@ def enter_question_room(request, folder_id, question_room_id):
     }
 
     return render(request, 'qna/question_room.html', context)
+
+
+# Q&A에 해당하는 메모 저장 
+def save_question_memo(request, folder_id, question_room_id):
+    question_room = get_object_or_404(QuestionRoom, id=question_room_id)
+
+    memo = request.POST['memo']
+
+    question_room.memo = memo
+    question_room.save()
+
+    return redirect('qna:enter-question-room', folder_id, question_room.id)

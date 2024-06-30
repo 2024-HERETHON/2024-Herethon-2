@@ -19,5 +19,13 @@
         질문 입력<input type="text" name="user_question">
         <button>질문하기</button>
     </form>
+
+    <!-- memo 입력 폼 -->
+    <form action="{% url 'qna:save-question-memo' folder_id question_room.id %}" method="POST">
+        {% csrf_token %}
+        <textarea name="memo">{{ question_room.memo }}</textarea>
+        <button type="submit">memo 저장</button>
+    </form>
+
 </body>
 </html>
