@@ -45,8 +45,7 @@
     <ul  >
         {% for q in folder.qnas.all %}
             <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
-                {{q.title}} {{q.score}} / {{q.question_num}} 
-                <a href="{% url 'quiz:view-questions' folder.id q.id %}">문제보기</a>
+                {{q.title}} 
              </li>
         {% endfor %}
     </ul>

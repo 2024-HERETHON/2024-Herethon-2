@@ -32,7 +32,6 @@
         {% for q in folder.quizs.all %}
             <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
                 {{q.title}} {{q.score}} / {{q.question_num}} 
-                <a href="{% url 'quiz:view-questions' folder.id q.id %}">문제보기</a>
                <!-- <a href="{% url 'quiz:test' folder.id q.id %}">다시풀기</a>
                 <a href="{% url 'quiz:view-wrong-questions' folder.id q.id %}">틀린문제만 보기</a>
                 <a href="{% url 'quiz:save-quiz-as-pdf' folder.id q.id %}">문제 pdf로 다운로드</a>
@@ -45,8 +44,7 @@
     <ul  >
         {% for q in folder.qnas.all %}
             <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
-                {{q.title}} {{q.score}} / {{q.question_num}} 
-                <a href="{% url 'quiz:view-questions' folder.id q.id %}">문제보기</a>
+                {{q.title}}
              </li>
         {% endfor %}
     </ul>

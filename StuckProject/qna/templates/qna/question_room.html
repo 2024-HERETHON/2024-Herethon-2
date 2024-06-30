@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,17 @@
     <title>Document</title>
 </head>
 <body>
-    in
+    <a href="{% url 'quiz:home' %}">홈으로</a>
+    <h2>파일 이름 : {{ question_room.file.name|filename }}</h2>
+
+    {% for chat in chats %}
+        사용자 : <br><br>{{chat.user_chat}}<br><br><br>
+        AI : {{chat.gpt_chat | linebreaks}}<br><HR>
+    {% endfor %}
+    <form action="{% url 'qna:enter-question-room' folder_id question_room.id %}" method="POST">
+        {% csrf_token %}
+        질문 입력<input type="text" name="user_question">
+        <button>질문하기</button>
+    </form>
 </body>
 </html>
