@@ -13,13 +13,7 @@
     <h2>문제</h2>
     {% for q in questions %}
         <p>문제 {{ forloop.counter }}: {{ q.ai_question|linebreaks }}</p>
-        내가 입력한 답 - {{ q.user_answer }}<br>
-
-        {% if q.status %}
-            맞추셨습니다.
-        {% else %}
-            틀렸습니다.
-        {% endif %}
+    
         <hr>
     {% endfor %}
 
@@ -27,6 +21,11 @@
     {% for q in questions %}
         <p>문제 {{ forloop.counter }}</p>
         정답 - {{ q.correct_answer }}<br>
+        {% if not q.status %}
+            <p style="color: red">내가 입력한 답 - {{ q.user_answer }}</p>
+        {% else %}
+        <p style="color: black">내가 입력한 답 - {{ q.user_answer }}</p>
+        {% endif %}
         <hr>
     {% endfor %}
 

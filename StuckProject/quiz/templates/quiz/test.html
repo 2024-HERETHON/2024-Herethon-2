@@ -6,9 +6,9 @@
     <title>Quiz</title>
 </head>
 <body>
-    <h1>{{type}}</h1>
-    <h1>제목 : {{quiz.title}}</h1>
-    <p>{{message}}</p> <!--주관식이라면 채점 안내 문구 뜸-->
+    <h1>{{ type }}</h1>
+    <h1>제목 : {{ quiz.title }}</h1>
+    <p>{{ message}}</p> <!--주관식이라면 채점 안내 문구 뜸-->
     <p>생성 날짜 {{quiz.created_at}} 문제 수 {{quiz.question_num}}</p>
     <form method="post">
         {% csrf_token %}
