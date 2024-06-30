@@ -28,7 +28,9 @@ from docx import Document
 
 # 메인페이지
 def home(request):
-    # quizs = Quiz.objects.all()
+    if not request.user.is_authenticated:
+        return render(request, 'quiz/home.html')
+
     user = get_object_or_404(User, id=request.user.id)
     custom_user = get_object_or_404(CustomUser, user=user)
     scraps = ScrapFolder.objects.filter(user=custom_user)
@@ -36,6 +38,7 @@ def home(request):
     context = {
         'scraps': scraps
     }
+
     return render(request, 'quiz/home.html', context)
 
 # 폴더 조회

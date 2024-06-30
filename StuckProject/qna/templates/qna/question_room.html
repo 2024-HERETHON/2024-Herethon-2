@@ -1,0 +1,36 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'quiz:home' %}">홈으로</a>
+    <h2>파일 이름 : {{ question_room.file.name|filename }}</h2>
+
+    {% for chat in chats %}
+        사용자 : <br><br>{{chat.user_chat}}<br><br><br>
+        AI : {{chat.gpt_chat | linebreaks}}<br><HR>
+    {% endfor %}
+    <form action="{% url 'qna:enter-question-room' folder_id question_room.id %}" method="POST">
+        {% csrf_token %}
+        질문 입력<input type="text" name="user_question">
+        <button>질문하기</button>
+    </form>
+
+    <br><br>
+    <!-- memo 입력 폼 -->
+    <form action="{% url 'qna:save-question-memo' folder_id question_room.id %}" method="POST">
+        {% csrf_token %}
+        <textarea name="memo">{{ question_room.memo }}</textarea>
+        <button type="submit">memo 저장</button>
+    </form>
+
+    <!-- 메모 다운로드 -->
+     <a href="{% url 'qna:save-memo-as-pdf' folder_id question_room.id %}">pdf로 메모 저장</a>
+     <a href="{% url 'qna:save-memo-as-word' folder_id question_room.id %}">word로 메모 저장</a>
+
+</body>
+</html>
