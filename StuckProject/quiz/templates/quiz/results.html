@@ -10,18 +10,29 @@
     <p>총 {{ total_questions }} 문제 중 {{ correct_count }} 문제를 맞추셨습니다.</p>
     <a href="{% url 'quiz:folder-view' folder_id %}">돌아가기</a>
     
+    <h2>문제</h2>
     {% for q in questions %}
-        {{q.ai_question|linebreaks}}<br>
-        정답 - {{q.correct_answer}} <br>
-        내가 입력한 답 - {{q.user_answer}}<br>
-        {% if q.status %}
-            맞추셨습니다.
+        <p>문제 {{ forloop.counter }}: {{ q.ai_question|linebreaks }}</p>
+    
+        <hr>
+    {% endfor %}
+
+    <h2>답안 및 결과</h2>
+    {% for q in questions %}
+        <p>문제 {{ forloop.counter }}</p>
+        정답 - {{ q.correct_answer }}<br>
+        {% if not q.status %}
+            <p style="color: red">내가 입력한 답 - {{ q.user_answer }}</p>
         {% else %}
-            틀렸습니다.
+        <p style="color: black">내가 입력한 답 - {{ q.user_answer }}</p>
         {% endif %}
         <hr>
     {% endfor %}
 
     <a href="">확인 완료</a>
+    <a href="{% url 'quiz:test' folder_id quiz.id %}">다시풀기</a>
+                <a href="{% url 'quiz:view-wrong-questions' folder_id quiz.id %}">틀린문제만 보기</a>
+                <a href="{% url 'quiz:save-quiz-as-pdf' folder_id quiz.id %}">문제 pdf로 다운로드</a>
+                <a href="{% url 'quiz:save-quiz-as-word' folder_id quiz.id %}">문제 word로 다운로드</a>
 </body>
 </html>
