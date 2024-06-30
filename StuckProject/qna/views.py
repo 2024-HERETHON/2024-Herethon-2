@@ -28,6 +28,8 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 
 # 생성한 퀴즈 word 저장
 from docx import Document
+from docx.shared import Pt
+from docx.oxml.ns import qn
 
 # 퀴즈 생성 전 폴더 선택
 @login_required
@@ -230,3 +232,42 @@ def save_memo_as_pdf(request, folder_id, question_room_id):
 
 
 # 메모 word 로 저장
+def save_memo_as_word(request, folder_id, question_room_id):
+    question_room = get_object_or_404(QuestionRoom, id=question_room_id)
+    memo = question_room.memo
+    title = question_room.title
+
+    # 새로운 Word 문서 생성
+    doc = Document()
+
+    # 한글 폰트 설정
+    style = doc.styles['Normal']
+    font = style.font
+    font.name = 'NanumGothic'
+    r = font.element.rPr.rFonts
+    r.set(qn('w:eastAsia'), 'NanumGothic')
+
+    # 제목 추가
+    title_paragraph = doc.add_heading(level=1)
+    run = title_paragraph.add_run(title)
+    run.font.name = 'NanumGothic'
+    r = run._element.rPr.rFonts
+    r.set(qn('w:eastAsia'), 'NanumGothic')
+    run.font.size = Pt(24)
+
+    # 메모 내용 추가
+    memo_paragraph = doc.add_paragraph()
+    run = memo_paragraph.add_run(memo)
+    run.font.name = 'NanumGothic'
+    r = run._element.rPr.rFonts
+    r.set(qn('w:eastAsia'), 'NanumGothic')
+    run.font.size = Pt(12)
+
+    # 응답 설정
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = 'attachment; filename="note.docx"'
+
+    # Word 문서 저장
+    doc.save(response)
+
+    return response
