@@ -32,7 +32,7 @@
         {% endfor %}
     </ul>
 
-    <h3>file</h3>
+    <h3>quiz</h3>
     <ul  ondragover="allowDrop(event)">
         {% for q in folder.quizs.all %}
             <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
@@ -43,6 +43,16 @@
                 <a href="{% url 'quiz:save-quiz-as-pdf' folder.id q.id %}">문제 pdf로 다운로드</a>
                 <a href="{% url 'quiz:save-quiz-as-word' folder.id q.id %}">문제 word로 다운로드</a> -->
             </li>
+        {% endfor %}
+    </ul>
+
+    <h3>q&a</h3>
+    <ul  >
+        {% for q in folder.qnas.all %}
+            <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
+                {{q.title}} {{q.score}} / {{q.question_num}} 
+                <a href="{% url 'quiz:view-questions' folder.id q.id %}">문제보기</a>
+             </li>
         {% endfor %}
     </ul>
 

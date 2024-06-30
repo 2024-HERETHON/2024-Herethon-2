@@ -36,6 +36,7 @@ def home(request):
     context = {
         'scraps': scraps
     }
+    
     return render(request, 'quiz/home.html', context)
 
 # 폴더 조회
