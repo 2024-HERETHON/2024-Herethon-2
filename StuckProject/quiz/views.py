@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from .models import *
 import os
 
@@ -30,6 +31,7 @@ def home(request):
     return render(request, 'quiz/home.html')
 
 # 폴더 조회
+@login_required
 def view_folder(request, folder_id=None):
     if folder_id:
         folder = get_object_or_404(Folder, id=folder_id)
