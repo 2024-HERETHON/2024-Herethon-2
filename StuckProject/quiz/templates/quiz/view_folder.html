@@ -50,7 +50,7 @@
     <ul  >
         {% for q in folder.qnas.all %}
             <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
-                {{q.title}} 
+                <a href="{% url 'qna:enter-question-room' folder.id q.id %}">{{q.title}} </a>
              </li>
         {% endfor %}
     </ul>
