@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <a href="/">
+                <img src="{% static 'img/LOGO.png' %}" alt="logo">
+            </a>
+        </div>
+        <div class="navbar">
+            <ul class="navbar_menu">
+                <li class="home"><a href="/">HOME</a></li>
+                <li class="quiz"><a href="/">문제풀이</a></li>
+                <li class="qna"><a href="/">질문하기</a></li>
+                <li class="mystuck"><a href="/">MYSTUCK</a></li>
+                <li class="mypage"><a href="/">MYPAGE</a></li>
+
+                <li class="logout"><button class="logout_btn">로그아웃</button></li>
+            </ul>
+        </div>
+    </header>
+    
+    {% block content %}
+
+    {% endblock%}
+
+</body>
+
+</html>
