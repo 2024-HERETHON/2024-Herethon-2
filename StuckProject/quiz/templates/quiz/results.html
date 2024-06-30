@@ -30,5 +30,9 @@
     {% endfor %}
 
     <a href="">확인 완료</a>
+    <a href="{% url 'quiz:test' folder_id quiz.id %}">다시풀기</a>
+                <a href="{% url 'quiz:view-wrong-questions' folder_id quiz.id %}">틀린문제만 보기</a>
+                <a href="{% url 'quiz:save-quiz-as-pdf' folder_id quiz.id %}">문제 pdf로 다운로드</a>
+                <a href="{% url 'quiz:save-quiz-as-word' folder_id quiz.id %}">문제 word로 다운로드</a>
 </body>
 </html>

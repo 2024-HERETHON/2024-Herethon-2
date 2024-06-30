@@ -36,11 +36,13 @@ def view_folder(request, folder_id=None):
     if folder_id:
         folder = get_object_or_404(Folder, id=folder_id)
         children = folder.get_children() # 하위에 있는 모든 폴더
+        path = "Stuck/" + folder.get_path()
     else:
         folder = None
         children = Folder.objects.filter(parent=None, user=request.user) # 루트에 있는 모든 폴더
+        path = ""
 
-    return render(request, 'quiz/view_folder.html', {'folder': folder, 'children': children})
+    return render(request, 'quiz/view_folder.html', {'folder': folder, 'children': children, 'path': path})
 
 
 # 폴더 추가
@@ -316,6 +318,7 @@ def view_questions(request, folder_id, quiz_id):
     total_questions = questions.count() # 전체 문제 수
 
     context = {
+        "quiz": quiz,
         'questions': questions,
         'correct_count': correct_count,
         'total_questions': total_questions,

@@ -13,6 +13,11 @@ class Folder(MPTTModel):
     def __str__(self):
         return self.name
     
+    def get_path(self):
+        if self.parent:
+            return f"{self.parent.get_path()}/{self.name}"
+        return self.name
+    
 
 class Quiz(models.Model):
     folder = models.ForeignKey(to=Folder, on_delete=models.CASCADE,related_name="quizs")
