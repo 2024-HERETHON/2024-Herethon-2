@@ -45,6 +45,23 @@ def view_folder(request, folder_id=None):
     return render(request, 'quiz/view_folder.html', {'folder': folder, 'children': children, 'path': path})
 
 
+# 퀴즈 생성 전 폴더 선택
+@login_required
+def select_folder(request, folder_id=None):
+    if request.method == "POST":
+        return redirect('quiz:create-quiz', folder_id)
+    if folder_id:
+        folder = get_object_or_404(Folder, id=folder_id)
+        children = folder.get_children() # 하위에 있는 모든 폴더
+        path = "Stuck/" + folder.get_path()
+    else:
+        folder = None
+        children = Folder.objects.filter(parent=None, user=request.user) # 루트에 있는 모든 폴더
+        path = ""
+
+    return render(request, 'quiz/select_folder.html', {'folder': folder, 'children': children, 'path': path})
+
+
 # 폴더 추가
 def add_folder(request, parent_id):
     if parent_id == 0:
@@ -146,7 +163,6 @@ def extract_text_from_image(image_file_path):
         raise Exception(f'{response.error.message}')
 
     return texts[0].description if texts else ''
-
 
 
 # 퀴즈 생성 

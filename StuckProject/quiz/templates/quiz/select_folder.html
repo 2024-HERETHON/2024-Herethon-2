@@ -3,20 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</title>
+    <title>{% if folder %}{{ folder.name }}{% else %}Stuck{% endif %}</title>
 
 </head>
-<body>
+<body>    
+    <h1>저장할 폴더 선택하기</h1>
     <!--폴더 이름 출력, 이름이 없다면 Root로 설정-->
     <h1>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</h1>
 
+    {% if folder %}
+    <form method="POST" action="{% url 'quiz:select-folder' folder.id %}">
+        {% csrf_token %}
+        {{ path }} <button>폴더 선택</button>
+    </form>
+    {% endif %}
     <!--현재 폴더 하위에 있는 폴더 출력-->
     <h3>folder</h3>
     <ul ondrop="drop(event, {% if folder %}{{ folder.id }}{% else %}0{% endif %})"
         ondragover="allowDrop(event)">
         {% for child in children %}
             <li id="folder-{{ child.id }}" class="draggable" draggable="true">
-                <a href="{% url 'quiz:folder-view' child.id %}">{{ child.name }}</a>
+                <a href="{% url 'quiz:select-folder' child.id %}">{{ child.name }}</a>
             </li>
         {% endfor %}
     </ul>
