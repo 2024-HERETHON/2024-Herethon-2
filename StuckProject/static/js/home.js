@@ -53,8 +53,28 @@ document.addEventListener("DOMContentLoaded", function () {
         dayElement.textContent = date.getDate();
     });
 
-    
+    //주<->월
+    const calBtn = document.querySelector(".cal_btn");
+    const weekCal = document.querySelector(".week-cal");
+    const monthCal = document.querySelector(".month-cal");
+    calBtn.addEventListener('click', function() {
+        let buttonText = calBtn.textContent.trim();
+        if (buttonText === '주') {
+            calBtn.textContent = '월';
+            weekCal.classList.remove('display');
+            weekCal.classList.add('nodisplay');
+            monthCal.classList.remove('nodisplay');
+            monthCal.classList.add('display');
 
+        } else {
+            calBtn.textContent = '주';
+            monthCal.classList.remove('display');
+            monthCal.classList.add('nodisplay');
+            weekCal.classList.remove('nodisplay');
+            weekCal.classList.add('display');
+        }
+        
+    });
 });
 
 

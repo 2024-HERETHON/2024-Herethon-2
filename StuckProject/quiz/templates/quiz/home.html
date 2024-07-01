@@ -49,8 +49,9 @@
                         <h5 class="date-month"><span class="year"></span>년 <span class="month"></span>월<span id="h6"> 의
                                 월간 목표달성률</span></h5>
                         <!--막대그래프 생성 style =" width : 진행률" -->
-                        <div class="progress-container">
-                            <div class="progress-bar blue" style="width: 90%;"></div>
+
+                        <div class="progress-container" data-progress="30">
+                            <div class="progress-bar blue" ></div>
                         </div>
 
                     </div>
@@ -60,7 +61,7 @@
 
 
                         <!--막대그래프 생성 style =" width : 진행률" -->
-                        <div class="progress-container">
+                        <div class="progress-container" >
                             <div class="progress-bar lightblue" style="width: 90%;"></div>
                         </div>
 
@@ -87,7 +88,7 @@
             <h4 class="title-date"> <span class="year"></span>년 <span class="month"></span>월</h4>
             <wrap class="middle-sec">
                 <div class="calender">
-                    <button class="cal_btn">주</button>
+                    <button class="cal_btn ">주</button>
                     <button type="button" class="right btn">
                         <img src="{% static 'img/right_allow.png' %}">
                     </button>
@@ -95,7 +96,7 @@
                         <img src="{% static 'img/left_allow.png' %}">
                     </button>
 
-                    <ul class="week-cal nodisplay">
+                    <ul class="week-cal display">
                         <li class="sun">
                             <h6>일</h6>
                             <div class="check-todo gray"></div>
@@ -134,7 +135,7 @@
                             <h6 class="day"></h6>
                         </li>
                     </ul>
-                    <wrap class="month-cal ">
+                    <wrap class="month-cal nodisplay">
                         <ul class="week-cal">
                             <li class="sun">
                                 <h6>일</h6>
@@ -143,7 +144,7 @@
                             </li>
                             <li class="mon">
                                 <h6>월</h6>
-                                <div class="check-todo gray"></div>
+                                <div class="check-todo blue">5</div>
                                 <h6 class="day"></h6>
                             </li>
                             <li class="tue">
