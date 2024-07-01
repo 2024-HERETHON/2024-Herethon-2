@@ -58,6 +58,7 @@
     {% endif %}
     <br><br>
 
+    <!-- 즐겨찾기 -->
     <h3>즐겨찾기</h3>
     <ul>
         {% for scrap in scraps %}
@@ -65,6 +66,28 @@
         {% endfor %}
     </ul>
 
+    <!-- 폴더 검색 -->
+     <h3>폴더 검색</h3>
+     {% if messages %}
+            {% for message in messages %}
+                <p style="color:red">{{ message }}</p>
+            {% endfor %}
+    {% endif %}
+    
+     {% if folder %}
+        <form action="{% url 'quiz:search-folder' folder.id %}">
+            {% csrf_token %}
+            <input name="search_folder_name" type="text">
+            <button>검색</button>
+        </form>
+    {% else %}
+        <form action="{% url 'quiz:search-folder' 0 %}">
+            {% csrf_token %}
+            <input name="search_folder_name" type="text">
+            <button>검색</button>
+        </form>
+    {% endif %}
+    
     <script>
         function drag(event) {
             console.log(event.target)

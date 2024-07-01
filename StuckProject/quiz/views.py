@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from accounts.models import *
 import os
+from django.contrib import messages
+from django.db import IntegrityError
 
 # openai
 import openai
@@ -78,18 +80,23 @@ def select_folder(request, folder_id=None):
 
 
 # 폴더 추가
+
 def add_folder(request, parent_id):
     if parent_id == 0:
         parent = None
     else:
         parent = get_object_or_404(Folder, id=parent_id)
 
-    name = request.POST['folder_name']
+    if request.method == 'POST':
+        name = request.POST['folder_name']
 
-    Folder.objects.create(name=name, parent=parent, user=request.user)
-    # print(new_category.id)
+        try:
+            Folder.objects.create(name=name, parent=parent, user=request.user)
+            messages.success(request, f"{name} 폴더가 성공적으로 추가되었습니다.")
+        except IntegrityError:
+            messages.error(request, f"{name} 폴더 이름이 중복됩니다. 다른 이름을 사용해주세요.")
 
-    if parent == None:
+    if parent is None:
         return redirect('quiz:select-folder', 0)
     return redirect('quiz:select-folder', parent.id)
 
@@ -603,3 +610,16 @@ def delete_quiz(request, quiz_id):
     folder_id = quiz.folder.id
     quiz.delete()
     return redirect('quiz:folder-view', folder_id)
+
+
+# 폴더 검색 
+def search_folder(request, folder_id):
+    search_folder_name = request.GET.get('search_folder_name', '')
+
+    folder = Folder.objects.filter(name=search_folder_name).first()
+
+    if not folder:
+            messages.error(request, "폴더가 존재하지 않습니다.")
+            return redirect('quiz:folder-view', folder_id)
+    messages.success(request, "폴더가 성공적으로 검색되었습니다.")
+    return redirect('quiz:folder-view', folder.id)

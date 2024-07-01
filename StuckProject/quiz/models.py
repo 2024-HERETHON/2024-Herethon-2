@@ -4,7 +4,7 @@ from django.contrib.auth.models import User # 추후 User 모델과 연결
 
 class Folder(MPTTModel):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="folders")
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     class MPTTMeta:
