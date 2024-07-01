@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% load static %}
 {% block content %}
 <!DOCTYPE html>
@@ -9,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STOCK</title>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
-    <link rel="stylesheet" href="{% static 'js/home.js' %}">
+    <script src="{% static 'js/home.js' %}" defer></script>
 </head>
 
 <body>
@@ -45,26 +46,30 @@
                 <div class="empty"></div>
                 <div class="graph">
                     <div class="month-goal">
-                        <h5 class="date-month">2024년 6월<span id="h6"> 의 월간 목표달성률</span></h5>
+                        <h5 class="date-month"><span class="year"></span>년 <span class="month"></span>월<span id="h6"> 의
+                                월간 목표달성률</span></h5>
                         <!--막대그래프 생성 style =" width : 진행률" -->
-                        <div class="progress-container">
-                            <div class="progress-bar blue" style="width: 70%;"></div>
+
+                        <div class="progress-container" data-progress="30">
+                            <div class="progress-bar blue" ></div>
                         </div>
 
                     </div>
                     <div class="week-goal">
-                        <h5 class="date-week">2024년 6월 4주차<span id="h6"> 의 주간 목표달성률</span></h5>
+                        <h5 class="date-week"><span class="year"></span>년 <span class="month"></span>월 <span
+                                class="week"></span>주차<span id="h6"> 의 주간 목표달성률</span></h5>
 
 
                         <!--막대그래프 생성 style =" width : 진행률" -->
-                        <div class="progress-container">
+                        <div class="progress-container" >
                             <div class="progress-bar lightblue" style="width: 90%;"></div>
                         </div>
 
 
                     </div>
                     <div class="day-goal">
-                        <h5 class="date-day">2024년 6월 29일<span id="h6"> 의 일간 목표달성률</span></h5>
+                        <h5 class="date-day"> <span class="year"></span>년 <span class="month"></span>월 <span
+                                class="day"></span>일<span id="h6"> 의 일간 목표달성률</span></h5>
 
                         <!--막대그래프 생성 style =" width : 진행률" -->
                         <div class="progress-container">
@@ -80,17 +85,217 @@
         </section>
 
         <section class="middle">
-            <h4 class="title-date"> 2024년 6월 </h4>
-            <div class="calender">
-                <div class="week"></div>
-                <div class="routine"></div>
-            </div>
-            <div class="side">
-                <div class="scrap"></div>
-                <div class="recent"></div>
-            </div>
+            <h4 class="title-date"> <span class="year"></span>년 <span class="month"></span>월</h4>
+            <wrap class="middle-sec">
+                <div class="calender">
+                    <button class="cal_btn ">주</button>
+                    <button type="button" class="right btn">
+                        <img src="{% static 'img/right_allow.png' %}">
+                    </button>
+                    <button type="button" class="left btn">
+                        <img src="{% static 'img/left_allow.png' %}">
+                    </button>
+
+                    <ul class="week-cal display">
+                        <li class="sun">
+                            <h6>일</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="mon">
+                            <h6>월</h6>
+                            <div class=" check-todo blue">
+                                <span class="count-todo">5</span>
+                            </div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="tue">
+                            <h6>화</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="wed">
+                            <h6>수</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="thu">
+                            <h6>목</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="fri">
+                            <h6>금</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="sat">
+                            <h6>토</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                    </ul>
+                    <wrap class="month-cal nodisplay">
+                        <ul class="week-cal">
+                            <li class="sun">
+                                <h6>일</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="mon">
+                                <h6>월</h6>
+                                <div class="check-todo blue">5</div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="tue">
+                                <h6>화</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="wed">
+                                <h6>수</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="thu">
+                                <h6>목</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="fri">
+                                <h6>금</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="sat">
+                                <h6>토</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                        </ul>
+                        <ul class="week-cal">
+                            <li class="sun">
+                                <h6>일</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="mon">
+                                <h6>월</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="tue">
+                                <h6>화</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="wed">
+                                <h6>수</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="thu">
+                                <h6>목</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="fri">
+                                <h6>금</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="sat">
+                                <h6>토</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                        </ul>
+                        <ul class="week-cal">
+                            <li class="sun">
+                                <h6>일</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="mon">
+                                <h6>월</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="tue">
+                                <h6>화</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="wed">
+                                <h6>수</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="thu">
+                                <h6>목</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="fri">
+                                <h6>금</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="sat">
+                                <h6>토</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                        </ul>
+                        <ul class="week-cal">
+                            <li class="sun">
+                                <h6>일</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="mon">
+                                <h6>월</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="tue">
+                                <h6>화</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="wed">
+                                <h6>수</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="thu">
+                                <h6>목</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="fri">
+                                <h6>금</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                            <li class="sat">
+                                <h6>토</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="day"></h6>
+                            </li>
+                        </ul>
+                    </wrap>
+
+                    <div class="routine"></div>
+                </div>
+                <div class="side">
+                    <div class="scrap"></div>
+                    <div class="recent"></div>
+                </div>
+            </wrap>
 
         </section>
+
         <section class="bottom">
             <button class="btn-quiz">교재 내용으로 문제풀기</button>
             <button class="btn-qna">교재 내용 질문하기</button>

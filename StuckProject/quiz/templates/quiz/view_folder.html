@@ -132,13 +132,15 @@
             var data = event.dataTransfer.getData("text");
             var test = data.split('-')[0];
             var itemId = data.split('-')[1];
+            console.log(test)
 
             if (test === "quiz") {
-                window.location.href = `/delete/quiz/${itemId}/`;
+                window.location.href = `/quiz/delete/${itemId}/`;
             } else if (test === "qna") {
-                window.location.href = `/delete/qna/${itemId}/`;
+                window.location.href = `/qna/delete/${itemId}/`;
             } else {
-                window.location.href = `/delete/folder/${itemId}/`;
+                var itemId = data.split('/')[4];
+                window.location.href = `/folder/delete/${itemId}/`;
             }
         }
     </script>

@@ -11,7 +11,7 @@ urlpatterns = [
     path('folder/<int:folder_id>/save-question-memo/<int:question_room_id>/', save_question_memo, name="save-question-memo"),
     path('folder/<int:folder_id>/save-memo-as-pdf/<int:question_room_id>/', save_memo_as_pdf, name="save-memo-as-pdf"),
     path('folder/<int:folder_id>/save-memo-as-word/<int:question_room_id>/', save_memo_as_word, name="save-memo-as-word"),
-    path('delete/qna/<int:question_room_id>/', delete_question_room, name='delete-question-room'),
+    path('delete/<int:question_room_id>/', delete_question_room, name='delete-question-room'),
     path('move/<int:current_folder_id>/<int:question_room_id>/to/<int:move_folder_id>/', move_question_room, name='move-question-room'),
 
     

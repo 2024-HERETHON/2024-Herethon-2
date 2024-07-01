@@ -27,6 +27,6 @@ urlpatterns = [
     path('folder/<int:folder_id>/cancel-scrap/', remove_scrap_folder, name='cancel-scrap-folder'),
     
     # 삭제
-    path('delete/folder/<int:folder_id>/', delete_folder, name='delete-folder'),
-    path('delete/quiz/<int:quiz_id>/', delete_quiz, name='delete-quiz'),
+    path('folder/delete/<int:folder_id>/', delete_folder, name='delete-folder'),
+    path('quiz/delete/<int:quiz_id>/', delete_quiz, name='delete-quiz'),
 ]

@@ -590,8 +590,11 @@ def remove_scrap_folder(request, folder_id):
 # 드래그 앤 드랍으로 폴더 삭제
 def delete_folder(request, folder_id):
     folder = get_object_or_404(Folder, id=folder_id)
+    parent = folder.parent
     folder.delete()
-    return redirect('quiz:folder-view', 0)
+    if(parent == None):
+        return redirect('quiz:folder-view', 0)
+    return redirect('quiz:folder-view', parent.id)
 
 
 # 드래그 앤 드랍으로 퀴즈 삭제
