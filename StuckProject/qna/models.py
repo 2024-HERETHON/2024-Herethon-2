@@ -7,7 +7,7 @@ class QuestionRoom(models.Model):
     title = models.CharField(max_length=30)
     folder = models.ForeignKey(to=Folder, on_delete=models.CASCADE,related_name="qnas")
     file = models.FileField(upload_to="file/%Y/%m/%d/")
-    memo = models.CharField(max_length=10000)
+    memo = models.CharField(max_length=10000, blank=True)
 
 
 class Chat(models.Model):

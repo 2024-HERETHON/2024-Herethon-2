@@ -20,9 +20,6 @@
       </section>
     </main>
 
-    <h1>저장할 폴더 선택하기</h1>
-    <!--폴더 이름 출력,  이름이 없다면 Root로 설정-->
-    <h1>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</h1>
 
     {% i f folder %}
     <form method="POST" action="{% url 'quiz:select-folder' folder.id %}">
@@ -31,6 +28,7 @@
     {% endif %}
     <!--현재 폴더 하위에 있는 폴더 출력-->
     <h3>folder</h3>
+
     <ul
       ondrop="drop(event, {% if folder %}{{ folder.id }}{% else %}0{% endif %})"
       ondragover="allowDrop(event)"
@@ -49,6 +47,7 @@
         {{q.title}} {{q.score}} / {{q.question_num}}
         <a href="{% url 'quiz:view-questions' folder.id q.id %}">문제보기</a>
         <!-- <a href="{% url 'quiz:test' folder.id q.id %}">다시풀기</a>
+
                 <a href="{% url 'quiz:view-wrong-questions' folder.id q.id %}">틀린문제만 보기</a>
                 <a href="{% url 'quiz:save-quiz-as-pdf' folder.id q.id %}">문제 pdf로 다운로드</a>
                 <a href="{% url 'quiz:save-quiz-as-word' folder.id q.id %}">문제 word로 다운로드</a> -->
@@ -56,6 +55,8 @@
       {% endfor %}
     </ul>
 
+
+<h3>q&a</h3>
     <br /><br />
     <!--현재 폴더가 루트 폴더가 아니라면-->
     {% if folder %}
@@ -75,6 +76,7 @@
     <a href="{% url 'quiz:folder-view' folder.parent.id %}">폴더 뒤로 가기</a>
     {% endif %}
 
+
     <!--현재 폴더가 루트 폴더라면-->
     {% else %}
     <form action="{% url 'quiz:add-folder' 0 %}" method="POST">
@@ -84,6 +86,7 @@
       <button type="submit">Add folder</button>
     </form>
     {% endif %}
+
     <br /><br />
 
     <script>
@@ -142,4 +145,5 @@
       });
     </script>
   </body>
+
 </html>
