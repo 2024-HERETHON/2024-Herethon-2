@@ -271,3 +271,22 @@ def save_memo_as_word(request, folder_id, question_room_id):
     doc.save(response)
 
     return response
+
+
+# 드래그 앤 드랍으로 질문 삭제
+def delete_question_room(request, question_room_id):
+    question_room = get_object_or_404(QuestionRoom, id=question_room_id)
+    folder_id = question_room.folder.id
+    question_room.delete()
+    return redirect('quiz:folder-view', folder_id)
+
+
+ 
+def move_question_room(request, current_folder_id, question_room_id, move_folder_id):
+    questoin_room = get_object_or_404(QuestionRoom, id=question_room_id)
+    move_folder = get_object_or_404(Folder, id=current_folder_id)
+
+    questoin_room.folder = move_folder
+    questoin_room.save()
+
+    return redirect('quiz:folder-view', folder_id=move_folder_id)

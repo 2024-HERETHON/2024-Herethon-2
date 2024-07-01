@@ -585,3 +585,18 @@ def remove_scrap_folder(request, folder_id):
     scraps = ScrapFolder.objects.filter(user=custom_user, folder=folder)
     scraps.delete()
     return redirect('quiz:folder-view', folder_id)
+
+
+# 드래그 앤 드랍으로 폴더 삭제
+def delete_folder(request, folder_id):
+    folder = get_object_or_404(Folder, id=folder_id)
+    folder.delete()
+    return redirect('quiz:folder-view', 0)
+
+
+# 드래그 앤 드랍으로 퀴즈 삭제
+def delete_quiz(request, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    folder_id = quiz.folder.id
+    quiz.delete()
+    return redirect('quiz:folder-view', folder_id)
