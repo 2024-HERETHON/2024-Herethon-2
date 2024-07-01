@@ -292,9 +292,20 @@
                         <div class="subtitle">즐겨찾기</div>
         
                         <ul  class="scrap-list">
-                            {% for scrap in scraps %}
-                                <li class="scrap-list1"><a href="{% url 'quiz:folder-view' folder_id=scrap.folder.id %}">{{ scrap.folder.name }}</a></li>
+                            <!-- 폴더 스크랩 정보 -->
+                            {% for scrap in folder_scraps %}
+                                <li class="scrap-list1"><a href="{% url 'quiz:folder-view' scrap.folder.id %}">[폴더] {{ scrap.folder.name }}</a></li>
                             {% endfor %}
+                            <!-- 퀴즈 스크랩 정보 -->
+                            {% for scrap in quiz_scraps %}
+                                <li class="scrap-list1"><a href="{% url 'quiz:view-questions' scrap.quiz.folder.id  scrap.quiz.id %}">[퀴즈] {{ scrap.quiz.title }}</a></li>
+                            {% endfor %}
+
+                            <!-- 질문 스크랩 정보 -->
+                            {% for scrap in question_room_scraps %}
+                                <li class="scrap-list1"><a href="{% url 'qna:enter-question-room' scrap.question_room.folder.id scrap.question_room.id %}">[질문 방] {{ scrap.question_room.title }}</a></li>
+                            {% endfor %}
+
                         </ul>
                     </div>
                     <div class="recent">

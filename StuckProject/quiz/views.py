@@ -37,7 +37,9 @@ def home(request):
     custom_user = get_object_or_404(CustomUser, user=user)
 
     # 스크랩 정보
-    scraps = ScrapFolder.objects.filter(user=custom_user)
+    folder_scraps = ScrapFolder.objects.filter(user=custom_user)
+    quiz_scraps = ScrapQuiz.objects.filter(user=custom_user)
+    question_room_scraps = ScrapQuestionRoom.objects.filter(user=custom_user)
 
     # 최근 열어본 문서
     recent_docs = custom_user.recent_documents_from_user.all()[:5]
@@ -61,7 +63,9 @@ def home(request):
                 'folder_id': folder_id
             })
     context = {
-         'scraps': scraps,
+         'folder_scraps': folder_scraps,
+         'quiz_scraps': quiz_scraps,
+         'question_room_scraps': question_room_scraps,
          'documents': documents
     }
 
