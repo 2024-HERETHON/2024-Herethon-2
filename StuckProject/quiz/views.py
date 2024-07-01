@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from accounts.models import *
 import os
+from django.contrib import messages
 
 # openai
 import openai
@@ -606,5 +607,13 @@ def delete_quiz(request, quiz_id):
 
 
 # 폴더 검색 
-# def search_folder(request):
-#    folder_name = 
+def search_folder(request, folder_id):
+    search_folder_name = request.GET.get('search_folder_name', '')
+
+    folder = Folder.objects.filter(name=search_folder_name).first()
+
+    if not folder:
+            messages.error(request, "폴더가 존재하지 않습니다.")
+            return redirect('quiz:folder-view', folder_id)
+    messages.success(request, "폴더가 성공적으로 검색되었습니다.")
+    return redirect('quiz:folder-view', folder.id)
