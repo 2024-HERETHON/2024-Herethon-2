@@ -17,4 +17,9 @@ urlpatterns = [
     # 스크랩
     path('folder/<int:folder_id>/scrap-question-room/<int:question_room_id>/', add_scrap_question_room, name='add-scrap-question-room'),
     path('folder/<int:folder_id>/remove-scrap-question-room/<int:question_room_id>/', remove_scrap_question_room, name='cancel-scrap-question-room'),
+
+    # 저장
+    path('folder/<int:folder_id>/save-chat-as-pdf/<int:question_room_id>/', save_chat_as_pdf, name='save-chat-as-pdf'),
+    path('folder/<int:folder_id>/save-chat-as-word/<int:question_room_id>/', save_chat_as_word, name='save-chat-as-word'),
+
 ]
