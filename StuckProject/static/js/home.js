@@ -18,14 +18,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const month = today.getMonth() + 1;
     const day = today.getDate();
 
-    // 주차 계산 
     function getWeekNumber(date) {
         const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
         const pastDaysOfMonth = (date - startOfMonth) / 86400000;
         return Math.ceil((pastDaysOfMonth + startOfMonth.getDay() + 1) / 7);
     }
 
-    // 몇 주차인지 계산
     const weekNumber = getWeekNumber(today);
 
     const yearElements = document.querySelectorAll('.year');
@@ -53,10 +51,18 @@ document.addEventListener("DOMContentLoaded", function () {
         dayElement.textContent = date.getDate();
     });
 
+    const mdays = document.querySelectorAll(".week-cal .m-day");
+    mdays.forEach((dayElement, index) => {
+        const mdate = new Date(startOfWeek);
+        mdate.setDate(startOfWeek.getDate() + index);
+        dayElement.textContent = mdate.getDate();
+    });
+
     //주<->월
     const calBtn = document.querySelector(".cal_btn");
     const weekCal = document.querySelector(".week-cal");
     const monthCal = document.querySelector(".month-cal");
+
     calBtn.addEventListener('click', function() {
         let buttonText = calBtn.textContent.trim();
         if (buttonText === '주') {
