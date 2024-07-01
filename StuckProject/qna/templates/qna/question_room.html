@@ -28,6 +28,8 @@
         질문 입력<input type="text" name="user_question">
         <button>질문하기</button>
     </form>
+    <a href="{% url 'qna:save-chat-as-pdf' folder_id question_room.id %}">pdf로 채팅 저장</a>
+    <a href="{% url 'qna:save-chat-as-word' folder_id question_room.id %}">word로 채팅 저장</a>
 
     <br><br>
     <!-- memo 입력 폼 -->
