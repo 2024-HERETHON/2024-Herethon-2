@@ -40,3 +40,17 @@ class ScrapQuestionRoom(models.Model):
 
     class Meta:
         unique_together = ('user', 'question_room')
+
+
+# 최근 열어본 문서
+class RecentDocument(models.Model):
+    content_type = models.CharField(max_length=50)
+    object_id = models.PositiveIntegerField() # 최근 열어본 문서가 Quiz 객체나 QuestionRoom 객체가 돌 수
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='recent_documents')
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.content_type} - {self.object_id}"
