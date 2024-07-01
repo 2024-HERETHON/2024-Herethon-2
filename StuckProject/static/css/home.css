@@ -9,6 +9,7 @@ main {
     height: 550px;
     overflow: hidden;
     margin: 0 auto;
+    margin-top: 80px;
 }
 
 .tag,
@@ -128,7 +129,7 @@ main {
 
 .middle {
     height: fit-content;
-
+    padding-bottom: 20px;
 }
 
 .middle-sec {
@@ -167,7 +168,7 @@ main {
     margin-left: 20px;
 }
 
-.nodisplay {
+.nodisplay *{
     display: none;
 }
 
@@ -212,6 +213,7 @@ main {
     justify-content: center;
     align-items: center;
     border-radius: 20%;
+    color: #fff;
 }
 
 .check-todo.gray {
@@ -228,7 +230,7 @@ main {
     font-weight: bold;
 }
 
-.day {
+.middle .day {
     font-size: 16px;
     font-weight: bold;
 }
