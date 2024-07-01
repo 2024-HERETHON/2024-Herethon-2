@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from quiz.models import Folder, Quiz
 from qna.models import QuestionRoom
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 class CustomUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -56,3 +58,13 @@ class RecentDocument(models.Model):
 
     def __str__(self):
         return f"{self.content_type} - {self.object_id}"
+    
+
+# Quiz, QuestionRoom 객체 삭제 시 RecentDocument도 삭제
+@receiver(post_delete, sender=Quiz)
+def delete_related_quiz_data(sender, instance, **kwargs):
+    RecentDocument.objects.filter(content_type='quiz', object_id=instance.id).delete()
+
+@receiver(post_delete, sender=QuestionRoom)
+def delete_related_question_room_data(sender, instance, **kwargs):
+    RecentDocument.objects.filter(content_type='questionroom', object_id=instance.id).delete()
