@@ -31,7 +31,7 @@
                 <div class="empty"></div>
                 <div class="graph">
                     <div class="month-goal">
-                        <div>Completion Rate: {{ completion_rate|floatformat:"0" }}%</div>
+                    
                         <h5 class="date-month"><span class="year"></span>년 <span class="month"></span>월<span id="h6"> 의 월간 목표달성률</span> {{ month_completion_rate }}%</h5>
                         <div class="progress-container" data-progress="{{ month_completion_rate }}">
                             <div class="progress-bar blue"></div>
@@ -85,8 +85,8 @@
                             </li>
                             <li class="mon">
                                 <h6>월</h6>
-                                <div class="check-todo blue">5</div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo gray"><h6 class="m-day"></h6></div>
+                                
                             </li>
                             <li class="tue">
                                 <h6>화</h6>

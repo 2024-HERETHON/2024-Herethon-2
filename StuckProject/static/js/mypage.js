@@ -1,14 +1,16 @@
+
 document.addEventListener("DOMContentLoaded", function () {
 
+    history.scrollRestoration = "auto";
     //프로필 수정
     const setbtn = document.querySelector(".set");
     const savebtn = document.querySelector(".save");
     const textareas = document.querySelectorAll(".textarea");
     const select = document.querySelector(".select-nickname");
-    setbtn.addEventListener('click', ()=>{
+    setbtn.addEventListener('click', () => {
         setbtn.classList.add("nodisplay");
         savebtn.classList.remove("nodisplay");
-    
+
         textareas.forEach(textarea => {
             if (textarea.hasAttribute('disabled')) {
                 textarea.removeAttribute('disabled');
@@ -16,14 +18,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 textarea.setAttribute('disabled', 'disabled');
             }
         });
-    
+
         if (select.hasAttribute('disabled')) {
             select.removeAttribute('disabled');
         } else {
             select.setAttribute('disabled', 'disabled');
         }
     })
-    savebtn.addEventListener('click', ()=>{
+    savebtn.addEventListener('click', () => {
         setbtn.classList.remove("nodisplay");
         savebtn.classList.add("nodisplay");
     })
@@ -140,41 +142,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     initializeDates();
     updateCalendarDates(currentWeekStart);
-
-    // 주<->월 버튼
-    const calBtn = document.querySelector(".cal_btn");
-    const weekCal = document.querySelector(".week-cal");
-    const monthCal = document.querySelector(".month-cal");
-    const todo = document.querySelector(".todo");
-    let isWeekView = true;
-
-    calBtn.addEventListener('click', function () {
-        if (isWeekView) {
-            calBtn.textContent = '월';
-            weekCal.classList.add('nodisplay');
-            weekCal.classList.remove('display');
-            todo.classList.add('nodisplay');
-            todo.classList.remove('display');
-            monthCal.classList.add('display');
-            monthCal.classList.remove('nodisplay');
-            currentMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
-            updateMonthCalendarDates(currentMonthStart);
-            isWeekView = false;
-        } else {
-            calBtn.textContent = '주';
-            monthCal.classList.add('nodisplay');
-            monthCal.classList.remove('display');
-            weekCal.classList.add('display');
-            weekCal.classList.remove('nodisplay');
-            todo.classList.add('display');
-            todo.classList.remove('nodisplay');
-            currentWeekStart = new Date(today);
-            currentWeekStart.setDate(today.getDate() - today.getDay());
-            updateCalendarDates(currentWeekStart);
-            isWeekView = true;
-        }
-    });
-
     // 캘린더 날짜 이동 버튼
     const leftBtn = document.querySelector(".left-btn");
     const rightBtn = document.querySelector(".right-btn");
@@ -198,8 +165,52 @@ document.addEventListener("DOMContentLoaded", function () {
             updateMonthCalendarDates(currentMonthStart);
         }
     });
+    // 주<->월 버튼
+    const calBtn = document.querySelector(".cal_btn");
+    const weekCal = document.querySelector(".week-cal");
+    const monthCal = document.querySelector(".month-cal");
+    const todo = document.querySelector(".todo");
+    let isWeekView = true;
 
-    
+    calBtn.addEventListener('click', function () {
+        if (isWeekView) {
+            calBtn.textContent = '월';
+            weekCal.classList.add('nodisplay');
+            weekCal.classList.remove('display');
+            todo.classList.add('nodisplay');
+            todo.classList.remove('display');
+            monthCal.classList.add('display');
+            monthCal.classList.remove('nodisplay');
+            rightBtn.classList.add('nodisplay');
+            rightBtn.classList.remove('display');
+            leftBtn.classList.add('nodisplay');
+            leftBtn.classList.remove('display');
+            currentMonthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+            updateMonthCalendarDates(currentMonthStart);
+            isWeekView = false;
+        } else {
+            calBtn.textContent = '주';
+            monthCal.classList.add('nodisplay');
+            monthCal.classList.remove('display');
+            weekCal.classList.add('display');
+            weekCal.classList.remove('nodisplay');
+            todo.classList.add('display');
+            todo.classList.remove('nodisplay');
+            rightBtn.classList.add('display');
+            rightBtn.classList.remove('nodisplay');
+            leftBtn.classList.add('display');
+            leftBtn.classList.remove('nodisplay');
+            currentWeekStart = new Date(today);
+            currentWeekStart.setDate(today.getDate() - today.getDay());
+            updateCalendarDates(currentWeekStart);
+            isWeekView = true;
+        }
+    });
 
-    
+   
+
+
+
+
+
 });

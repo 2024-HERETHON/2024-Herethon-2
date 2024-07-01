@@ -106,21 +106,20 @@
                         <form method="POST" action="{% url 'todo:todo_list' %}">
 
                         <div class="btn">
-                            <button  type="submit" name="routine_submit" class="add-routine">루틴 추가
+                            <button  type="submit" name="routine_submit" class="add-routine button">루틴 추가
                                 <img src="{% static 'img/add.png' %}" alt="add_btn" >
                             </button>
                         </div>
                         <div class="input_todo">
                                 {% csrf_token %}
-                                <input type="text"  placeholder="루틴을 입력해주세요." class="input_routine" name="{{ routine_form.name.html_name }}" value="{{ routine_form.name.value }}" class="input_routine">
+                                <input type="text" placeholder="루틴을 입력해주세요." class="input_routine" name="{{ routine_form.name.html_name }}" value="{{ routine_form.name.value }}" class="input_routine">
 
-                                <!-- <input type="text" placeholder="루틴을 입력해주세요." class="input_routine"> -->
                                 <img src="{% static 'img/add_w.png' %}" alt="add_btn">
                             </div>
                             </form>
                             {% for routine in routines %}
                     <div class="category">
-                        <button class="add-todo">
+                        <button class="add-todo button">
                             <span>{{ routine.name }}</span>
                             <img src="{% static 'img/add.png' %}" alt="add_btn">
                         
@@ -130,11 +129,12 @@
 
                         </button>
 
-                        <form method="post" action="{% url 'todo:todo_list' %}">
+                        <form method="post" action="{% url 'todo:todo_list' %}" class="todo_form">
                             {% csrf_token %}
-                            <input type="hidden" name="routine_id" value="{{ routine.id }}">
+                            <button type="button" class="checkbox"><img src="{% static 'img/todo-before.png' %}" alt="체크박스" class="todo_check"></button>
+                            <input type="hidden" class="todo_form" placeholder="할 일을 입력해주세요." name="routine_id" value="{{ routine.id }}">
                             {{ todo_form.description }}
-                            <button type="submit" name="todo_submit">할 일 추가</button>
+                            <button type="submit" class="todobtn" name="todo_submit">등록</button>
                         </form>
 
                         <ul>
