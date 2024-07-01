@@ -23,15 +23,15 @@
                     <div class="profile-img">
                         <img src="{% static 'img/profile.png' %}" alt="profile_img">
                     </div>
-                    <div class="tag">성실한 천재</div>
-                    <h5 class="name">{{ request.user.customuser.nickname }}</h5>
+                    <div class="tag">{{ request.user.customuser.nickname }}</div>
+                    <h5 class="name">{{ request.user.username }}</h5>
                     <div class="agency">{{request.user.customuser.univ}} {{request.user.customuser.semester}}학기</div>
                 </div>
             </div>
 
             <div class="report-list">
                 <div class="ment">
-                    <h5>시작하기 위해 위대해질 필요는 없지만 위대해지기 위해서는 시작해야 합니다.</h5>
+                    <h5>{{ request.user.customuser.resolution }} </h5>
                 </div>
                 <div class="empty"></div>
                 <div class="graph">

@@ -341,4 +341,3 @@ def remove_scrap_question_room(request, folder_id, question_room_id):
     scrap_question_room.delete()
 
     return redirect('qna:enter-question-room', folder_id, question_room.id)
-
