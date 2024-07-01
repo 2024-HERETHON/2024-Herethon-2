@@ -12,17 +12,17 @@
 </head>
 <body>
     <h5>나의 정보</h5>
-
+    <p>{{ request.user.username }} > </p>
     <form method="POST">
         {% csrf_token %}
         한줄 다짐 : <input type="text" value="{{ request.user.customuser.resolution }}" name="resolution"><br>
-        별명 : 
+        별명 : {{ request.user.customuser.nickname }}
         <select name="nickname">
-            <option value="끈기 있는 마에스트로" {% if request.user.customuser.nickname == "끈기 있는 마에스트로" %}selected{% endif %}>끈기 있는 마에스트로</option>
-            <option value="열정의 천재" {% if request.user.customuser.nickname == "열정의 지니어스" %}selected{% endif %}>열정의 천재</option>
-            <option value="성실한 지니어스" {% if request.user.customuser.nickname == "성실한 천재" %} selected {% endif %}>성실한 지니어스</option>
-            <option value="노력의 귀재" {% if request.user.customuser.nickname == "노력의 귀재" %}selected{% endif %}>노력의 귀재</option>
-            <option value="묵묵한 달인" {% if request.user.customuser.nickname == "묵묵한 달인" %}selected{% endif %}>묵묵한 달인</option>
+            <option value="끈기 있는 마에스트로" {% if request.user.customuser.nickname == "끈기 있는 마에스트로" %} selected {% endif %}>끈기 있는 마에스트로</option>
+            <option value="열정의 지니어스" {% if request.user.customuser.nickname == "열정의 지니어스" %} selected {% endif %}>열정의 지니어스</option>
+            <option value="성실한 천재" {% if request.user.customuser.nickname == "성실한 천재" %} selected {% endif %}>성실한 천재</option>
+            <option value="노력의 귀재" {% if request.user.customuser.nickname == "노력의 귀재" %} selected {% endif %}>노력의 귀재</option>
+            <option value="묵묵한 달인" {% if request.user.customuser.nickname == "묵묵한 달인" %} selected {% endif %}>묵묵한 달인</option>
         </select> <br>    
         한줄 소개 : <input type="text" value="{{ request.user.customuser.introduce }}" name="introduce" placeholder="한줄소개를 적어주세요"><br>
         <button>저장하기</button>
