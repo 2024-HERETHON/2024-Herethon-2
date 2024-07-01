@@ -25,9 +25,14 @@
         <div>
             <input type="email" name="email" placeholder="이메일을 입력하세요" required>
         </div>
-        <div>
-            <input type="text" name="nickname" placeholder="별명을 입력하세요 ex 성실한 천재" required>
-        </div>
+        별명 선택
+        <select name="nickname">
+            <option value="끈기 있는 마에스트로" {% if request.user.customuser.resolution == "끈기 있는 마에스트로" %}selected{% endif %}>끈기 있는 마에스트로</option>
+            <option value="열정의 천재" {% if request.user.customuser.resolution == "열정의 지니어스" %}selected{% endif %}>열정의 천재</option>
+            <option value="성실한 지니어스" {% if request.user.customuser.resolution == "성실한 천재" %} selected {% endif %}>성실한 지니어스</option>
+            <option value="노력의 귀재" {% if request.user.customuser.resolution == "노력의 귀재" %}selected{% endif %}>노력의 귀재</option>
+            <option value="묵묵한 달인" {% if request.user.customuser.resolution == "묵묵한 달인" %}selected{% endif %}>묵묵한 달인</option>
+        </select>
         <div>
             <input type="text" name="univ" placeholder="재학중인 학교를 입력하세요">
         </div>
