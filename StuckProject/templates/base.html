@@ -19,12 +19,12 @@
         <div class="navbar">
             <ul class="navbar_menu">
                 <li class="nav-home"><a href="/">HOME</a></li>
-                <li class="nav-quiz"><a href="/">문제풀이</a></li>
-                <li class="nav-qna"><a href="/">질문하기</a></li>
+                <li class="nav-quiz"><a href="{% url 'quiz:select-folder' 0 %}">문제풀이</a></li>
+                <li class="nav-qna"><a href="{% url 'qna:select-folder' 0 %}">질문하기</a></li>
                 <li class="nav-mystuck"><a href="/">MYSTUCK</a></li>
                 <li class="nav-mypage"><a href="/">MYPAGE</a></li>
 
-                <li class="logout"><button class="logout_btn">로그아웃</button></li>
+                <li class="logout"><a href="{% url 'accounts:logout' %}"><button class="logout_btn">로그아웃</button></a></li>
             </ul>
         </div>
     </header>
