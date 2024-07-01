@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from accounts.models import *
 import os
+from django.contrib import messages
+from django.db import IntegrityError
+
 
 # openai
 import openai
@@ -55,10 +58,14 @@ def add_folder(request, parent_id):
     else:
         parent = get_object_or_404(Folder, id=parent_id)
 
-    name = request.POST['folder_name']
+    if request.method == 'POST':
+        name = request.POST['folder_name']
 
-    Folder.objects.create(name=name, parent=parent, user=request.user)
-    # print(new_category.id)
+        try:
+            Folder.objects.create(name=name, parent=parent, user=request.user)
+            messages.success(request, f"{name} 폴더가 성공적으로 추가되었습니다.")
+        except IntegrityError:
+            messages.error(request, f"{name} 폴더 이름이 중복됩니다. 다른 이름을 사용해주세요.")
 
     if parent == None:
         return redirect('qna:select-folder', 0)
@@ -281,7 +288,7 @@ def delete_question_room(request, question_room_id):
     return redirect('quiz:folder-view', folder_id)
 
 
- 
+ # 드래그 앤 드랍으로 폴더 삭제
 def move_question_room(request, current_folder_id, question_room_id, move_folder_id):
     questoin_room = get_object_or_404(QuestionRoom, id=question_room_id)
     move_folder = get_object_or_404(Folder, id=current_folder_id)

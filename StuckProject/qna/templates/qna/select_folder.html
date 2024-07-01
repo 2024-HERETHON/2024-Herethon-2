@@ -51,6 +51,13 @@
 
 
     <br><br>
+        <!-- 폴더 생성 시 성공 여부 -->
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color:red">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
     <!--현재 폴더가 루트 폴더가 아니라면-->
     {% if folder %}
         <form action="{% url 'qna:add-folder' folder.id %}" method="POST">
