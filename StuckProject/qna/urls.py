@@ -14,5 +14,7 @@ urlpatterns = [
     path('delete/<int:question_room_id>/', delete_question_room, name='delete-question-room'),
     path('move/<int:current_folder_id>/<int:question_room_id>/to/<int:move_folder_id>/', move_question_room, name='move-question-room'),
 
-    
+    # 스크랩
+    path('folder/<int:folder_id>/scrap-question-room/<int:question_room_id>/', add_scrap_question_room, name='add-scrap-question-room'),
+    path('folder/<int:folder_id>/remove-scrap-question-room/<int:question_room_id>/', remove_scrap_question_room, name='cancel-scrap-question-room'),
 ]

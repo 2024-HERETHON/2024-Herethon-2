@@ -10,7 +10,7 @@
 
     <!-- 퀴즈 스크랩 -->
     {% if not quiz in request.user.customuser.scrap_quizs.all %}
-        <a href="{% url 'quiz:add-scrap-quiz' folder_id quiz.id %}">폴더 스크랩하기</a>
+        <a href="{% url 'quiz:add-scrap-quiz' folder_id quiz.id %}">퀴즈 스크랩하기</a>
         {% else %}
         <a href="{% url 'quiz:cancel-scrap-quiz' folder_id quiz.id %}">스크랩 취소</a>
     {% endif %}
