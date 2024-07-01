@@ -11,11 +11,13 @@
 
     {% if folder %}
         {% if not folder in request.user.customuser.scrap_folders.all %}
-        <a href="{% url 'quiz:add-scrap-folder' folder_id=folder.id %}">스크랩</a>
+        <a href="{% url 'quiz:add-scrap-folder' folder_id=folder.id %}">폴더 스크랩하기</a>
         {% else %}
         <a href="{% url 'quiz:cancel-scrap-folder' folder_id=folder.id %}">스크랩 취소</a>
         {% endif %}
     {% endif %}
+
+
 
     <div id="trash-bin">쓰레기통</div>
 
@@ -58,11 +60,22 @@
     {% endif %}
     <br><br>
 
-    <!-- 즐겨찾기 -->
+    <!-- 스크랩 항목 조회 -->
     <h3>즐겨찾기</h3>
     <ul>
-        {% for scrap in scraps %}
+        <!-- 폴더 스크랩 정보 -->
+        {% for scrap in folder_scraps %}
             <li>{{ scrap.folder.name }} - <a href="{% url 'quiz:folder-view' folder_id=scrap.folder.id %}">폴더 보기</a></li>
+        {% endfor %}
+
+        <!-- 퀴즈 스크랩 정보 -->
+        {% for scrap in quiz_scraps %}
+        <li>{{ scrap.quiz.title }} - <a href="{% url 'quiz:view-questions' folder.id scrap.quiz.id %}">퀴즈 보기</a></li>
+        {% endfor %}
+
+        <!-- 질문 스크랩 정보 -->
+        {% for scrap in question_room_scraps %}
+        <li>{{ scrap.question_room.title }} - <a href="{% url 'qna:enter-question-room' folder.id scrap.question_room.id %}">질문 보기</a></li>
         {% endfor %}
     </ul>
 
@@ -73,7 +86,7 @@
                 <p style="color:red">{{ message }}</p>
             {% endfor %}
     {% endif %}
-    
+
      {% if folder %}
         <form action="{% url 'quiz:search-folder' folder.id %}">
             {% csrf_token %}

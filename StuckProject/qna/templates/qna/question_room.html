@@ -8,6 +8,15 @@
 </head>
 <body>
     <a href="{% url 'quiz:home' %}">홈으로</a>
+    <a href="{% url 'quiz:folder-view' folder_id %}">돌아가기</a>
+
+    <!-- 질문 스크랩 -->
+    {% if not question_room in request.user.customuser.scrap_question_rooms.all %}
+        <a href="{% url 'qna:add-scrap-question-room' folder_id question_room.id %}">질문 스크랩</a>
+    {% else %}
+        <a href="{% url 'qna:cancel-scrap-question-room' folder_id question_room.id %}">질문 스크랩 취소</a>
+    {% endif %}
+
     <h2>파일 이름 : {{ question_room.file.name|filename }}</h2>
 
     {% for chat in chats %}

@@ -1,24 +1,22 @@
-{% extends "base.html" %} 
-{% load static %} 
-{% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% extends "base.html" %} {% load static %}
+
+
+
+    {% block content %}
     <title>{% if folder %}{{ folder.name }}{% else %}Stuck{% endif %}</title>
-   
+
 
     <link rel="stylesheet" href="{% static 'css/select_folder.css' %}" />
   </head>
 
   <body>
+     
     <main class="folder main">
       <section class="top">
-        <h1>저장할 폴더 선택하기</h1>
+        <h3>저장할 폴더 선택하기</h3>
         <!--폴더 이름 출력,  이름이 없다면 Root로 설정-->
-        <h1>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</h1>
+        <h3>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</h3>
       </section>
     </main>
 
@@ -31,23 +29,19 @@
     <!--현재 폴더 하위에 있는 폴더 출력-->
     <h3>folder</h3>
 
-    <ul
-      ondrop="drop(event, {% if folder %}{{ folder.id }}{% else %}0{% endif %})"
-      ondragover="allowDrop(event)"
-    >
+    <ul >
       {% for child in children %}
-      <li id="folder-{{ child.id }}" class="draggable" draggable="true">
+      <li>
         <a href="{% url 'quiz:select-folder' child.id %}">{{ child.name }}</a>
       </li>
       {% endfor %}
     </ul>
 
     <h3>file</h3>
-    <ul ondragover="allowDrop(event)">
+    <ul>
       {% for q in folder.quizs.all %}
-      <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
-        {{q.title}} {{q.score}} / {{q.question_num}}
-        <a href="{% url 'quiz:view-questions' folder.id q.id %}">문제보기</a>
+      <li>
+        {{q.title}}
         <!-- <a href="{% url 'quiz:test' folder.id q.id %}">다시풀기</a>
 
                 <a href="{% url 'quiz:view-wrong-questions' folder.id q.id %}">틀린문제만 보기</a>
@@ -159,3 +153,4 @@
   </body>
   {% endblock%}
 </html>
+

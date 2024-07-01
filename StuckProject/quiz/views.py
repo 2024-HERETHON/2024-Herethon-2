@@ -56,9 +56,22 @@ def view_folder(request, folder_id=None):
 
     user = get_object_or_404(User, id=request.user.id)
     custom_user = get_object_or_404(CustomUser, user=user)
-    scraps = ScrapFolder.objects.filter(user=custom_user)
 
-    return render(request, 'quiz/view_folder.html', {'folder': folder, 'children': children, 'path': path, 'scraps': scraps})
+    folder_scraps = ScrapFolder.objects.filter(user=custom_user)
+    quiz_scraps = ScrapQuiz.objects.filter(user=custom_user)
+    question_room_scraps = ScrapQuestionRoom.objects.filter(user=custom_user)
+
+    print(quiz_scraps)
+    context = {
+        'folder': folder,
+        'children': children,
+        'path': path, 
+        'folder_scraps': folder_scraps,
+        'quiz_scraps': quiz_scraps,
+        'question_room_scraps': question_room_scraps
+    }
+    
+    return render(request, 'quiz/view_folder.html', context)
 
 
 # 퀴즈 생성 전 폴더 선택
@@ -79,7 +92,6 @@ def select_folder(request, folder_id=None):
 
 
 # 폴더 추가
-
 def add_folder(request, parent_id):
     if parent_id == 0:
         parent = None
@@ -569,20 +581,19 @@ def save_quiz_as_word(request, folder_id, quiz_id):
     return response
 
 
-# 스크랩
+# 폴더 스크랩
 @login_required
 def add_scrap_folder(request, folder_id):
     folder = get_object_or_404(Folder, id=folder_id)
     user = get_object_or_404(User, id=request.user.id)
-    print("user : " ,user)
     custom_user = get_object_or_404(CustomUser, user=user)
-    print("custom_user : " , custom_user)
+
     ScrapFolder.objects.get_or_create(user=custom_user, folder=folder)
     print(request.user.customuser.scrap_folders)
     return redirect('quiz:folder-view', folder_id=folder.id)
 
 
-# 스크랩 취소
+# 폴더 스크랩 취소
 @login_required
 def remove_scrap_folder(request, folder_id):
     user = get_object_or_404(User, id=request.user.id)
@@ -591,6 +602,30 @@ def remove_scrap_folder(request, folder_id):
     scraps = ScrapFolder.objects.filter(user=custom_user, folder=folder)
     scraps.delete()
     return redirect('quiz:folder-view', folder_id)
+
+
+
+# 퀴즈 스크랩
+def add_scrap_quiz(request, folder_id, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+    
+    ScrapQuiz.objects.get_or_create(user=custom_user, quiz=quiz)
+
+    return redirect('quiz:view-questions', folder_id, quiz.id)
+
+
+# 퀴즈 스크랩 취소
+def remove_scrap_quiz(request, folder_id, quiz_id):
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    
+    scrap_quiz = ScrapQuiz.objects.get(user=custom_user, quiz=quiz)
+    scrap_quiz.delete()
+    
+    return redirect('quiz:view-questions', folder_id, quiz.id)
 
 
 # 드래그 앤 드랍으로 폴더 삭제
