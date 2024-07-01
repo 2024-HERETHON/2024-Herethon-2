@@ -1,4 +1,6 @@
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} 
+{% load static %} 
+{% block content %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,7 +8,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% if folder %}{{ folder.name }}{% else %}Stuck{% endif %}</title>
-    {% extends "base.html" %} {% load static %} {% block content %}
+   
 
     <link rel="stylesheet" href="{% static 'css/select_folder.css' %}" />
   </head>
@@ -21,7 +23,7 @@
     </main>
 
 
-    {% i f folder %}
+    {% if folder %}
     <form method="POST" action="{% url 'quiz:select-folder' folder.id %}">
       {% csrf_token %} {{ path }} <button>폴더 선택</button>
     </form>
@@ -155,5 +157,5 @@
       });
     </script>
   </body>
-
+  {% endblock%}
 </html>
