@@ -54,6 +54,14 @@
 
 
 <h3>q&a</h3>
+<ul  >
+    {% for q in folder.qnas.all %}
+        <li>
+            {{q.title}} 
+         </li>
+    {% endfor %}
+</ul>
+
 
     <br><br>
     <!-- 폴더 생성 시 성공 여부 -->
@@ -95,61 +103,6 @@
 
     <br /><br />
 
-    <script>
-      function drag(event) {
-          event.dataTransfer.setData("text", event.target.id);
-      }
-
-      function allowDrop(event) {
-          event.preventDefault();
-      }
-
-      function drop(event, parentId) {
-          event.preventDefault();
-          var data = event.dataTransfer.getData("text");
-          var test = data.split('-')[0];
-
-          if (test == "quiz") {
-              var quizId = data.split('-')[1];
-              // 드롭한 위치의 가장 가까운 li 요소 찾기
-              var targetElement = event.target.closest('li');
-              // 부모 ID
-              var newCategoryId = targetElement ? targetElement.id.split('-')[1] : '0';
-              console.log(newCategoryId)
-              console.log(quizId)
-              // 현재 경로에서 category id 값 가져오기
-              var currentUrl = window.location.href;
-              var categoryId = currentUrl.match(/folder\/(\d+)\//)[1];
-              console.log(categoryId)
-              // 생성한 퀴즈 이동
-              window.location.href = `/quiz/move/${categoryId}/${quizId}/to/${newCategoryId}/`;
-          }
-          else {
-              var categoryId = data.split('/')[4];
-              // 드롭한 위치의 가장 가까운 li 요소 찾기
-              var targetElement = event.target.closest('li');
-              // 부모 ID 추출
-              var parentId = targetElement ? targetElement.id.split('-')[1] : '0';
-              console.log(data)
-              console.log(categoryId)
-              // 생성한 폴더 이동
-              window.location.href = `/folder/move/${categoryId}/to/${parentId}/`;
-          }
-
-      }
-
-      document.querySelectorAll('.draggable').forEach(function(element) {
-          element.addEventListener('dragstart', drag);
-      });
-
-      document.querySelectorAll('.droppable').forEach(function(element) {
-          element.addEventListener('dragover', allowDrop);
-          element.addEventListener('drop', function(event) {
-              var parentId = {% if folder %}{{ folder.id }}{% else %}0{% endif %};
-              drop(event, parentId);
-          });
-      });
-    </script>
   </body>
   {% endblock%}
 </html>
