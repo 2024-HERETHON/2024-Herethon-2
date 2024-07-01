@@ -603,3 +603,8 @@ def delete_quiz(request, quiz_id):
     folder_id = quiz.folder.id
     quiz.delete()
     return redirect('quiz:folder-view', folder_id)
+
+
+# 폴더 검색 
+# def search_folder(request):
+#    folder_name = 

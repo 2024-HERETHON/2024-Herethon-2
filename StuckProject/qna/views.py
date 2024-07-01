@@ -281,7 +281,7 @@ def delete_question_room(request, question_room_id):
     return redirect('quiz:folder-view', folder_id)
 
 
- 
+ # 드래그 앤 드랍으로 폴더 삭제 
 def move_question_room(request, current_folder_id, question_room_id, move_folder_id):
     questoin_room = get_object_or_404(QuestionRoom, id=question_room_id)
     move_folder = get_object_or_404(Folder, id=current_folder_id)
