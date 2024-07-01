@@ -84,10 +84,10 @@
 
     <!--상위 폴더가 루트 폴더라면-->
     {% if folder.parent == None %}
-    <a href="{% url 'quiz:folder-view' 0 %}">루트 폴더로 이동</a>
+    <a href="{% url 'quiz:select-folder' 0 %}">루트 폴더로 이동</a>
     <!--상위 폴더가 루트 폴더가 아니라면-->
     {% else %}
-    <a href="{% url 'quiz:folder-view' folder.parent.id %}">폴더 뒤로 가기</a>
+    <a href="{% url 'quiz:select-folder' folder.parent.id %}">폴더 뒤로 가기</a>
     {% endif %}
 
 
