@@ -29,7 +29,7 @@
     <ul >
       {% for child in children %}
       <li>
-        {{ child.name }}
+        <a href="{% url 'quiz:select-folder' child.id %}">{{ child.name }}</a>
       </li>
       {% endfor %}
     </ul>

@@ -7,6 +7,14 @@
 </head>
 <body>
     <h1>Quiz Results</h1>
+
+    <!-- 퀴즈 스크랩 -->
+    {% if not quiz in request.user.customuser.scrap_quizs.all %}
+        <a href="{% url 'quiz:add-scrap-quiz' folder_id quiz.id %}">폴더 스크랩하기</a>
+        {% else %}
+        <a href="{% url 'quiz:cancel-scrap-quiz' folder_id quiz.id %}">스크랩 취소</a>
+    {% endif %}
+
     <p>총 {{ total_questions }} 문제 중 {{ correct_count }} 문제를 맞추셨습니다.</p>
     <a href="{% url 'quiz:folder-view' folder_id %}">돌아가기</a>
     
