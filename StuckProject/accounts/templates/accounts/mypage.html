@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h5>나의 정보</h5>
+
+    <form method="POST">
+        {% csrf_token %}
+        한줄 다짐 : <input type="text" value="{{ request.user.customuser.nickname }}" name="nickname"><br>
+        별명 : <input type="text" value="{{ request.user.customuser.resolution }}" name="resolution"><br>
+        한줄 소개 : <input type="text" value=" {{ request.user.customuser.introduce }}" name="introduce" placeholder="한줄소개를 적어주세요"><br>
+        <button>저장하기</button>
+    </form>
+
+    <h5>나의 목표</h5>
+</body>
+</html>
+
+{% endblock %}

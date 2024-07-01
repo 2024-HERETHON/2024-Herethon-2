@@ -46,3 +46,15 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect('quiz:home')
+
+
+
+# 마이페이지 - 본인 정보 수정 
+def mypage(request):
+    if request.method == "POST":
+        request.user.customuser.nickname = request.POST['nickname']
+        request.user.customuser.resolution = request.POST['resolution']
+        request.user.customuser.introduce = request.POST['introduce']
+        request.user.customuser.save()
+
+    return render(request, 'accounts/mypage.html')
