@@ -63,12 +63,19 @@
     <!-- 스크랩 항목 조회 -->
     <h3>즐겨찾기</h3>
     <ul>
+        <!-- 폴더 스크랩 정보 -->
         {% for scrap in folder_scraps %}
             <li>{{ scrap.folder.name }} - <a href="{% url 'quiz:folder-view' folder_id=scrap.folder.id %}">폴더 보기</a></li>
         {% endfor %}
 
+        <!-- 퀴즈 스크랩 정보 -->
         {% for scrap in quiz_scraps %}
-        <li>{{ scrap.quiz.title }} - <a href="">퀴즈 보기</a></li>
+        <li>{{ scrap.quiz.title }} - <a href="{% url 'quiz:view-questions' folder.id scrap.quiz.id %}">퀴즈 보기</a></li>
+        {% endfor %}
+
+        <!-- 질문 스크랩 정보 -->
+        {% for scrap in question_room_scraps %}
+        <li>{{ scrap.question_room.title }} - <a href="{% url 'qna:enter-question-room' folder.id scrap.question_room.id %}">질문 보기</a></li>
         {% endfor %}
     </ul>
 

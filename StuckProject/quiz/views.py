@@ -56,16 +56,21 @@ def view_folder(request, folder_id=None):
 
     user = get_object_or_404(User, id=request.user.id)
     custom_user = get_object_or_404(CustomUser, user=user)
+
     folder_scraps = ScrapFolder.objects.filter(user=custom_user)
     quiz_scraps = ScrapQuiz.objects.filter(user=custom_user)
+    question_room_scraps = ScrapQuestionRoom.objects.filter(user=custom_user)
+
     print(quiz_scraps)
     context = {
         'folder': folder,
         'children': children,
         'path': path, 
         'folder_scraps': folder_scraps,
-        'quiz_scraps': quiz_scraps
+        'quiz_scraps': quiz_scraps,
+        'question_room_scraps': question_room_scraps
     }
+    
     return render(request, 'quiz/view_folder.html', context)
 
 

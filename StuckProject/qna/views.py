@@ -296,3 +296,29 @@ def move_question_room(request, current_folder_id, question_room_id, move_folder
     questoin_room.save()
 
     return redirect('quiz:folder-view', folder_id=move_folder_id)
+
+
+# 질문 방 스크랩
+def add_scrap_question_room(request, folder_id, question_room_id):
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+
+    question_room = get_object_or_404(QuestionRoom, id=question_room_id)
+    
+    ScrapQuestionRoom.objects.get_or_create(user=custom_user, question_room=question_room)
+    
+    return redirect('qna:enter-question-room', folder_id, question_room.id)
+
+
+# 질문 방 스크랩 취소
+def remove_scrap_question_room(request, folder_id, question_room_id):
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+
+    question_room = get_object_or_404(QuestionRoom, id=question_room_id)
+    
+    scrap_question_room = ScrapQuestionRoom.objects.get(user=custom_user, question_room=question_room)
+    scrap_question_room.delete()
+
+    return redirect('qna:enter-question-room', folder_id, question_room.id)
+
