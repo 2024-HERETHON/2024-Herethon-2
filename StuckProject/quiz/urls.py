@@ -32,4 +32,7 @@ urlpatterns = [
     # 삭제
     path('folder/delete/<int:folder_id>/', delete_folder, name='delete-folder'),
     path('quiz/delete/<int:quiz_id>/', delete_quiz, name='delete-quiz'),
+
+    # 최근 열어본 퀴즈
+    
 ]

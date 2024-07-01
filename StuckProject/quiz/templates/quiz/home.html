@@ -300,18 +300,26 @@
                 <div class="side">
                     <div class="scrap">
                         <div class="subtitle">즐겨찾기</div>
-                        <ul class="scrap-list">
-                            <li class="scrap-list1">기획의 첫걸음</li>
-                            <li class="scrap-list2">기획의 첫걸음</li>
-                            <li class="scrap-list3">기획의 첫걸음</li>
+        
+                        <ul  class="scrap-list">
+                            {% for scrap in scraps %}
+                                <li class="scrap-list1"><a href="{% url 'quiz:folder-view' folder_id=scrap.folder.id %}">{{ scrap.folder.name }}</a></li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <div class="recent">
                         <div class="subtitle">최근 열어본 문서</div>
-                        <ul class="scrap-list">
-                            <li class="scrap-list1">기획의 첫걸음</li>
-                            <li class="scrap-list2">기획의 첫걸음</li>
 
+                        <ul class="scrap-list">
+                            {% for doc in documents %}
+                                <li class="scrap-list1">
+                                    {% if doc.type == 'quiz' %}
+                                        <a href="{% url 'quiz:quiz-results' doc.folder_id doc.obj.id %}">[퀴즈] {{ doc.obj.title }}</a>
+                                    {% elif doc.type == 'questionroom' %}
+                                        <a href="{% url 'qna:enter-question-room' doc.folder_id doc.obj.id %}">[질문 방] {{ doc.obj.title }}</a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -329,6 +337,8 @@
     </main>
 
 
+
+    
 </body>
 {% endblock %}
 

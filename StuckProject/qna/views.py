@@ -130,6 +130,26 @@ def extract_text_from_image(image_file_path):
 # Q&A Room 입장
 def enter_question_room(request, folder_id, question_room_id):
     question_room = get_object_or_404(QuestionRoom, id=question_room_id)
+
+    # 최근 열어본 문서 추가
+    content_type = 'questionroom'
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+
+    # 기록에 이미 있다면 삭제 
+    RecentDocument.objects.filter(content_type=content_type, object_id=question_room.id, user=custom_user).delete()
+
+    RecentDocument.objects.get_or_create(
+        content_type=content_type, 
+        object_id=question_room.id, 
+        user=custom_user
+    )
+
+    # 최근 열어본 문서가 5개를 초과하면 가장 오래된 항목을 제거
+    recent_docs = custom_user.recent_documents_from_user.all()
+    if recent_docs.count() > 5:
+        recent_docs.last().delete()
+
     if request.method == "POST":
         user_question = request.POST['user_question']
         file_path = question_room.file.path
@@ -306,7 +326,7 @@ def add_scrap_question_room(request, folder_id, question_room_id):
     question_room = get_object_or_404(QuestionRoom, id=question_room_id)
     
     ScrapQuestionRoom.objects.get_or_create(user=custom_user, question_room=question_room)
-    
+
     return redirect('qna:enter-question-room', folder_id, question_room.id)
 
 
