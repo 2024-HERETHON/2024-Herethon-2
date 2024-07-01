@@ -3,6 +3,7 @@ main {
     margin: 0 auto;
 }
 
+
 .top {
     display: flex;
     justify-content: center;
@@ -280,6 +281,11 @@ main {
 .scrap .subtitle, .recent .subtitle{
     margin-left: 10px;
     color: #757575;
+}
+a{
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
 }
 .bottom {
     width: 100%;
