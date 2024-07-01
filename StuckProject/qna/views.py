@@ -78,14 +78,13 @@ def create_question_room(request, folder_id):
         file = request.FILES.get('file')
         title = request.POST['title']
         folder = get_object_or_404(Folder, id=folder_id)
-        user = get_object_or_404(User, id=request.user.id)
-
-        custom_user = get_object_or_404(CustomUser, user=user)
+        # user = get_object_or_404(User, id=request.user.id)
+        #  custom_user = get_object_or_404(User, id=request.user)
 
         question_room = QuestionRoom.objects.create(
             file=file,
             title=title,
-            user=custom_user,
+            user=request.user,
             folder=folder,
             memo=""
         )
