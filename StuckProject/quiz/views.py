@@ -30,18 +30,17 @@ from docx import Document
 
 # 메인페이지
 def home(request):
-    if not request.user.is_authenticated:
-        return render(request, 'quiz/home.html')
 
-    user = get_object_or_404(User, id=request.user.id)
-    custom_user = get_object_or_404(CustomUser, user=user)
-    scraps = ScrapFolder.objects.filter(user=custom_user)
+    # quizs = Quiz.objects.all()
+    # user = get_object_or_404(User, id=request.user.id)
+    # custom_user = get_object_or_404(CustomUser, user=user)
+    # scraps = ScrapFolder.objects.filter(user=custom_user)
 
-    context = {
-        'scraps': scraps
-    }
+    # context = {
+    #     'scraps': scraps
+    # }
+    return render(request, 'quiz/home.html')
 
-    return render(request, 'quiz/home.html', context)
 
 # 폴더 조회
 @login_required

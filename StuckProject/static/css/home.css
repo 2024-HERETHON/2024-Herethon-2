@@ -8,8 +8,8 @@ main {
     justify-content: center;
     height: 550px;
     overflow: hidden;
-    margin: 0 auto;
-    margin-top: 80px;
+    margin: 80px auto;
+    
 }
 
 .tag,
@@ -130,6 +130,7 @@ main {
 .middle {
     height: fit-content;
     padding-bottom: 20px;
+   
 }
 
 .middle-sec {
@@ -180,7 +181,9 @@ main {
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+
+    padding: 0;
+    margin: 0;
 }
 
 .week-cal {
@@ -238,17 +241,36 @@ main {
 .cal_btn {
     cursor: pointer;
 }
-
+.side{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    
+}
+.scrap, .recent{
+    margin-bottom: 20px;
+    line-height: 30px;
+    width: 240px;
+    height: fit-content;
+    padding: 20px;
+    border-radius: 20px;
+    border:1px solid #F1F1F1;
+}
+.scrap .subtitle, .recent .subtitle{
+    margin-left: 10px;
+    color: #757575;
+}
 .bottom {
     width: 100%;
-    margin: 0 auto;
+    margin: 100px auto;
     height: 100px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    
 }
 
 .bottom button {
-
+    
     background-color: #09A8FA;
     color: white;
     width: 588px;

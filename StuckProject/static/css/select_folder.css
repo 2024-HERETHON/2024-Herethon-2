@@ -1,0 +1,10 @@
+main {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.top {
+  display: flex;
+  background-color: #f1f1f1;
+  height: 160px;
+}

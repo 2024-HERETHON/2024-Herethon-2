@@ -80,3 +80,54 @@ body{
     background-color: rgba(0, 0, 0, 0);
     border: none;
 }
+.main-footer{
+    height: 340px;
+    
+}
+.inner{
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 30px;
+    display: flex;
+    border-top: 2px solid rgba(0, 0, 0, 0.2);
+}
+.left-sec{
+    margin: 30px 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    
+}
+.right-sec{
+    margin: 30px 0;
+    flex: 1;
+    display: flex;
+}
+.f-logo{
+    margin-bottom: 30px ;
+    flex: 1;
+}
+.f-logo img{
+    width: 143px;
+}
+.info p{
+    line-height: 20px;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+}
+.copyright{
+    flex: 1;
+    padding-top: 30px;
+}
+.info-list{
+    width: 300px;
+    line-height: 30px;
+}
+.sns{
+    justify-content: end;
+}
+.sns img{
+    width: 24px;
+    margin: 10px;
+}
