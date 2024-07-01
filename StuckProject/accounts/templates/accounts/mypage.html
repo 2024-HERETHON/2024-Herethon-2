@@ -5,17 +5,22 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+    <script src="{% static 'js/mypage.js' %}" defer></script>
 </head>
+
 <body>
     <h5>나의 정보</h5>
     <p>{{ request.user.username }} > </p>
     <form method="POST">
         {% csrf_token %}
         한줄 다짐 : <input type="text" value="{{ request.user.customuser.resolution }}" name="resolution"><br>
+
         별명 : {{ request.user.customuser.nickname }}
         <select name="nickname">
             <option value="끈기 있는 마에스트로" {% if request.user.customuser.nickname == "끈기 있는 마에스트로" %} selected {% endif %}>끈기 있는 마에스트로</option>
@@ -25,11 +30,332 @@
             <option value="묵묵한 달인" {% if request.user.customuser.nickname == "묵묵한 달인" %} selected {% endif %}>묵묵한 달인</option>
         </select> <br>    
         한줄 소개 : <input type="text" value="{{ request.user.customuser.introduce }}" name="introduce" placeholder="한줄소개를 적어주세요"><br>
+
         <button>저장하기</button>
     </form>
 
     <h5>나의 목표</h5>
+    <main class="mypage-main">
+        <h3>나의 정보</h3>
+        <section class="profile">
+            <div class="name">
+                <h4>김똑똑<img src="{% static 'img/right_allow.png' %}" alt="right_allow"></h4>
+            </div>
+            <section class="pro-sc1">
+                <div class="profile-img">
+                    <img src="{% static 'img/profile.png' %}">
+                </div>
+                <div class="ment">
+                    <div class="mention">
+                      <h6 class="gray">한 줄 다짐</h6>  
+                      <div class="round-box">
+                        <p>시작하기 위해 위대해질 필요는 없지만 위대해지기 위해서는 시작해야 합니다.</p>
+                      </div>
+                    </div>
+                    <div class="nickname">
+                        <h6 class="gray">별명</h6>
+                        
+                        <select name="nickname round-box">
+                            
+                            <option value="끈기 있는 마에스트로" {% if request.user.customuser.nickname == "끈기 있는 마에스트로" %}selected{% endif %}>끈기
+                                있는 마에스트로</option>
+                            <option value="열정의 천재" {% if request.user.customuser.nickname == "열정의 지니어스" %}selected{% endif %}>열정의 천재
+                            </option>
+                            <option value="성실한 지니어스" {% if request.user.customuser.nickname == "성실한 천재" %} selected {% endif %}>성실한 지니어스
+                            </option>
+                            <option value="노력의 귀재" {% if request.user.customuser.nickname == "노력의 귀재" %}selected{% endif %}>노력의 귀재
+                            </option>
+                            <option value="묵묵한 달인" {% if request.user.customuser.nickname == "묵묵한 달인" %}selected{% endif %}>묵묵한 달인
+                            </option>
+                            
+                        </select>
+                        <img src="{% static 'img/select.png' %}" alt="select" >
+                    </div>
+
+                </div>
+            </section>
+            <section class="pro-sc2">
+                <h6 class="gray">한 줄 소개</h6>
+                <p class="textarea">
+                    여기대학교 5학기
+                </p>
+            </section>
+            <button class="set">수정하기</button>
+        </section>
+
+        <div class="empty"></div>
+        <div class="empty"></div>
+
+        <h3>나의 목표</h3>
+        <section class="cal">
+            <h4 class="title-date"> <span class="year"></span>년 <span class="month"></span>월</h4>
+                <div class="calender">
+                    
+                    <button class="cal_btn ">주</button>
+                    <button type="button" class="right-btn">
+                        <img src="{% static 'img/right_allow.png' %}">
+                    </button>
+                    <button type="button" class="left-btn">
+                        <img src="{% static 'img/left_allow.png' %}">
+                    </button>
+                    
+
+                    <ul class="week-cal display">
+                        <li class="sun">
+                            <h6>일</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="mon">
+                            <h6>월</h6>
+                            <div class=" check-todo blue">
+                                <span class="count-todo">5</span>
+                            </div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="tue">
+                            <h6>화</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="wed">
+                            <h6>수</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="thu">
+                            <h6>목</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="fri">
+                            <h6>금</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                        <li class="sat">
+                            <h6>토</h6>
+                            <div class="check-todo gray"></div>
+                            <h6 class="day"></h6>
+                        </li>
+                    </ul>
+                    <div class="todo display">
+                        <div class="btn">
+                            <button class="add-routine">루틴 추가
+                                <img src="{% static 'img/add.png' %}" alt="add_btn" >
+                            </button>
+                        </div>
+                        <div class="input_todo">
+                            <input type="text" placeholder="루틴을 입력해주세요." class="input_routine">
+                            <img src="{% static 'img/add_w.png' %}" alt="add_btn">
+                        </div>
+                        
+                        <div class="category">
+                            <button class="add-todo">
+                                <span>경영학</span>
+                                <img src="{% static 'img/add.png' %}" alt="add_btn" >
+                            </button>
+                        </div>
+
+                       
+                        <div class="todolist">
+                            
+                        </div>
+                    </div>
+                    <wrap class="month-cal nodisplay">
+                        <ul class="week-cal">
+                            <li class="sun">
+                                <h6>일</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="mon">
+                                <h6>월</h6>
+                                <div class="check-todo blue">5</div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="tue">
+                                <h6>화</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="wed">
+                                <h6>수</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="thu">
+                                <h6>목</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="fri">
+                                <h6>금</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="sat">
+                                <h6>토</h6>
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                        </ul>
+                        <ul class="week-cal">
+                            <li class="sun">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="mon">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="tue">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="wed">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="thu">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="fri">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="sat">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                        </ul>
+                        <ul class="week-cal">
+                            <li class="sun">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="mon">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="tue">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="wed">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="thu">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="fri">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="sat">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                        </ul>
+                        <ul class="week-cal">
+                            <li class="sun">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="mon">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="tue">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="wed">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="thu">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="fri">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="sat">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                        </ul>
+                        <ul class="week-cal">
+                            <li class="sun">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="mon">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="tue">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="wed">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="thu">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="fri">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                            <li class="sat">
+                                <div class="check-todo gray"></div>
+                                <h6 class="m-day"></h6>
+                            </li>
+                        </ul>
+                                    
+                </div>
+                
+        </section>
+        <div class="empty"></div>
+                        
+    </main>
 </body>
+<script>
+    //static 경로를 못찾아서 투두 관련 스크립트는 html 내에 작성함.
+    const InputCategory = document.querySelector(".input_routine");
+    const addbtn = document.querySelector(".add-routine");
+    const Todo = document.querySelector(".todo");
+
+    addbtn.addEventListener('click', () => {
+        if(InputCategory.value == ''){
+            alert('루틴 이름을 입력해주세요.');
+            return;
+        }
+        
+        const category =document.createElement('div');
+        category.classList.add('category');
+
+        const button = document.createElement('button');
+        button.innerHTML = `<span>`+ InputCategory.value +`</span>` + ` <img src="{% static 'img/add.png' %}" alt="add_btn" >`;
+        button.classList.add('add-todo');
+
+        category.appendChild(button);
+
+        Todo.appendChild(category);
+         InputCategory.value='';
+
+        
+    })
+</script>
+
 </html>
 
 {% endblock %}
