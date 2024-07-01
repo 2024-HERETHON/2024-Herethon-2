@@ -30,16 +30,42 @@ from docx import Document
 
 # 메인페이지
 def home(request):
+    if not request.user.is_authenticated:
+         return render(request, 'quiz/home.html')
 
-    # quizs = Quiz.objects.all()
-    # user = get_object_or_404(User, id=request.user.id)
-    # custom_user = get_object_or_404(CustomUser, user=user)
-    # scraps = ScrapFolder.objects.filter(user=custom_user)
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
 
-    # context = {
-    #     'scraps': scraps
-    # }
-    return render(request, 'quiz/home.html')
+    # 스크랩 정보
+    scraps = ScrapFolder.objects.filter(user=custom_user)
+
+    # 최근 열어본 문서
+    recent_docs = custom_user.recent_documents_from_user.all()[:5]
+
+    documents = []
+    for doc in recent_docs:
+        if doc.content_type == 'quiz':
+            obj = get_object_or_404(Quiz, id=doc.object_id)
+            folder_id = obj.folder.id
+            documents.append({
+                'type': 'quiz',
+                'obj': obj,
+                'folder_id': folder_id
+            })
+        elif doc.content_type == 'questionroom':
+            obj = get_object_or_404(QuestionRoom, id=doc.object_id)
+            folder_id = obj.folder.id
+            documents.append({
+                'type': 'questionroom',
+                'obj': obj,
+                'folder_id': folder_id
+            })
+    context = {
+         'scraps': scraps,
+         'documents': documents
+    }
+
+    return render(request, 'quiz/home.html', context)
 
 
 # 폴더 조회
@@ -70,7 +96,7 @@ def view_folder(request, folder_id=None):
         'quiz_scraps': quiz_scraps,
         'question_room_scraps': question_room_scraps
     }
-    
+
     return render(request, 'quiz/view_folder.html', context)
 
 
@@ -373,6 +399,25 @@ def view_questions(request, folder_id, quiz_id):
         'total_questions': total_questions,
         'folder_id':folder_id
     }
+
+    # 최근 열어본 문서 추가
+    content_type = 'quiz'
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+
+    # 기존 이미 있다면 삭제 
+    RecentDocument.objects.filter(content_type=content_type, object_id=quiz.id, user=custom_user).delete()
+
+    RecentDocument.objects.create(
+        content_type=content_type, 
+        object_id=quiz.id, 
+        user=custom_user
+    )
+
+    # 최근 열어본 문서가 5개를 초과하면 가장 오래된 항목을 제거
+    recent_docs = custom_user.recent_documents_from_user.all()
+    if recent_docs.count() > 5:
+        recent_docs.last().delete()
 
     return render(request, 'quiz/results.html', context)
 

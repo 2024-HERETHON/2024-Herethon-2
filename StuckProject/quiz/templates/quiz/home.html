@@ -319,6 +319,20 @@
     </main>
 
 
+    <!-- 최근 열어본 문서 -->
+    <h3>최근 열어본 문서</h3>
+    <ul>
+        {% for doc in documents %}
+            <li>
+                {% if doc.type == 'quiz' %}
+                    <a href="{% url 'quiz:quiz-results' doc.folder_id doc.obj.id %}">퀴즈: {{ doc.obj.title }}</a>
+                {% elif doc.type == 'questionroom' %}
+                    <a href="{% url 'qna:enter-question-room' doc.folder_id doc.obj.id %}">질문 방: {{ doc.obj.title }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    
 </body>
 {% endblock %}
 

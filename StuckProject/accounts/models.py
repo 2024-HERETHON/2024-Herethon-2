@@ -11,6 +11,8 @@ class CustomUser(models.Model):
     scrap_folders = models.ManyToManyField(Folder, through='ScrapFolder', related_name='folder_scrapped_by')
     scrap_quizs = models.ManyToManyField(Quiz, through="ScrapQuiz", related_name="quiz_scrapped_by")
     scrap_question_rooms = models.ManyToManyField(QuestionRoom, through="ScrapQuestionRoom", related_name="question_room_scrapped_by")
+    recent_documents = models.ManyToManyField('RecentDocument', related_name='recent_documents_for_user', blank=True)
+
 
 # 폴더 스크랩 
 class ScrapFolder(models.Model):
@@ -47,7 +49,7 @@ class RecentDocument(models.Model):
     content_type = models.CharField(max_length=50)
     object_id = models.PositiveIntegerField() # 최근 열어본 문서가 Quiz 객체나 QuestionRoom 객체가 돌 수
     created_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='recent_documents')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='recent_documents_from_user')
 
     class Meta:
         ordering = ['-created_at']
