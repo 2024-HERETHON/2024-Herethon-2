@@ -26,7 +26,7 @@ a:hover {
 }
 
 .main {
-  width: 80%;
+  width: 1280px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -116,14 +116,31 @@ h4 {
 .title {
   color: #3b3b3b;
 }
-
+.folder-title img{
+  width: 21px;
+  height: 36px;
+}
+.scrap{
+  margin: 0 auto;
+}
+.error{
+  position: absolute;
+  margin-top: 73px;
+  margin-left: -120px;
+  font-size: 14px;
+  
+}
 .find {
   display: flex;
   align-items: center;
-  width: 700px;
+  width: 100%;
 }
+.bf_select .path-title{
+  color: #3b3b3b;
 
-.find .sc1, .find .sc2 {
+  background-color: rgba(0, 0, 0, 0);
+}
+.find .sc1 a, .find .sc2 {
   display: flex;
   margin: 20px;
   width: fit-content;
