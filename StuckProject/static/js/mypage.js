@@ -1,7 +1,5 @@
-
 document.addEventListener("DOMContentLoaded", function () {
 
-  
     //프로필 수정
     const setbtn = document.querySelector(".set");
     const savebtn = document.querySelector(".save");
