@@ -70,8 +70,8 @@ def home(request, week_offset=0):
     todos = ToDo.objects.filter(routine__in=routines)
 
     today = date.today() + timedelta(weeks=week_offset)
-    start_of_week = today - timedelta(days=today.weekday())  # Monday
-    end_of_week = start_of_week + timedelta(days=6)  # Sunday
+    start_of_week = today - timedelta(days=(today.weekday() + 1) % 7)  # Sunday
+    end_of_week = start_of_week + timedelta(days=6)  # Saturday
 
     week_days = []
     for i in range(7):
@@ -123,6 +123,7 @@ def home(request, week_offset=0):
     }
 
     return render(request, 'quiz/home.html', context)
+
 
 
 # 폴더 조회

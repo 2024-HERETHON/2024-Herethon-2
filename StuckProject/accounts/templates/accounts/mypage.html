@@ -88,43 +88,15 @@
                     
 
                     <ul class="week-cal display">
-                        <li class="sun">
-                            <h6>일</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
-                        <li class="mon">
-                            <h6>월</h6>
-                            <div class=" check-todo blue">
-                                <span class="count-todo">5</span>
+                        {% for day in week_days %}
+                        <li class="{{ day.day_name|lower }}">
+                            <h6>{{ day.day_name }}</h6>
+                            <div class="check-todo {{ day.color }}">
+                                <span class="count-todo">{{ day.todo_count }}</span>
                             </div>
-                            <h6 class="day"></h6>
+                            <h6 class="day">{{ day.date }}</h6>
                         </li>
-                        <li class="tue">
-                            <h6>화</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
-                        <li class="wed">
-                            <h6>수</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
-                        <li class="thu">
-                            <h6>목</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
-                        <li class="fri">
-                            <h6>금</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
-                        <li class="sat">
-                            <h6>토</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
+                        {% endfor %}
                     </ul>
                     <div class="todo display">
                         <div class="btn">
@@ -133,16 +105,18 @@
                             </button>
                         </div>
                         <div class="input_todo">
-                            <input type="text" placeholder="루틴을 입력해주세요." class="input_routine">
+                            <form action="POST">
+                                <input type="text" placeholder="루틴을 입력해주세요." class="input_routine">
                             <img src="{% static 'img/add_w.png' %}" alt="add_btn">
-                        </div>
-                        
+                            </div>
+                            </form>
                         <div class="category">
                             <button class="add-todo">
                                 <span>경영학</span>
                                 <img src="{% static 'img/add.png' %}" alt="add_btn" >
                             </button>
                         </div>
+                        
 
                        
                         <div class="todolist">

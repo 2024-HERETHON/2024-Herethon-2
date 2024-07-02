@@ -1,5 +1,7 @@
-from django.shortcuts import render, redirect
+from datetime import date, timedelta
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import CustomUser
+from todo.models import Routine, ToDo
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 
@@ -57,4 +59,37 @@ def mypage(request):
         request.user.customuser.introduce = request.POST['introduce']
         request.user.customuser.save()
 
-    return render(request, 'accounts/mypage.html')
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+
+    # 루틴 및 투두 정보
+    routines = Routine.objects.filter(user=custom_user)
+    todos = ToDo.objects.filter(routine__in=routines)
+
+    # Calculate the current week
+    today = date.today()
+    start_of_week = today - timedelta(days=(today.weekday() + 1) % 7)  # Sunday
+    end_of_week = start_of_week + timedelta(days=6)  # Saturday
+    
+    week_days = []
+    for i in range(7):
+        day = start_of_week + timedelta(days=i)
+        day_name = day.strftime('%a')
+        day_todos = todos.filter(date=day)
+        completed_count = day_todos.filter(completed=True).count()
+        pending_count = day_todos.filter(completed=False).count()
+        color = "blue" if completed_count > 0 else "gray"
+        week_days.append({
+            'day_name': day_name,
+            'date': day.day,
+            'todo_count': pending_count,
+            'completed_count': completed_count,
+            'color': color
+        })
+
+    context = {
+        'week_days': week_days,
+        'today': today,
+    }
+
+    return render(request, 'accounts/mypage.html', context)
