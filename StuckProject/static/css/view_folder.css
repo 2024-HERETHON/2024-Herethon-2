@@ -20,7 +20,7 @@ a:hover {
   width: 1120px;
   height: 153px;
   padding: 40px;
-  border: 1px solid #f1f1f1;
+  border: 2px solid #D8D8D8;
   border-radius: 20px;
   color: #3b3b3b;
 }
@@ -70,13 +70,24 @@ h4 {
 
 #trash-bin p {
   font-size: 20px;
-  line-height: 80px;
-}
 
+  line-height:180px;
+  font-weight: bold;
+  color: #757575;
+}
+.rootpath{
+  color: #757575;
+
+}
+.path-title{
+  margin-left: 0;
+  padding-left: 0;
+}
 .delete p {
   font-size: 12px;
   color: #3b3b3b;
-  margin-top: -25px;
+  margin-top: -75px;
+
 }
 
 .top {
