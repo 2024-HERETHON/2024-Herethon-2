@@ -30,7 +30,7 @@
                 <div class="ment">
                     <h5>{{ request.user.customuser.resolution }}</h5>
                 </div>
-                <div class="empty"></div>
+                <div class="empty" style="height: 20px;"></div>
                 <div class="graph">
                     <div class="month-goal">
                         <h5 class="date-month">{{ current_year }}년 {{ current_month }}월 <span id="h6">의 월간 목표달성률</span> {{ month_completion_rate }}%</h5>
@@ -54,7 +54,7 @@
             </div>
         </section>
         <section class="middle">
-            <div class="empty"></div>
+            <div class="empty" style="height: 50px;"></div>
             <wrap class="middle-sec">
                 <div class="calender">
                     <h4 class="title-date">{{ week_month }}</h4>
@@ -329,11 +329,17 @@
         <a href="{% url 'qna:select-folder' 0 %}"><button class="btn-qna">교재 내용 질문하기</button></a>
     </section>
     {% else %}
-    로그인을 진행해주세요
+    
+    <img class="landing" src="{% static 'img/landing.svg' %}">
+    .empty
     {% endif %}
 </main>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        window.scrollTo({
+        top: 0,
+        behavior: 'smooth' 
+    });
         const prevButton = document.querySelector(".left-btn");
         const nextButton = document.querySelector(".right-btn");
 

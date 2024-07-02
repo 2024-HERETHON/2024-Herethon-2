@@ -2,6 +2,9 @@ main {
     width: 1305px;
     margin: 0 auto;
 }
+.landing{
+    width: 100%;
+}
 .navbar .nav-home * {
     color: #09A8FA;
 }
@@ -55,7 +58,7 @@ main {
     flex-direction: column;
     background-color: #F1F1F1;
     width: 280px;
-    height: 550px;
+    height: 380px;
     border-radius: 20px;
 }
 
@@ -97,7 +100,7 @@ main {
 }
 
 .progress-container {
-    width: 575px;
+    width: 900px;
     background-color: #F1F1F1;
     border-radius: 25px;
     overflow: hidden;
