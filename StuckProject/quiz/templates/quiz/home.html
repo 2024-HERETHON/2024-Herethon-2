@@ -10,14 +10,7 @@
     <title>STOCK</title>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <script src="{% static 'js/home.js' %}" defer></script>
-    <style>
-        .today {
-            font-weight: bold;
-            background-color: #09A8FA;
-            padding: 5px; 
-            border-radius: 30px;
-        }
-    </style>
+   
 </head>
 <body>
     <main class="home-main">
@@ -65,10 +58,10 @@
                 <div class="calender">
                     <h4 class="title-date">{{ week_month }}</h4>
                     <button class="cal_btn ">주</button>
-                    <button type="button" class="right btn">
+                    <button type="button" class="right-btn">
                         <img src="{% static 'img/right_allow.png' %}">
                     </button>
-                    <button type="button" class="left btn">
+                    <button type="button" class="left-btn">
                         <img src="{% static 'img/left_allow.png' %}">
                     </button>
                     <ul class="week-cal display">
@@ -79,166 +72,202 @@
                                 <span class="count-todo">{{ day.todo_count }}</span>
                             </div> 
                             <!-- <h6 class="day">{{ day.date }}</h6> -->
-                            <h6 {% if day.date == today_day %}class="today"{% endif %}>{{ day.date }}</h6>
+                            <h6 {% if day.date == today_day %}class="today-mark"{% endif %}>{{ day.date }}</h6>
                         </li>
                         {% endfor %}
                     </ul>
                     <wrap class="month-cal nodisplay">
+                                
                         <ul class="week-cal">
                             <li class="sun">
                                 <h6>일</h6>
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="mon">
                                 <h6>월</h6>
-                                <div class="check-todo gray"><h6 class="m-day"></h6></div>
-                                
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="tue">
                                 <h6>화</h6>
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="wed">
                                 <h6>수</h6>
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="thu">
                                 <h6>목</h6>
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="fri">
                                 <h6>금</h6>
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="sat">
                                 <h6>토</h6>
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                         </ul>
                         <ul class="week-cal">
                             <li class="sun">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="mon">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="tue">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="wed">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="thu">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="fri">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="sat">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                         </ul>
                         <ul class="week-cal">
                             <li class="sun">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="mon">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="tue">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="wed">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="thu">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="fri">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="sat">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                         </ul>
                         <ul class="week-cal">
                             <li class="sun">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="mon">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="tue">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="wed">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="thu">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="fri">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="sat">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                         </ul>
                         <ul class="week-cal">
                             <li class="sun">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="mon">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="tue">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="wed">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="thu">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="fri">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                             <li class="sat">
-                                <div class="check-todo gray"></div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo ">
+                                    <h6 class="m-day"></h6>
+                                </div>
                             </li>
                         </ul>
                     </wrap>
