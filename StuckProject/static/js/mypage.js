@@ -74,9 +74,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                  // 오늘 날짜 마킹
                  if (date.toDateString() === today.toDateString()) {
-                    dayElement.classList.add('today-mark');
+                    dayElement.classList.add('todaymark');
                 } else {
-                    dayElement.classList.remove('today-mark');
+                    dayElement.classList.remove('todaymark');
                 }
 
                 dayElement.style.display = 'block';

@@ -48,9 +48,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // 오늘 날짜 마킹
                 if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
-                    dayElement.classList.add('today-mark');
+                    dayElement.classList.add('todaymark');
                 } else {
-                    dayElement.classList.remove('today-mark');
+                    dayElement.classList.remove('todaymark');
                 }
 
                 dayElement.style.display = 'block';
