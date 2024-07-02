@@ -23,17 +23,18 @@ def todo_list(request):
                 routine = routine_form.save(commit=False)
                 routine.user = custom_user
                 routine.save()
-                return redirect('todo:todo_list')
+                return redirect('accounts:my-page')
         
         # 할일 추가
         elif 'todo_submit' in request.POST:
+            print("todo_submit")
             if todo_form.is_valid():
                 routine_id = request.POST.get('routine_id')
                 routine = get_object_or_404(Routine, id=routine_id)
                 todo = todo_form.save(commit=False)
                 todo.routine = routine
                 todo.save()
-                return redirect('todo:todo_list')
+                return redirect('accounts:my-page')
     else:
         routine_form = RoutineForm()
         todo_form = ToDoForm()
@@ -43,6 +44,9 @@ def todo_list(request):
     total_todos = todos.count()
     completed_todos = todos.filter(completed=True).count()
     completion_rate = (completed_todos / total_todos * 100) if total_todos > 0 else 0
+
+    return redirect('accounts:my-page')
+
 
     return render(request, 'todo/todo_list.html', {
         'routine_form': routine_form,
@@ -58,4 +62,4 @@ def complete_todo(request, pk):
     todo = get_object_or_404(ToDo, pk=pk)
     todo.completed = True
     todo.save()
-    return redirect('todo:todo_list')
+    return redirect('accounts:my-page')

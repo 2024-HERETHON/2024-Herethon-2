@@ -4,6 +4,7 @@ from .models import CustomUser
 from todo.models import Routine, ToDo
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from todo.forms import RoutineForm, ToDoForm
 
 
 # Create your views here.
@@ -52,25 +53,32 @@ def logout(request):
 
 
 # 마이페이지 - 본인 정보 수정 
-def mypage(request):
-    if request.method == "POST":
-        request.user.customuser.nickname = request.POST['nickname']
-        request.user.customuser.resolution = request.POST['resolution']
-        request.user.customuser.introduce = request.POST['introduce']
-        request.user.customuser.save()
-
+def mypage(request, year=None, month=None, day=None):
     user = get_object_or_404(User, id=request.user.id)
     custom_user = get_object_or_404(CustomUser, user=user)
+
+    if request.method == "POST":
+        custom_user.nickname = request.POST['nickname']
+        custom_user.resolution = request.POST['resolution']
+        custom_user.introduce = request.POST['introduce']
+        custom_user.save()
 
     # 루틴 및 투두 정보
     routines = Routine.objects.filter(user=custom_user)
     todos = ToDo.objects.filter(routine__in=routines)
 
+    if year and month and day:
+        selected_date = date(year, month, day)
+        todos = todos.filter(date=selected_date)
+        routines = routines.filter(todo__date=selected_date).distinct()
+    else:
+        selected_date = None
+
     # Calculate the current week
     today = date.today()
     start_of_week = today - timedelta(days=(today.weekday() + 1) % 7)  # Sunday
     end_of_week = start_of_week + timedelta(days=6)  # Saturday
-    
+
     week_days = []
     for i in range(7):
         day = start_of_week + timedelta(days=i)
@@ -81,15 +89,46 @@ def mypage(request):
         color = "blue" if completed_count > 0 else "gray"
         week_days.append({
             'day_name': day_name,
-            'date': day.day,
+            'date': day,
             'todo_count': pending_count,
             'completed_count': completed_count,
             'color': color
         })
 
+    total_todos = todos.count()
+    completed_todos = todos.filter(completed=True).count()
+    completion_rate = (completed_todos / total_todos * 100) if total_todos > 0 else 0
+
+    routine_form = RoutineForm()
+    todo_form = ToDoForm()
+
     context = {
         'week_days': week_days,
         'today': today,
+        'routines': routines,
+        'todos': todos,
+        'completion_rate': completion_rate,
+        'routine_form': routine_form,
+        'todo_form': todo_form,
+        'selected_date': selected_date,
     }
 
     return render(request, 'accounts/mypage.html', context)
+
+def todo_date_detail(request, year, month, day):
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+    selected_date = date(year, month, day)
+    
+    routines = Routine.objects.filter(user=custom_user)
+    todos = ToDo.objects.filter(routine__in=routines, date=selected_date)
+    total_todos = todos.count()
+    completed_todos = todos.filter(completed=True).count()
+    completion_rate = (completed_todos / total_todos * 100) if total_todos > 0 else 0
+
+    return render(request, 'todo/todo_date_detail.html', {
+        'selected_date': selected_date,
+        'routines': routines,
+        'todos': todos,
+        'completion_rate': completion_rate,
+    })
