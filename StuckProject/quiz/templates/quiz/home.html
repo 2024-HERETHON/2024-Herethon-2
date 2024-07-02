@@ -13,7 +13,6 @@
 </head>
 <body>
     <main class="home-main">
-        
         <section class="top">
             <div class="profile">
                 <div class="profile-card">
@@ -57,7 +56,7 @@
             <div class="empty"></div>
             <wrap class="middle-sec">
                 <div class="calender">
-                    <h4 class="title-date"> <span class="year">{{ today.year }}</span>년 <span class="month">{{ today.month }}</span>월</h4>
+                    <h4 class="title-date"> <span class="year"></span>년 <span class="month"></span>월</h4>
                     <button class="cal_btn">주</button>
                     <button type="button" class="right btn">
                         <img src="{% static 'img/right_allow.png' %}">
@@ -72,7 +71,7 @@
                             <div class="check-todo {{ day.color }}">
                                 <span class="count-todo">{{ day.todo_count }}</span>
                             </div>
-                            <h6 class="day">{{ day.date }}</h6>
+                            <h6 class="date">{{ day.date }}</h6>
                         </li>
                         {% endfor %}
                     </ul>
@@ -247,54 +246,65 @@
                             {% for scrap in quiz_scraps %}
                                 <li class="scrap-list1"><a href="{% url 'quiz:view-questions' scrap.quiz.folder.id scrap.quiz.id %}">[퀴즈] {{ scrap.quiz.title }}</a></li>
                             {% endfor %}
+                           
                             {% for scrap in question_room_scraps %}
-                                <li class="scrap-list1"><a href="{% url 'qna:enter-question-room' scrap.question_room.folder.id scrap.question_room.id %}">[질문 방] {{ scrap.question_room.title }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="recent">
-                        <div class="subtitle">최근 열어본 문서</div>
-
-                        <ul class="scrap-list">
-                            {% for doc in documents %}
-                                <li class="scrap-list1">
-                                    {% if doc.type == 'quiz' %}
-                                        <a href="{% url 'quiz:quiz-results' doc.folder_id doc.obj.id %}">[퀴즈] {{ doc.obj.title }}</a>
-                                    {% elif doc.type == 'questionroom' %}
-                                        <a href="{% url 'qna:enter-question-room' doc.folder_id doc.obj.id %}">[질문 방] {{ doc.obj.title }}</a>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                            <li class="scrap-list1"><a href="{% url 'qna:enter-question-room' scrap.question_room.folder.id scrap.question_room.id %}">[질문 방] {{ scrap.question_room.title }}</a></li>
+                        {% endfor %}
+                    </ul>
                 </div>
-            </wrap>
-            <div class="empty"></div>
-        </section>
+                <div class="recent">
+                    <div class="subtitle">최근 열어본 문서</div>
 
-        <section class="bottom">
-            <a href="{% url 'quiz:select-folder' 0 %}"><button class="btn-quiz">교재 내용으로 문제풀기</button></a>
-            <a href="{% url 'qna:select-folder' 0 %}"><button class="btn-qna">교재 내용 질문하기</button></a>
-        </section>
-    </main>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const prevButton = document.querySelector(".left.btn");
-            const nextButton = document.querySelector(".right.btn");
+                    <ul class="scrap-list">
+                        {% for doc in documents %}
+                            <li class="scrap-list1">
+                                {% if doc.type == 'quiz' %}
+                                    <a href="{% url 'quiz:quiz-results' doc.folder_id doc.obj.id %}">[퀴즈] {{ doc.obj.title }}</a>
+                                {% elif doc.type == 'questionroom' %}
+                                    <a href="{% url 'qna:enter-question-room' doc.folder_id doc.obj.id %}">[질문 방] {{ doc.obj.title }}</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </wrap>
+        <div class="empty"></div>
+    </section>
 
-            let currentOffset = {{ week_offset }};
+    <section class="bottom">
+        <a href="{% url 'quiz:select-folder' 0 %}"><button class="btn-quiz">교재 내용으로 문제풀기</button></a>
+        <a href="{% url 'qna:select-folder' 0 %}"><button class="btn-qna">교재 내용 질문하기</button></a>
+    </section>
+</main>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const prevButton = document.querySelector(".left.btn");
+        const nextButton = document.querySelector(".right.btn");
 
-            prevButton.addEventListener("click", function() {
-                currentOffset -= 1;
-                window.location.href = `/week/${currentOffset}/`;
-            });
+        const currentUrl = window.location.href;
 
-            nextButton.addEventListener("click", function() {
-                currentOffset += 1;
-                window.location.href = `/week/${currentOffset}/`;
-            });
+        const urlSegments = currentUrl.split('/');
+        console.log(currentUrl)
+        let currentOffset = urlSegments[4];
+
+        if (isNaN(currentOffset)) {
+            currentOffset = 0; 
+        }
+
+        console.log(currentOffset)
+        
+        prevButton.addEventListener("click", function() {
+            currentOffset = parseInt(currentOffset) - 1;
+            window.location.href = `/week/${currentOffset}/`;
         });
-    </script>
+
+        nextButton.addEventListener("click", function() {
+            currentOffset = parseInt(currentOffset) + 1;
+            window.location.href = `/week/${currentOffset}/`;
+        });
+    });
+</script>
 </body>
 {% endblock %}
 </html>

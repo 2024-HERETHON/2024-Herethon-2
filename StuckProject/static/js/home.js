@@ -1,19 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
-        const prevButton = document.querySelector(".left.btn");
-        const nextButton = document.querySelector(".right.btn");
-    
-        let currentOffset = parseInt(new URLSearchParams(window.location.search).get("week_offset")) || 0;
-    
-        prevButton.addEventListener("click", function() {
-            currentOffset -= 1;
-            window.location.href = `/week/${currentOffset}/`;
-        });
-    
-        nextButton.addEventListener("click", function() {
-            currentOffset += 1;
-            window.location.href = `/week/${currentOffset}/`;
-        });
-  
+document.addEventListener("DOMContentLoaded", function () { 
     
     
     const today = new Date();
@@ -163,9 +148,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // 캘린더 날짜 이동 버튼
-    const leftBtn = document.querySelector(".left.btn");
-    const rightBtn = document.querySelector(".right.btn");
+    // let currentOffset = parseInt(new URLSearchParams(window.location.search).get("week_offset")) || 0;
+    // console.log(currentOffset)
 
     leftBtn.addEventListener('click', function () {
         if (isWeekView) {
@@ -181,6 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isWeekView) {
             currentWeekStart.setDate(currentWeekStart.getDate() + 7);
             updateCalendarDates(currentWeekStart);
+
         } else {
             currentMonthStart.setMonth(currentMonthStart.getMonth() + 1);
             updateMonthCalendarDates(currentMonthStart);

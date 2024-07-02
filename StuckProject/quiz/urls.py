@@ -8,7 +8,7 @@ app_name = 'quiz'
 
 urlpatterns = [
     path('', home, name="home"),
-    path('week/<negint:week_offset>/', home, name='home_week'),
+    path('week/<negint:week_offset>/', home),
 
     # 폴더
     path('folder/<int:folder_id>/', view_folder, name='folder-view'),
