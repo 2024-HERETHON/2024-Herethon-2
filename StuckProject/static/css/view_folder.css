@@ -1,26 +1,25 @@
 .navbar .nav-mystuck * {
-  color: #09A8FA;
+  color: #09a8fa;
 }
-section a img{
+section a img {
   color: #3b3b3b;
   text-decoration: none;
   padding: 5px 10px;
   height: fit-content;
 }
-section a{
+section a {
   color: #3b3b3b;
   text-decoration: none;
- 
 }
-section a p{
+section a p {
   height: fit-content;
 }
-section a:hover img{
+section a:hover img {
   background-color: #f1f1f1;
   padding: 5px 10px;
   border-radius: 20px;
 }
-section a:hover p{
+section a:hover p {
   height: fit-content;
   padding: 0 10px;
   border-radius: 10px;
@@ -42,7 +41,7 @@ a {
   width: 1120px;
   height: 153px;
   padding: 40px;
-  border: 2px solid #D8D8D8;
+  border: 2px solid #d8d8d8;
   border-radius: 20px;
   color: #3b3b3b;
 }
@@ -93,15 +92,15 @@ h4 {
 #trash-bin p {
   font-size: 20px;
 
-  line-height:180px;
+  line-height: 180px;
   font-weight: bold;
   color: #757575;
 }
-.rootpath{
+.rootpath {
   color: #757575;
   margin-right: 10px;
 }
-.path-title{
+.path-title {
   margin-left: 0;
   padding-left: 0;
 }
@@ -109,13 +108,11 @@ h4 {
   font-size: 12px;
   color: #3b3b3b;
   margin-top: -75px;
-
 }
 
 .top {
   display: flex;
   justify-content: space-between;
-
 }
 
 .delete {
@@ -149,31 +146,31 @@ h4 {
 .title {
   color: #3b3b3b;
 }
-.folder-title img{
+.folder-title img {
   width: 21px;
   height: 36px;
 }
-.scrap{
+.scrap {
   margin: 0 auto;
 }
-.error{
+.error {
   position: absolute;
   margin-top: 73px;
   margin-left: -120px;
   font-size: 14px;
-  
 }
 .find {
   display: flex;
   align-items: center;
   width: 100%;
 }
-.bf_select .path-title{
+.bf_select .path-title {
   color: #3b3b3b;
 
   background-color: rgba(0, 0, 0, 0);
 }
-.find .sc1 a, .find .sc2 {
+.find .sc1 a,
+.find .sc2 {
   display: flex;
   margin: 20px;
   width: fit-content;
@@ -184,17 +181,17 @@ h4 {
   border-radius: 20px;
   border: 1px solid #f1f1f1;
 }
-.sc2 input[type="text"]{
+.sc2 input[type="text"] {
   width: 250px;
   font-size: 16px;
   color: #3b3b3b;
   background-color: rgba(0, 0, 0, 0);
   border: none;
 }
-.sc2 input[type="text"]::placeholder{
+.sc2 input[type="text"]::placeholder {
   color: #3b3b3b;
 }
-.sc2 button{
+.sc2 button {
   padding: 5px 10px;
   font-size: 16px;
   color: #ffffff;
@@ -203,7 +200,7 @@ h4 {
   text-align: center;
   border: none;
 }
-.sc2 input[type="text"]:focus{
+.sc2 input[type="text"]:focus {
   outline: none;
 }
 .find img {
@@ -216,7 +213,6 @@ h4 {
   display: flex;
   align-items: center;
   gap: 16px;
-
 }
 
 .left_circle {
@@ -225,7 +221,6 @@ h4 {
 
 .left_circle_white {
   width: 21px;
-
 }
 
 .bf_select {
@@ -310,11 +305,15 @@ makequestion_before {
 .input_foldername button {
   padding: 7px 15px;
   border-radius: 100px;
-  background: var(--Primary-Hover,
-      linear-gradient(0deg,
-        rgba(255, 255, 255, 0.3) 0%,
-        rgba(255, 255, 255, 0.3) 100%),
-      #09a8fa);
+  background: var(
+    --Primary-Hover,
+    linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.3) 100%
+    ),
+    #09a8fa
+  );
   border: none;
   height: 31px;
   width: 81px;
@@ -345,7 +344,6 @@ h4 h6 {
   width: 70px;
   height: 80px;
 }
-
 
 .detail {
   display: flex;
@@ -417,11 +415,15 @@ h4 h6 {
 .input_foldername button {
   padding: 7px 15px;
   border-radius: 100px;
-  background: var(--Primary-Hover,
-      linear-gradient(0deg,
-        rgba(255, 255, 255, 0.3) 0%,
-        rgba(255, 255, 255, 0.3) 100%),
-      #09a8fa);
+  background: var(
+    --Primary-Hover,
+    linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.3) 100%
+    ),
+    #09a8fa
+  );
   border: none;
   height: 31px;
   width: 81px;

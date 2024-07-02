@@ -1,0 +1,223 @@
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  flex-grow: 1;
+  width: 1280px;
+  height: calc(100vh - 90px); /* header 높이를 뺀 전체 페이지 높이 */
+  margin: 0 auto;
+}
+
+.left_main,
+.right_main {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.titletop {
+  display: flex;
+}
+
+.icons {
+  margin-left: 42px;
+  margin-bottom: 10px;
+}
+
+.left_main {
+  background-color: #f8f8f8;
+  position: relative;
+  padding-top: 0;
+}
+
+.right_main {
+  background-color: white;
+  overflow-y: auto;
+}
+
+.left_allow {
+  width: 23px;
+  height: 28px;
+  margin-right: 15px;
+}
+
+.left_title h5 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  background: var(--Primary, #09a8fa);
+  color: white;
+  font-size: 18px;
+  width: auto;
+  padding: 10px;
+  margin-left: 10px;
+}
+
+.left_title div {
+  display: flex;
+  align-items: center;
+}
+
+.left_title div a {
+  margin-left: 10px;
+}
+
+.left_title {
+  flex-shrink: 0; /* 크기 조정 방지 */
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* 남은 공간 모두 차지 */
+  overflow: hidden; /* 내부 스크롤 활성화 */
+  background-color: #f8f8f8; /* 배경색 설정 */
+  padding-bottom: 80px; /* 채팅 입력 폼 공간 확보 */
+}
+
+.chat {
+  flex-grow: 1;
+  overflow-y: auto; /* 채팅 내용 스크롤 가능 */
+  padding: 20px;
+  background-color: #f8f8f8; /* 배경색 설정 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.chat::-webkit-scrollbar {
+  width: 0;
+  height: 0; /* Chrome, Safari, Opera */
+}
+
+.chat-form {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #f8f8f8; /* 배경색 설정 */
+}
+
+.chat-form input {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.chat-form button {
+  padding: 10px 20px;
+  background: var(--Primary, #09a8fa);
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.chatname {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+}
+
+.right_main {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.right_main form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.right_main textarea {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.right_main button {
+  padding: 10px;
+  background: var(--Primary, #09a8fa);
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.input_q {
+  display: flex;
+  align-items: center;
+  background: #f8f8f8;
+  border-radius: 30px;
+  padding: 5px;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.input_q input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  border-radius: 30px;
+  background: transparent;
+}
+
+.input_q button {
+  background: #09a8fa;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  margin-left: 5px;
+}
+
+.input_q button img {
+  width: 20px;
+  height: 20px;
+}
+
+.profile {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.s-icon {
+  margin-right: 10px;
+}
+
+.right_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.typo {
+  margin-left: 5px;
+  width: 24px;
+  height: 24px;
+}
+
+textarea {
+  height: 380px;
+  resize: none;
+}

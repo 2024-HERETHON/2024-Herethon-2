@@ -1,16 +1,10 @@
-{% extends "base.html" %} {% load static %} {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="{% static 'css/test.css' %}" />
-  <script src="{% static 'js/test.js' %}" defer></script>
-  <title>Quiz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
 </head>
-
 <body>
   
   <section class="test_info">
@@ -83,21 +77,7 @@
         {% endif %}
         <br />
         {% endfor %}
-      </section>
-  
-      <div class="buttons">
-        <a class="b1" href="{% url 'quiz:folder-view' folder_id %}">확인 완료</a>
-        <a class="b1" href="{% url 'quiz:test' folder_id quiz.id %}">다시풀기</a>
-        <a
-          class="b1"
-          href="{% url 'quiz:view-wrong-questions' folder_id quiz.id %}"
-          >틀린문제만 보기</a
-        >
-      </div>
-    </section>
-  </main>
-  <div class="empty"></div>
+        <button type="submit">퀴즈 제출</button>
+    </form>
 </body>
-
 </html>
-{% endblock %}
