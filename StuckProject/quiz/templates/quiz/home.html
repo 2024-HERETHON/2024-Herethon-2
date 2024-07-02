@@ -17,6 +17,7 @@
 
 
     <main class="home-main">
+        
         <section class="top">
             <div class="profile">
                 <div class="profile-card">
@@ -36,6 +37,9 @@
                 <div class="empty"></div>
                 <div class="graph">
                     <div class="month-goal">
+                        <!-- 디버깅 용 -->
+                        <div>Completion Rate: {{ completion_rate }}%</div>
+
                         <h5 class="date-month"><span class="year"></span>년 <span class="month"></span>월<span id="h6"> 의
                                 월간 목표달성률</span></h5>
                         <!--막대그래프 생성 style =" width : 진행률" -->
@@ -47,7 +51,7 @@
                     </div>
                     <div class="week-goal">
                         <h5 class="date-week"><span class="year"></span>년 <span class="month"></span>월 <span
-                                class="week"></span>주차<span id="h6"> 의 주간 목표달성률</span></h5>
+                                class="week"></span>주차<span id="h6"> 의 주간 목표달성률 </span></h5>
 
 
                         <!--막대그래프 생성 style =" width : 진행률" -->

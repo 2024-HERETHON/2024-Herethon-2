@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <p>달성률: {{ completion_rate }}%</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ routine_form.as_p }}
+        <button type="submit" name="routine_submit">루틴 추가</button>
+    </form>
+    <h2>루틴 목록</h2>
+    <ul>
+        {% for routine in routines %}
+            <li>
+                <h3>{{ routine.name }}</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="routine_id" value="{{ routine.id }}">
+                    {{ todo_form.description }}
+                    <button type="submit" name="todo_submit">할 일 추가</button>
+                </form>
+                <ul>
+                    {% for todo in routine.todo_set.all %}
+                        <li>
+                            {% if todo.completed %}
+                                <strike>{{ todo.description }}</strike>
+                            {% else %}
+                                {{ todo.description }}
+                                <a href="{% url 'todo:complete_todo' todo.pk %}">완료</a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

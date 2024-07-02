@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'accounts',
     'quiz',
     'qna',
+    'todo',
 ]
 
 MIDDLEWARE = [
