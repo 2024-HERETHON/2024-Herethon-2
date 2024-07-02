@@ -1,120 +1,98 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/create_quiz.css' %}" />
-    <title>퀴즈 생성</title>
-  </head>
-  <body>
-    <form
-      action="{% url 'quiz:create-quiz' folder_id %}"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      {% csrf_token %}
-      <main class="quiz_main">
-        <section class="quiz_option">
-          <div class="file_name">
-            <h6>문제 파일명</h6>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              required
-              placeholder="파일명을 입력해주세요"
-            />
-          </div>
-          <div class="quiz_number">
-            <label for="question_num">문제 수</label>
-            <input
-              type="number"
-              id="question_num"
-              name="question_num"
-              min="1"
-              required
-              placeholder="숫자만 입력해주세요 ex) 10"
-            />
-          </div>
-          <div class="quiz_type">
-            <label for="type">문제 유형</label>
-            <select id="type" name="type" required>
-              <option value="" disabled selected hidden>
-                문제 유형을 선택해주세요
-              </option>
-              <option value="객관식">객관식</option>
-              <option value="주관식">주관식</option>
-            </select>
-          </div>
-        </section>
-        <section class="file_upload">
-          <label
-            for="file"
-            ondrop="dropHandler(event);"
-            ondragover="dragOverHandler(event);"
-          >
-            <img
-              class="cloud"
-              src="{% static 'img/drag.svg' %}"
-              alt="Drag and drop area"
-            />
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/create_quiz.css' %}" />
+  <title>퀴즈 생성</title>
+</head>
+
+<body>
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-spinner"></div>
+  </div>
+  <form action="{% url 'quiz:create-quiz' folder_id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <main class="quiz_main">
+      <section class="quiz_option">
+        <div class="file_name">
+          <h6>문제 파일명</h6>
+          <input type="text" id="title" name="title" required placeholder="파일명을 입력해주세요" />
+        </div>
+        <div class="quiz_number">
+          <label for="question_num">문제 수</label>
+          <input type="number" id="question_num" name="question_num" min="1" required placeholder="숫자만 입력해주세요 ex) 10" />
+        </div>
+        <div class="quiz_type">
+          <label for="type">문제 유형</label>
+          <select id="type" name="type" required>
+            <option value="" disabled selected hidden>
+              문제 유형을 선택해주세요
+            </option>
+            <option value="객관식">객관식</option>
+            <option value="주관식">주관식</option>
+          </select>
+        </div>
+      </section>
+      <section class="file_upload">
+        <label for="file" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+          <img class="cloud" src="{% static 'img/drag.svg' %}" alt="Drag and drop area" />
+        </label>
+        <img class="line" src="{% static 'img/line.svg' %}" />
+        <div class="upload_right" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+          <label for="file">
+            <h5>파일 선택</h5>
           </label>
-          <img class="line" src="{% static 'img/line.svg' %}" />
-          <div
-            class="upload_right"
-            ondrop="dropHandler(event);"
-            ondragover="dragOverHandler(event);"
-          >
-            <label for="file"><h5>파일 선택</h5></label>
-            <p id="file-info">지원되는 파일 형식: .pdf, .png, .jpg</p>
-            <input
-              type="file"
-              id="file"
-              name="file"
-              style="display: none"
-              required
-            />
-          </div>
-        </section>
-        {% if message %}
-          {{message}}
-        {% endif %}
-        <button type="submit" class="button">교재 내용으로 문제 풀기</button>
-      </main>
-    </form>
+          <p id="file-info">지원되는 파일 형식: .pdf, .png, .jpg</p>
+          <input type="file" id="file" name="file" style="display: none" required />
+        </div>
+      </section>
+      {% if message %}
+      {{message}}
+      {% endif %}
+      <button type="submit" class="button">교재 내용으로 문제 풀기</button>
+    </main>
+  </form>
 
-    <script>
-      document.getElementById("file").onchange = function () {
-        var fileNameDisplay = document.getElementById("file-info");
-        fileNameDisplay.textContent = this.files[0].name;
-      };
+  <script>window.addEventListener('load', function () {
+      // 페이지가 로드된 후, 로딩 화면을 숨기는 함수
+      var loadingScreen = document.getElementById('loadingScreen');
+      loadingScreen.style.display = 'none';
+    });
 
-      function dragOverHandler(ev) {
-        ev.preventDefault();
-      }
+    document.getElementById("file").onchange = function () {
+      var fileNameDisplay = document.getElementById("file-info");
+      fileNameDisplay.textContent = this.files[0].name;
+    };
 
-      function dropHandler(ev) {
-        ev.preventDefault();
+    function dragOverHandler(ev) {
+      ev.preventDefault();
+    }
 
-        if (ev.dataTransfer.items) {
-          if (ev.dataTransfer.items[0].kind === "file") {
-            var file = ev.dataTransfer.items[0].getAsFile();
-            console.log("Dropped file:", file.name);
+    function dropHandler(ev) {
+      ev.preventDefault();
 
-            var input = document.getElementById("file");
-            var dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            input.files = dataTransfer.files;
+      if (ev.dataTransfer.items) {
+        if (ev.dataTransfer.items[0].kind === "file") {
+          var file = ev.dataTransfer.items[0].getAsFile();
+          console.log("Dropped file:", file.name);
 
-            document.getElementById("file-info").textContent = file.name;
-          }
-        } else {
-          document.getElementById("file-info").textContent =
-            ev.dataTransfer.files[0].name;
+          var input = document.getElementById("file");
+          var dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          input.files = dataTransfer.files;
+
+          document.getElementById("file-info").textContent = file.name;
         }
+      } else {
+        document.getElementById("file-info").textContent =
+          ev.dataTransfer.files[0].name;
       }
-    </script>
-  </body>
+    }
+  </script>
+</body>
+
 </html>
 {% endblock %}

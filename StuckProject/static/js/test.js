@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    
     const resultbtn = document.querySelector(".gotoresult");
     const result = document.querySelector(".result");
     const download = document.querySelector(".download");
@@ -14,4 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
             behavior: 'smooth'  
         });
     })
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'  
+    });
 })
