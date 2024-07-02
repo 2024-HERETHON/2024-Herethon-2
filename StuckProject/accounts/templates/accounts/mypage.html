@@ -86,18 +86,19 @@
                         <img src="{% static 'img/left_allow.png' %}">
                     </button>
                     
-
-                    <ul class="week-cal display">
-                        {% for day in week_days %}
-                        <li class="{{ day.day_name|lower }}">
-                            <h6>{{ day.day_name }}</h6>
+                     <ul class="week-cal display">
+                    {% for day in week_days %}
+                    <li class="{{ day.day_name|lower }}">
+                        <h6>{{ day.day_name }}</h6>
+                        <a href="{% url 'accounts:mypage_by_date' day.date.year day.date.month day.date.day week_offset %}">
                             <div class="check-todo {{ day.color }}">
                                 <span class="count-todo">{{ day.todo_count }}</span>
                             </div>
-                            <h6 class="day">{{ day.date }}</h6>
-                        </li>
-                        {% endfor %}
-                    </ul>
+                        </a>
+                        <h6 class="day">{{ day.date.day }}</h6>
+                    </li>
+                    {% endfor %}
+                </ul>
 
                     <div class="todo display">
                         <form method="POST" action="{% url 'todo:todo_list' %}">
@@ -116,39 +117,40 @@
                             </div>
                             </form>
                             {% for routine in routines %}
-                            <div class="category">
-                                <button class="add-todo">
-                                    <span>{{ routine.name }}</span>
-                                    <img src="{% static 'img/add.png' %}" alt="add_btn" >
-                                </button>
-    
-                                <form method="post" action="{% url 'todo:todo_list' %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="routine_id" value="{{ routine.id }}">
-                                    {{ todo_form.description }}
-                                    <button type="submit" name="todo_submit">할 일 추가</button>
-                                </form>
-                               
-                            </div>
+                    <div class="category">
+                        <button class="add-todo">
+                            <span>{{ routine.name }}</span>
+                            <img src="{% static 'img/add.png' %}" alt="add_btn">
+                        
+
+
+
+
+                        </button>
+
+                        <form method="post" action="{% url 'todo:todo_list' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="routine_id" value="{{ routine.id }}">
+                            {{ todo_form.description }}
+                            <button type="submit" name="todo_submit">할 일 추가</button>
+                        </form>
+
+                        <ul>
+                            {% for todo in todos %}
+                            {% if todo.routine.id == routine.id %}
                             <li>
-                                <h3></h3>
-                                <form method="post" action="{% url 'todo:todo_list' %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="routine_id" value="{{ routine.id }}">
-                                </form>
-                                {% for todo in routine.todo_set.all %}
-                                        <li>
-                                            {% if todo.completed %}
-                                                <strike>{{ todo.description }}</strike>
-                                            {% else %}
-                                                {{ todo.description }}
-                                                <a href="{% url 'todo:complete_todo' todo.pk %}">완료</a>
-                                            {% endif %}
-                                        </li>
-                                    {% endfor %}
+                                {% if todo.completed %}
+                                <strike>{{ todo.description }}</strike>
+                                {% else %}
+                                {{ todo.description }}
+                                <a href="{% url 'todo:complete_todo' todo.pk %}">완료</a>
+                                {% endif %}
                             </li>
-                        {% endfor %}
-                    
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endfor %}
                         
 
                        
@@ -351,6 +353,7 @@
     })
     */
 </script>
+
 
 </html>
 

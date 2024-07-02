@@ -53,7 +53,7 @@ def logout(request):
 
 
 # 마이페이지 - 본인 정보 수정 
-def mypage(request, year=None, month=None, day=None):
+def mypage(request, year=None, month=None, day=None, week_offset=0):
     user = get_object_or_404(User, id=request.user.id)
     custom_user = get_object_or_404(CustomUser, user=user)
 
@@ -65,25 +65,26 @@ def mypage(request, year=None, month=None, day=None):
 
     # 루틴 및 투두 정보
     routines = Routine.objects.filter(user=custom_user)
-    todos = ToDo.objects.filter(routine__in=routines)
 
     if year and month and day:
         selected_date = date(year, month, day)
-        todos = todos.filter(date=selected_date)
-        routines = routines.filter(todo__date=selected_date).distinct()
     else:
-        selected_date = None
+        selected_date = date.today()
+
+    # Adjust the selected date based on the week_offset
+    selected_date += timedelta(weeks=week_offset)
+
+    todos = ToDo.objects.filter(routine__in=routines, date=selected_date)
 
     # Calculate the current week
-    today = date.today()
-    start_of_week = today - timedelta(days=(today.weekday() + 1) % 7)  # Sunday
+    start_of_week = selected_date - timedelta(days=(selected_date.weekday() + 1) % 7)  # Sunday
     end_of_week = start_of_week + timedelta(days=6)  # Saturday
 
     week_days = []
     for i in range(7):
         day = start_of_week + timedelta(days=i)
         day_name = day.strftime('%a')
-        day_todos = todos.filter(date=day)
+        day_todos = ToDo.objects.filter(routine__in=routines, date=day)
         completed_count = day_todos.filter(completed=True).count()
         pending_count = day_todos.filter(completed=False).count()
         color = "blue" if completed_count > 0 else "gray"
@@ -104,31 +105,13 @@ def mypage(request, year=None, month=None, day=None):
 
     context = {
         'week_days': week_days,
-        'today': today,
-        'routines': routines,
-        'todos': todos,
+        'selected_date': selected_date,
+        'routines': routines,  # All routines
+        'todos': todos,  # Todos for the selected date
         'completion_rate': completion_rate,
         'routine_form': routine_form,
         'todo_form': todo_form,
-        'selected_date': selected_date,
+        'week_offset': week_offset
     }
 
     return render(request, 'accounts/mypage.html', context)
-
-def todo_date_detail(request, year, month, day):
-    user = get_object_or_404(User, id=request.user.id)
-    custom_user = get_object_or_404(CustomUser, user=user)
-    selected_date = date(year, month, day)
-    
-    routines = Routine.objects.filter(user=custom_user)
-    todos = ToDo.objects.filter(routine__in=routines, date=selected_date)
-    total_todos = todos.count()
-    completed_todos = todos.filter(completed=True).count()
-    completion_rate = (completed_todos / total_todos * 100) if total_todos > 0 else 0
-
-    return render(request, 'todo/todo_date_detail.html', {
-        'selected_date': selected_date,
-        'routines': routines,
-        'todos': todos,
-        'completion_rate': completion_rate,
-    })
