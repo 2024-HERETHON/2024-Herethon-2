@@ -1,0 +1,21 @@
+main{
+    width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+main a{
+    width: 1200px;
+    height: 132px;
+    color: white;
+    background-color: #09A8FA;
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    margin: 30px;
+    border-radius: 10px;
+}
+.empty{
+    height: 50px;
+}

@@ -5,8 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
 </head>
+<style>
+    .navbar .nav-qna * {
+color: #09A8FA;
+}
+</style>
+<div class="empty"></div>
 <body>
+    <main>
+        <img src="{% static 'img/qna-landing.svg' %}" alt="랜딩이미지" >
+        <a href="{% url 'qna:select-folder' 0 %}"><h4>교재 내용 질문하기</h4></a>
+    </main>
+    <div class="empty"></div>
     
 </body>
 </html>
