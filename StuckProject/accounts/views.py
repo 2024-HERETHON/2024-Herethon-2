@@ -73,24 +73,28 @@ def mypage(request, year=None, month=None, day=None, week_offset=0):
 
     print(week_offset)
 
+    # offset 만큼 week 변화
     selected_date += timedelta(weeks=week_offset)
     print(selected_date)
 
+    # 클릭한 날짜에 해당하는 todo를 가져옴
     todos = ToDo.objects.filter(routine__in=routines, date=selected_date)
 
+    # 일요일 시작 
     start_of_week = selected_date - timedelta(days=(selected_date.weekday() + 1) % 7)  # Sunday
-    print(start_of_week)
     end_of_week = start_of_week + timedelta(days=6)  # Saturday
 
     week_days = []
     for i in range(7):
         day = start_of_week + timedelta(days=i)
         day_name = day.strftime('%a')
+
         day_todos = ToDo.objects.filter(routine__in=routines, date=day)
         completed_count = day_todos.filter(completed=True).count()
         pending_count = day_todos.filter(completed=False).count()
+
         color = "blue" if completed_count > 0 else "gray"
-        print(day)
+
         week_days.append({
             'day_name': day_name,
             'date': day,

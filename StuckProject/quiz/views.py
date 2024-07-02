@@ -69,9 +69,10 @@ def home(request, week_offset=0):
     routines = Routine.objects.filter(user=custom_user)
     todos = ToDo.objects.filter(routine__in=routines)
 
+    # offset 만큼 week 변화
     today = date.today() + timedelta(weeks=week_offset)
+    # 일요일부터 시작
     start_of_week = today - timedelta(days=(today.weekday() + 1) % 7)  # Sunday
-    end_of_week = start_of_week + timedelta(days=6)  # Saturday
 
     week_days = []
     for i in range(7):
@@ -99,10 +100,11 @@ def home(request, week_offset=0):
     month_days = []
     while current_day <= end_of_month:
         day_name = current_day.strftime('%a')
-        day_todos = todos.filter(date=current_day)
         completed_count = day_todos.filter(completed=True).count()
         pending_count = day_todos.filter(completed=False).count()
+
         color = "blue" if completed_count > 0 else "gray"
+
         month_days.append({
             'day_name': day_name,
             'date': current_day.day,
@@ -110,6 +112,7 @@ def home(request, week_offset=0):
             'completed_count': completed_count,
             'color': color
         })
+        
         current_day += timedelta(days=1)
 
     context = {
