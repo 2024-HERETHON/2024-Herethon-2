@@ -13,6 +13,7 @@
         color: #09A8FA;
       }
     </style>
+    <div class="empty"></div>
     <main class="folder main">
       <section class="top">
         <h4>저장할 폴더 정하기</h4>
@@ -28,6 +29,7 @@
                 class="left_circle"
               />
             </a>
+            <h6 class="rootpath">MY STUCK / </h6>
             {% else %}
             <a href="{% url 'qna:select-folder' 0 %}">
               <img
@@ -41,14 +43,16 @@
           {% endif %}
 
           <div class="bf_select">
-            {% if folder %} {{ path }} {% else %}
-            <img
-              class="left_circle_white"
-              src="{% static 'img/left_circle_white.png' %}"
-              alt="이미지 설명"
-            />
+          
+          
+            {% if folder %} <h6 class="rootpath">MY STUCK / {{ path }} </h6>
+            
+            {% else %}
+            <img class="left_circle" src="{% static 'img/left_circle.png' %}" alt="이미지 설명" />
+            <h6 class="rootpath">MY STUCK / </h6>
             {% endif %}
           </div>
+          
           <div class="af_select">
             {% if folder %}
             <form
@@ -63,6 +67,7 @@
           </div>
         </div>
       </section>
+      <div class="empty"></div>
 
       <section class="grid-container">
         <!-- 현재 폴더 하위에 있는 폴더 출력 -->
@@ -119,6 +124,7 @@
         </form>
         {% endif %}
       </section>
+      <div class="empty"></div>
     </main>
   </body>
 </html>
