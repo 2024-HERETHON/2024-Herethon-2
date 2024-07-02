@@ -20,7 +20,8 @@
     <h2>파일 이름 : {{ question_room.file.name|filename }}</h2>
 
     {% for chat in chats %}
-        사용자 : <br><br>{{chat.user_chat}}<br><br><br>
+        {{ chat.created_at }}<br><br>
+        사용자 : <br>{{chat.user_chat}}<br><br>
         AI : {{chat.gpt_chat | linebreaks}}<br><HR>
     {% endfor %}
     <form action="{% url 'qna:enter-question-room' folder_id question_room.id %}" method="POST">
@@ -28,6 +29,10 @@
         질문 입력<input type="text" name="user_question">
         <button>질문하기</button>
     </form>
+
+    <!-- 채팅 다운로드 -->
+    <a href="{% url 'qna:save-chat-as-pdf' folder_id question_room.id %}">pdf로 채팅 저장</a>
+    <a href="{% url 'qna:save-chat-as-word' folder_id question_room.id %}">word로 채팅 저장</a>
 
     <br><br>
     <!-- memo 입력 폼 -->

@@ -342,3 +342,82 @@ def remove_scrap_question_room(request, folder_id, question_room_id):
 
     return redirect('qna:enter-question-room', folder_id, question_room.id)
 
+
+# 채팅 pdf 저장 
+def save_chat_as_pdf(request, folder_id, question_room_id):
+    question_room = get_object_or_404(QuestionRoom, id=question_room_id)
+    title = question_room.title
+    chat_messages = Chat.objects.filter(question_room=question_room).order_by('created_at')
+
+    # 응답 설정
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="STUCK_CHAT.pdf"'
+
+    # PDF 생성
+    pdfmetrics.registerFont(TTFont('NanumGothic', 'static/fonts/NanumGothic.ttf'))
+    styles = getSampleStyleSheet()
+
+    # 기존 Title 스타일 수정
+    styles.add(ParagraphStyle(name='Chat', fontName='NanumGothic', fontSize=12, leading=14))
+    styles.add(ParagraphStyle(name='Date', fontName='NanumGothic', fontSize=12, leading=14, fontWeight='bold'))
+    styles['Title'].fontName = 'NanumGothic'
+    styles['Title'].fontSize = 24
+    styles['Title'].leading = 28
+    styles['Title'].spaceAfter = 20
+
+    buffer = []
+    doc = SimpleDocTemplate(response, pagesize=letter)
+
+    # 제목 추가
+    title_paragraph = Paragraph(title, styles['Title'])
+    buffer.append(title_paragraph)
+    buffer.append(Spacer(1, 12))  
+
+    # 채팅 내용 추가
+    for msg in chat_messages:
+        date_text = f"{msg.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
+        user_chat_text = f"YOU: {msg.user_chat}"
+        gpt_chat_text = f"AI: {msg.gpt_chat}"
+        
+        buffer.append(Paragraph(date_text, styles['Date']))
+        buffer.append(Spacer(1, 6)) 
+        buffer.append(Paragraph(user_chat_text, styles['Chat']))
+        buffer.append(Spacer(1, 6)) 
+        buffer.append(Paragraph(gpt_chat_text, styles['Chat']))
+        buffer.append(Spacer(1, 24)) 
+
+    doc.build(buffer)
+
+    return response
+
+
+# 채팅 워드로 저장
+def save_chat_as_word(request, folder_id, question_room_id):
+    question_room = get_object_or_404(QuestionRoom, id=question_room_id)
+    title = question_room.title
+    chat_messages = Chat.objects.filter(question_room=question_room).order_by('created_at')
+
+    # 문서 생성
+    doc = Document()
+
+    # 제목
+    doc.add_heading(title, level=1)
+
+    # 채팅 저장
+    for msg in chat_messages:
+        date_text = f"{msg.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
+        user_chat_text = f"YOU: {msg.user_chat}"
+        gpt_chat_text = f"AI: {msg.gpt_chat}"
+        
+        doc.add_paragraph(date_text, style='BodyText').bold = True
+        doc.add_paragraph(user_chat_text, style='BodyText')
+        doc.add_paragraph(gpt_chat_text, style='BodyText')
+        doc.add_paragraph()  # Add space between message pairs
+
+    # 응답 설정
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = f'attachment; filename="STUCK_CHAT.docx"'
+
+    doc.save(response)
+
+    return response

@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import *
 
+
 app_name = 'quiz'
 
 urlpatterns = [
@@ -35,4 +36,6 @@ urlpatterns = [
 
     # 최근 열어본 퀴즈
     
+    
+    path('home/', get_rate, name='get_rate'),
 ]

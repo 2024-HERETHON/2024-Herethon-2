@@ -16,7 +16,8 @@ def signup(request):
             nickname=request.POST['nickname']
             univ = request.POST['univ']
             semester = request.POST['semester']
-            customuser = CustomUser(user=new_user, nickname=nickname, univ=univ, semester=semester)
+            resolution = request.POST['resolution']
+            customuser = CustomUser(user=new_user, nickname=nickname, univ=univ, semester=semester, resolution=resolution, introduce="")
             customuser.save()
 
         elif request.POST['password'] != request.POST['password2']:
@@ -45,3 +46,15 @@ def login(request):
 def logout(request):
     auth_logout(request)
     return redirect('quiz:home')
+
+
+
+# 마이페이지 - 본인 정보 수정 
+def mypage(request):
+    if request.method == "POST":
+        request.user.customuser.nickname = request.POST['nickname']
+        request.user.customuser.resolution = request.POST['resolution']
+        request.user.customuser.introduce = request.POST['introduce']
+        request.user.customuser.save()
+
+    return render(request, 'accounts/mypage.html')

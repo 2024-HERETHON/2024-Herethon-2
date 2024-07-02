@@ -17,6 +17,10 @@ body{
     padding: 0;
     margin: 0 ;
 }
+li{
+    list-style: none;
+}
+
 .main-header{
     /*헤더고정*/
     position: sticky;

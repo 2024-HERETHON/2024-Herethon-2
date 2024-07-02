@@ -10,6 +10,8 @@ class CustomUser(models.Model):
     nickname = models.CharField(max_length=30)
     univ = models.TextField(max_length=100)
     semester = models.IntegerField()
+    resolution = models.CharField(max_length=50)
+    introduce = models.CharField(max_length=100, blank=True)
     scrap_folders = models.ManyToManyField(Folder, through='ScrapFolder', related_name='folder_scrapped_by')
     scrap_quizs = models.ManyToManyField(Quiz, through="ScrapQuiz", related_name="quiz_scrapped_by")
     scrap_question_rooms = models.ManyToManyField(QuestionRoom, through="ScrapQuestionRoom", related_name="question_room_scrapped_by")

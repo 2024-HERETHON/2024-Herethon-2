@@ -37,7 +37,9 @@ def home(request):
     custom_user = get_object_or_404(CustomUser, user=user)
 
     # 스크랩 정보
-    scraps = ScrapFolder.objects.filter(user=custom_user)
+    folder_scraps = ScrapFolder.objects.filter(user=custom_user)
+    quiz_scraps = ScrapQuiz.objects.filter(user=custom_user)
+    question_room_scraps = ScrapQuestionRoom.objects.filter(user=custom_user)
 
     # 최근 열어본 문서
     recent_docs = custom_user.recent_documents_from_user.all()[:5]
@@ -61,7 +63,9 @@ def home(request):
                 'folder_id': folder_id
             })
     context = {
-         'scraps': scraps,
+         'folder_scraps': folder_scraps,
+         'quiz_scraps': quiz_scraps,
+         'question_room_scraps': question_room_scraps,
          'documents': documents
     }
 
@@ -702,3 +706,20 @@ def search_folder(request, folder_id):
             return redirect('quiz:folder-view', folder_id)
     messages.success(request, "폴더가 성공적으로 검색되었습니다.")
     return redirect('quiz:folder-view', folder.id)
+
+
+
+# 목표 달성률
+from todo.models import ToDo
+
+def get_rate(request):
+    print("rate has been called")
+
+    todos = ToDo.objects.all()
+    total_todos = todos.count()
+    completed_todos = todos.filter(completed=True).count()
+    completion_rate = (completed_todos / total_todos * 100) if total_todos > 0 else 0
+
+    print(f"Completion Rate: {completion_rate}")
+
+    return render(request, 'quiz/home.html', {'completion_rate': completion_rate})
