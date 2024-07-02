@@ -5,32 +5,23 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<<<<<<< HEAD
-=======
 
->>>>>>> 9783c4fd1f567c54c9463bd023a1e7239f3af09a
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-<<<<<<< HEAD
 </head>
-=======
     <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
     <script src="{% static 'js/mypage.js' %}" defer></script>
 </head>
 
->>>>>>> 9783c4fd1f567c54c9463bd023a1e7239f3af09a
 <body>
     <h5>나의 정보</h5>
     <p>{{ request.user.username }} > </p>
     <form method="POST">
         {% csrf_token %}
         한줄 다짐 : <input type="text" value="{{ request.user.customuser.resolution }}" name="resolution"><br>
-<<<<<<< HEAD
-=======
 
->>>>>>> 9783c4fd1f567c54c9463bd023a1e7239f3af09a
         별명 : {{ request.user.customuser.nickname }}
         <select name="nickname">
             <option value="끈기 있는 마에스트로" {% if request.user.customuser.nickname == "끈기 있는 마에스트로" %} selected {% endif %}>끈기 있는 마에스트로</option>
@@ -40,17 +31,12 @@
             <option value="묵묵한 달인" {% if request.user.customuser.nickname == "묵묵한 달인" %} selected {% endif %}>묵묵한 달인</option>
         </select> <br>    
         한줄 소개 : <input type="text" value="{{ request.user.customuser.introduce }}" name="introduce" placeholder="한줄소개를 적어주세요"><br>
-<<<<<<< HEAD
-=======
 
->>>>>>> 9783c4fd1f567c54c9463bd023a1e7239f3af09a
         <button>저장하기</button>
     </form>
 
     <h5>나의 목표</h5>
-<<<<<<< HEAD
 </body>
-=======
     <main class="mypage-main">
         <h3>나의 정보</h3>
         <section class="profile">
@@ -372,7 +358,6 @@
     })
 </script>
 
->>>>>>> 9783c4fd1f567c54c9463bd023a1e7239f3af09a
 </html>
 
 {% endblock %}

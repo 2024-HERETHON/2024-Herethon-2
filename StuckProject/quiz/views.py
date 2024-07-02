@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import *
 from accounts.models import *
+from todo.models import Routine, ToDo
 import os
 from django.contrib import messages
 from django.db import IntegrityError
+from datetime import date, timedelta
 
 # openai
 import openai
@@ -29,9 +31,9 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 from docx import Document
 
 # 메인페이지
-def home(request):
+def home(request, week_offset=0):
     if not request.user.is_authenticated:
-         return render(request, 'quiz/home.html')
+        return render(request, 'quiz/home.html')
 
     user = get_object_or_404(User, id=request.user.id)
     custom_user = get_object_or_404(CustomUser, user=user)
@@ -62,11 +64,62 @@ def home(request):
                 'obj': obj,
                 'folder_id': folder_id
             })
+
+    # 루틴 및 투두 정보
+    routines = Routine.objects.filter(user=custom_user)
+    todos = ToDo.objects.filter(routine__in=routines)
+
+    today = date.today() + timedelta(weeks=week_offset)
+    start_of_week = today - timedelta(days=today.weekday())  # Monday
+    end_of_week = start_of_week + timedelta(days=6)  # Sunday
+
+    week_days = []
+    for i in range(7):
+        day = start_of_week + timedelta(days=i)
+        day_name = day.strftime('%a')
+        day_todos = todos.filter(date=day)
+        completed_count = day_todos.filter(completed=True).count()
+        pending_count = day_todos.filter(completed=False).count()
+        color = "blue" if completed_count > 0 else "gray"
+        week_days.append({
+            'day_name': day_name,
+            'date': day.day,
+            'todo_count': pending_count,
+            'completed_count': completed_count,
+            'color': color
+        })
+
+    start_of_month = date(today.year, today.month, 1)
+    if today.month == 12:
+        end_of_month = date(today.year, 12, 31)
+    else:
+        end_of_month = date(today.year, today.month + 1, 1) - timedelta(days=1)
+    
+    current_day = start_of_month
+    month_days = []
+    while current_day <= end_of_month:
+        day_name = current_day.strftime('%a')
+        day_todos = todos.filter(date=current_day)
+        completed_count = day_todos.filter(completed=True).count()
+        pending_count = day_todos.filter(completed=False).count()
+        color = "blue" if completed_count > 0 else "gray"
+        month_days.append({
+            'day_name': day_name,
+            'date': current_day.day,
+            'todo_count': pending_count,
+            'completed_count': completed_count,
+            'color': color
+        })
+        current_day += timedelta(days=1)
+
     context = {
-         'folder_scraps': folder_scraps,
-         'quiz_scraps': quiz_scraps,
-         'question_room_scraps': question_room_scraps,
-         'documents': documents
+        'folder_scraps': folder_scraps,
+        'quiz_scraps': quiz_scraps,
+        'question_room_scraps': question_room_scraps,
+        'documents': documents,
+        'week_days': week_days,
+        'month_days': month_days,
+        'week_offset': week_offset
     }
 
     return render(request, 'quiz/home.html', context)

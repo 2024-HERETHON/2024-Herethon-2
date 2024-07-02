@@ -1,4 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
+        const prevButton = document.querySelector(".left.btn");
+        const nextButton = document.querySelector(".right.btn");
+    
+        let currentOffset = parseInt(new URLSearchParams(window.location.search).get("week_offset")) || 0;
+    
+        prevButton.addEventListener("click", function() {
+            currentOffset -= 1;
+            window.location.href = `/week/${currentOffset}/`;
+        });
+    
+        nextButton.addEventListener("click", function() {
+            currentOffset += 1;
+            window.location.href = `/week/${currentOffset}/`;
+        });
+  
+    
+    
     const today = new Date();
     let currentWeekStart = new Date(today);
     currentWeekStart.setDate(today.getDate() - today.getDay()); // 이번 주 시작 날짜 계산

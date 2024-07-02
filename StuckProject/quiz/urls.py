@@ -1,11 +1,14 @@
-from django.urls import path
+from django.urls import path, register_converter
 from .views import *
+from .converters import NegativeIntConverter
 
+register_converter(NegativeIntConverter, 'negint')
 
 app_name = 'quiz'
 
 urlpatterns = [
     path('', home, name="home"),
+    path('week/<negint:week_offset>/', home, name='home_week'),
 
     # 폴더
     path('folder/<int:folder_id>/', view_folder, name='folder-view'),
