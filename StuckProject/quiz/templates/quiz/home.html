@@ -280,14 +280,19 @@
         
                         <ul class="scrap-list">
                             {% for scrap in folder_scraps %}
-                                <li class="scrap-list1"><a href="{% url 'quiz:folder-view' scrap.folder.id %}">[폴더] {{ scrap.folder.name }}</a></li>
+                                <li class="scrap-list1">
+                                    <img class="mini-folder" src="{% static 'img/folder.svg' %}">
+                                    <a href="{% url 'quiz:folder-view' scrap.folder.id %}">
+                                    {{ scrap.folder.name }}</a></li>
                             {% endfor %}
                             {% for scrap in quiz_scraps %}
-                                <li class="scrap-list1"><a href="{% url 'quiz:view-questions' scrap.quiz.folder.id scrap.quiz.id %}">[퀴즈] {{ scrap.quiz.title }}</a></li>
+                                <li class="scrap-list1"><a href="{% url 'quiz:view-questions' scrap.quiz.folder.id scrap.quiz.id %}">
+                                    <img class="mini-quiz" src="{% static 'img/q_blue.svg' %}">{{ scrap.quiz.title }}</a></li>
                             {% endfor %}
                            
                             {% for scrap in question_room_scraps %}
-                            <li class="scrap-list1"><a href="{% url 'qna:enter-question-room' scrap.question_room.folder.id scrap.question_room.id %}">[질문 방] {{ scrap.question_room.title }}</a></li>
+                            <li class="scrap-list1"><a href="{% url 'qna:enter-question-room' scrap.question_room.folder.id scrap.question_room.id %}">
+                                <img class="mini-test" src="{% static 'img/t_blue.svg' %}"> {{ scrap.question_room.title }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -298,9 +303,11 @@
                         {% for doc in documents %}
                             <li class="scrap-list1">
                                 {% if doc.type == 'quiz' %}
-                                    <a href="{% url 'quiz:quiz-results' doc.folder_id doc.obj.id %}">[퀴즈] {{ doc.obj.title }}</a>
+                                    <a href="{% url 'quiz:quiz-results' doc.folder_id doc.obj.id %}">
+                                        <img class="mini-quiz" src="{% static 'img/q_blue.svg' %}">{{ doc.obj.title }}</a>
                                 {% elif doc.type == 'questionroom' %}
-                                    <a href="{% url 'qna:enter-question-room' doc.folder_id doc.obj.id %}">[질문 방] {{ doc.obj.title }}</a>
+                                    <a href="{% url 'qna:enter-question-room' doc.folder_id doc.obj.id %}">
+                                        <img class="mini-test" src="{% static 'img/t_blue.svg' %}"> {{ doc.obj.title }}</a>
                                 {% endif %}
                             </li>
                         {% endfor %}

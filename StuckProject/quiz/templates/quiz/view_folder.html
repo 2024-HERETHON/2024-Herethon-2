@@ -85,13 +85,13 @@
             
             <form action="{% url 'quiz:search-folder' folder.id %}" method="POST">
               {% csrf_token %}
-              <input name="search_folder_name" type="text" placeholder="찾고 싶은 파일과 문서를 검색해주세요" />
+              <input name="search_folder_name" type="text" placeholder="찾고 싶은 파일을 검색해주세요" />
               <button>검색</button>
             </form>
             {% else %}
             <form action="{% url 'quiz:search-folder' 0 %}" method="POST">
               {% csrf_token %}
-              <input name="search_folder_name" type="text" placeholder="찾고 싶은 파일과 문서를 검색해주세요" />
+              <input name="search_folder_name" type="text" placeholder="찾고 싶은 파일을 검색해주세요" />
               <button>검색</button>
             </form>
             {% endif %}
