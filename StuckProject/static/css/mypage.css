@@ -396,8 +396,7 @@ input:focus {
     height: fit-content;
 
 }
-
-.category .button {
+.category button{
     width: 180px;
     height: 41px;
     border-radius: 20px;
