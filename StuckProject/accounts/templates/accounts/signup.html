@@ -109,6 +109,7 @@
                     <p>광고성 정보 수신 동의 (선택)</p>
                     
                 </div>    
+                <div class="error-checkbox"></div>
                 <div class="empty"></div>
                 <input type="submit" value="가입하기" class="accountbtn">
                 
@@ -133,10 +134,10 @@
     const requiredCheckboxes = document.querySelectorAll('.terms2, .terms3, .terms4');
     const submitButton = document.querySelector('.accountbtn');
     const messageDiv = document.createElement('div');
-    messageDiv.style.color = 'red';
+    messageDiv.classList.add('error-checkbox');
     messageDiv.style.display = 'none';
     messageDiv.textContent = '필수항목을 체크해주세요.';
-    document.querySelector('.empty').insertAdjacentElement('beforebegin', messageDiv);
+    document.querySelector('.error-checkbox').insertAdjacentElement('afterend', messageDiv);
 
     const updateAllTermsCheckbox = () => {
         const allChecked = Array.from(individualCheckboxes).every(checkbox => checkbox.checked);
