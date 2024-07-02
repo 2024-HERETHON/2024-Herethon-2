@@ -1,4 +1,35 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+    //프로필 수정
+    const setbtn = document.querySelector(".set");
+    const savebtn = document.querySelector(".save");
+    const textareas = document.querySelectorAll(".textarea");
+    const select = document.querySelector(".select-nickname");
+    setbtn.addEventListener('click', ()=>{
+        setbtn.classList.add("nodisplay");
+        savebtn.classList.remove("nodisplay");
+    
+        textareas.forEach(textarea => {
+            if (textarea.hasAttribute('disabled')) {
+                textarea.removeAttribute('disabled');
+            } else {
+                textarea.setAttribute('disabled', 'disabled');
+            }
+        });
+    
+        if (select.hasAttribute('disabled')) {
+            select.removeAttribute('disabled');
+        } else {
+            select.setAttribute('disabled', 'disabled');
+        }
+    })
+    savebtn.addEventListener('click', ()=>{
+        setbtn.classList.remove("nodisplay");
+        savebtn.classList.add("nodisplay");
+    })
+
+
+    //달력
     const today = new Date();
     let currentWeekStart = new Date(today);
     currentWeekStart.setDate(today.getDate() - today.getDay()); // 이번 주 시작 날짜 계산
@@ -167,6 +198,8 @@ document.addEventListener("DOMContentLoaded", function () {
             updateMonthCalendarDates(currentMonthStart);
         }
     });
+
+    
 
     
 });
