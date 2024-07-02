@@ -87,17 +87,19 @@
                     </button>
                     
                      <ul class="week-cal display">
-                    {% for day in week_days %}
-                    <li class="{{ day.day_name|lower }}">
-                        <h6>{{ day.day_name }}</h6>
-                        <a href="{% url 'accounts:mypage_by_date' day.date.year day.date.month day.date.day week_offset %}">
-                            <div class="check-todo {{ day.color }}">
-                                <span class="count-todo">{{ day.todo_count }}</span>
-                            </div>
-                        </a>
-                        <h6 class="day">{{ day.date.day }}</h6>
-                    </li>
-                    {% endfor %}
+                        {% for day in week_days %}
+                        <li class="{{ day.day_name|lower }}">
+                            <h6>{{ day.day_name }}</h6>
+                            <a href="{% url 'accounts:mypage_by_date' day.date.year day.date.month day.date.day week_offset %}">
+                                <div class="check-todo {{ day.color }}">
+                                    <span class="count-todo">{{ day.todo_count }}</span>
+                                </div>
+                            </a>
+                            <!-- <h6 class="day">{{ day.date.day }}</h6> -->
+                            <h6>{{ day.date.day }}</h6>
+                        </li>
+                        {% endfor %}
+                        
                 </ul>
 
                     <div class="todo display">
@@ -352,6 +354,37 @@
         
     })
     */
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const prevButton = document.querySelector(".left-btn");
+        const nextButton = document.querySelector(".right-btn");
+
+        const currentUrl = window.location.href;
+
+        const urlSegments = currentUrl.split('/');
+        console.log(currentUrl)
+        let currentOffset = urlSegments[8];
+
+        console.log(currentOffset)
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
+        const day = today.getDate();
+        
+        prevButton.addEventListener("click", function() {
+            currentOffset = parseInt(currentOffset) - 1;
+            window.location.href = `/accounts/mypage/${year}/${month}/${day}/${currentOffset}/`;
+        });
+
+        nextButton.addEventListener("click", function() {
+            currentOffset = parseInt(currentOffset) + 1;
+            window.location.href = `/accounts/mypage/${year}/${month}/${day}/${currentOffset}/`;
+        });
+
+        
+    });
 </script>
 
 

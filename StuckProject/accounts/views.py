@@ -67,17 +67,19 @@ def mypage(request, year=None, month=None, day=None, week_offset=0):
     routines = Routine.objects.filter(user=custom_user)
 
     if year and month and day:
-        selected_date = date(year, month, day)
+        selected_date = date(year, month, day) 
     else:
-        selected_date = date.today()
+        selected_date = date.today() 
 
-    # Adjust the selected date based on the week_offset
+    print(week_offset)
+
     selected_date += timedelta(weeks=week_offset)
+    print(selected_date)
 
     todos = ToDo.objects.filter(routine__in=routines, date=selected_date)
 
-    # Calculate the current week
     start_of_week = selected_date - timedelta(days=(selected_date.weekday() + 1) % 7)  # Sunday
+    print(start_of_week)
     end_of_week = start_of_week + timedelta(days=6)  # Saturday
 
     week_days = []
@@ -88,6 +90,7 @@ def mypage(request, year=None, month=None, day=None, week_offset=0):
         completed_count = day_todos.filter(completed=True).count()
         pending_count = day_todos.filter(completed=False).count()
         color = "blue" if completed_count > 0 else "gray"
+        print(day)
         week_days.append({
             'day_name': day_name,
             'date': day,
@@ -106,8 +109,8 @@ def mypage(request, year=None, month=None, day=None, week_offset=0):
     context = {
         'week_days': week_days,
         'selected_date': selected_date,
-        'routines': routines,  # All routines
-        'todos': todos,  # Todos for the selected date
+        'routines': routines,  
+        'todos': todos,  
         'completion_rate': completion_rate,
         'routine_form': routine_form,
         'todo_form': todo_form,
