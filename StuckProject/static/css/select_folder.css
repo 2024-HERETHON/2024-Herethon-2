@@ -2,7 +2,31 @@
   width: 80%;
   margin: 0 auto;
 }
-
+section a img{
+  color: #3b3b3b;
+  text-decoration: none;
+  padding: 5px 10px;
+  height: fit-content;
+}
+section a{
+  color: #3b3b3b;
+  text-decoration: none;
+ 
+}
+section a p{
+  height: fit-content;
+}
+section a:hover img{
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+section a:hover p{
+  height: fit-content;
+  border-radius: 10px;
+  background-color: #09a8fa;
+  color: #f1f1f1;
+}
 h6 {
   margin: 0;
 }
