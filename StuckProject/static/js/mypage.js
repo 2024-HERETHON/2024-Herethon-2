@@ -2,14 +2,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //프로필 수정
     const setbtn = document.querySelector(".set");
+    const savebtn = document.querySelector(".save");
     const textareas = document.querySelectorAll(".textarea");
     const select = document.querySelector(".select-nickname");
     setbtn.addEventListener('click', ()=>{
-        if (setbtn.innerHTML === '수정하기') {
-            setbtn.innerHTML = '저장하기';
-        } else {
-            setbtn.innerHTML = '수정하기';
-        }
+        setbtn.classList.add("nodisplay");
+        savebtn.classList.remove("nodisplay");
     
         textareas.forEach(textarea => {
             if (textarea.hasAttribute('disabled')) {
@@ -24,6 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             select.setAttribute('disabled', 'disabled');
         }
+    })
+    savebtn.addEventListener('click', ()=>{
+        setbtn.classList.remove("nodisplay");
+        savebtn.classList.add("nodisplay");
     })
 
 

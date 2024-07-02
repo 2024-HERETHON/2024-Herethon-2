@@ -15,26 +15,7 @@
 </head>
 
 <body>
-    <h5>나의 정보</h5>
-    <p>{{ request.user.username }} > </p>
-    
-        
-        한줄 다짐 : <input type="text" value="{{ request.user.customuser.resolution }}" name="resolution"><br>
-
-        별명 : {{ request.user.customuser.nickname }}
-        <select name="nickname">
-            <option value="끈기 있는 마에스트로" {% if request.user.customuser.nickname == "끈기 있는 마에스트로" %} selected {% endif %}>끈기 있는 마에스트로</option>
-            <option value="열정의 지니어스" {% if request.user.customuser.nickname == "열정의 지니어스" %} selected {% endif %}>열정의 지니어스</option>
-            <option value="성실한 천재" {% if request.user.customuser.nickname == "성실한 천재" %} selected {% endif %}>성실한 천재</option>
-            <option value="노력의 귀재" {% if request.user.customuser.nickname == "노력의 귀재" %} selected {% endif %}>노력의 귀재</option>
-            <option value="묵묵한 달인" {% if request.user.customuser.nickname == "묵묵한 달인" %} selected {% endif %}>묵묵한 달인</option>
-        </select> <br>    
-        한줄 소개 : <input type="text" value="{{ request.user.customuser.introduce }}" name="introduce" placeholder="한줄소개를 적어주세요"><br>
-
-        <button>저장하기</button>
-    </form>
-
-    <h5>나의 목표</h5>
+   
     <main class="mypage-main">
         <h3>나의 정보</h3>
         <section class="profile">
@@ -42,8 +23,9 @@
                 <h4>{{ request.user.username }}<img src="{% static 'img/right_allow.png' %}" alt="right_allow"></h4>
             </div>
 
-            {% csrf_token %}
+            
             <form method="POST">
+                {% csrf_token %}
             <section class="pro-sc1">
                 <div class="profile-img">
                     <img src="{% static 'img/profile.png' %}">
@@ -75,7 +57,7 @@
                         </select>
                         <img src="{% static 'img/select.png' %}" alt="select" >
                     </div>
-                </form>
+                
 
                 </div>
             </section>
@@ -83,7 +65,9 @@
                 <h6 class="gray">한 줄 소개</h6>
                 <textarea class="textarea" value="{{ request.user.customuser.introduce }}" name="introduce" disabled>{{ request.user.customuser.introduce }}</textarea>
             </section>
-            <button class="set">수정하기</button>
+            <button type="submit" class="save nodisplay">저장하기</button>
+        </form>
+        <button class="set">수정하기</button>
         </section>
 
         <div class="empty"></div>

@@ -150,7 +150,7 @@ textarea:focus {
     resize: none;
 }
 
-.set {
+.set, .save {
     width: 68px;
     height: 37px;
     background-color: #09A8FA;
@@ -223,7 +223,9 @@ textarea:focus {
 .nodisplay * {
     display: none;
 }
-
+.nodisplay{
+    display: none;
+}
 .display {
     display: flex;
 }
