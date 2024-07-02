@@ -9,7 +9,9 @@ body {
   display: flex;
   flex-direction: column;
 }
-
+.navbar .nav-qna * {
+  color: #09A8FA;
+}
 main {
   display: flex;
   flex-grow: 1;
