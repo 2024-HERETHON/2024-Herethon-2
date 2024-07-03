@@ -1,32 +1,55 @@
 {% extends "base.html" %}
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+{% block content %}
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인 페이지</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
+
 <body>
-    
-{% block content %}
-    <h1>로그인</h1>
-    {% if error_message %}
-        <p style="color: red;">{{ error_message }}</p>
-    {% endif %}
 
-    <form class="user" method="POST">
-        {% csrf_token %}
-        <div>
-            <input type="text" name="username" placeholder="ID를 입력하세요.">
-        </div>
-        <div>
-            <input type="password" name="password" placeholder="비밀번호를 입력하세요">
-        </div>
-        <input type="submit" value="로그인">
-    </form>
-    <a href="{% url 'accounts:signup' %}">유저가 아니신가요? 회원가입하러 이동</a>
+    <div class="empty"></div>
+    <main class="login-main">
 
-    {% endblock %}
+        <div class="wrap">
+            <div class="logo"><img src="{% static 'img/LOGO.png' %}" alt="logo"></div>
+            {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+            {% endif %}
+
+            <form class="user" method="POST">
+                {% csrf_token %}
+                <div class="login-form id" >
+                    <h6>아이디</h6>
+                    <input type="text" name="username" placeholder="아이디를 입력해주세요.">
+                </div>
+                <div class="login-form pwd" >
+                    <h6>비밀번호</h6>
+                    <input type="password" name="password" placeholder="비밀번호를 입력하세요">
+                </div>
+                <input type="submit" value="로그인" class="loginbtn">
+            </form>
+            <div class="findUser">
+                <a href="/" class="findId">아이디 찾기</a>
+                <div class="line"></div>
+                <a href="/" class="findPwd">비밀번호 찾기</a>
+            </div>
+            
+            <div class="go-account"> <a href="{% url 'accounts:signup' %}" >스턱이 처음이에요 <span class="blue">가입하기</span></a></div>
+ 
+            
+        </div>
+    </main>
+    <div class="empty"></div>
+    <div class="empty"></div>
+
 </body>
+{% endblock %}
+
 </html>
