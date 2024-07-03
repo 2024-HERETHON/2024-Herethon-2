@@ -2,12 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Routine, ToDo
 from .forms import RoutineForm, ToDoForm
 from accounts.models import *
+from datetime import date
 
-
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import Routine, ToDo, CustomUser
-from .forms import RoutineForm, ToDoForm
-from django.contrib.auth.models import User
 
 def todo_list(request,  year, month, day, offset):
     user = get_object_or_404(User, id=request.user.id)
@@ -32,6 +28,7 @@ def todo_list(request,  year, month, day, offset):
                 routine_id = request.POST.get('routine_id')
                 routine = get_object_or_404(Routine, id=routine_id)
                 todo = todo_form.save(commit=False)
+                todo.date = date(year, month, day)
                 todo.routine = routine
                 todo.save()
                 return redirect('accounts:mypage_by_date', year, month, day, offset)
@@ -39,22 +36,7 @@ def todo_list(request,  year, month, day, offset):
         routine_form = RoutineForm()
         todo_form = ToDoForm()
     
-    routines = Routine.objects.filter(user=custom_user)
-    todos = ToDo.objects.filter(routine__in=routines)
-    total_todos = todos.count()
-    completed_todos = todos.filter(completed=True).count()
-    completion_rate = (completed_todos / total_todos * 100) if total_todos > 0 else 0
-
     return redirect('accounts:mypage_by_date', year, month, day, offset)
-
-
-    return render(request, 'todo/todo_list.html', {
-        'routine_form': routine_form,
-        'todo_form': todo_form,
-        'routines': routines,
-        'todos': todos,
-        'completion_rate': completion_rate,
-    })
 
 
 # 할 일 완료
