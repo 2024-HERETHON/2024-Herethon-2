@@ -143,14 +143,21 @@
                                 <li>
                                     <form action="{% url 'todo:complete_todo' chlicked_day.year chlicked_day.month chlicked_day.day week_offset todo.pk %}" method="POST">
                                         {% csrf_token %}
+             
                                         <label for="todo-{{ todo.pk }}">
-                                            <input type="checkbox"  {% if todo.completed %}checked{% endif %}
-                                                   onclick="this.closest('form').submit()" {% if todo.completed %}disabled{% endif %}>
+                                            <button type="button"  class="checkbox" onclick="this.closest('form').submit()">
+                                                {% if todo.completed %}
+                                                    <img src="{% static 'img/todo-after.png' %}" alt="체크박스" class="todo_check">
+                                                {% else %}
+                                                    <img src="{% static 'img/todo-before.png' %}" alt="체크박스" class="todo_check">
+                                                {% endif %}
+                                            </button>
                                             {% if todo.completed %}
                                                 <strike><a href="{% url 'todo:complete_todo' chlicked_day.year chlicked_day.month chlicked_day.day week_offset todo.pk %}">{{ todo.description }}</a></strike>
                                             {% else %}
                                             <a href="{% url 'todo:complete_todo' chlicked_day.year chlicked_day.month chlicked_day.day week_offset todo.pk %}">{{ todo.description }}</a>
                                             {% endif %}
+                                            </button>
                                         </label>
                                         {% if not todo.completed %}
                                         <a href="{% url 'todo:complete_todo' chlicked_day.year chlicked_day.month chlicked_day.day week_offset todo.pk %}">완료</a>
