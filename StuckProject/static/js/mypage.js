@@ -1,7 +1,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    history.scrollRestoration = "auto";
+  
     //프로필 수정
     const setbtn = document.querySelector(".set");
     const savebtn = document.querySelector(".save");
@@ -49,13 +49,13 @@ document.addEventListener("DOMContentLoaded", function () {
             dayElement.dataset.day = date.getDay();
 
             // 오늘 날짜 마킹
-            if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
+            if (date.toDateString() === today.toDateString()) {
                 dayElement.classList.add('today-mark');
             } else {
                 dayElement.classList.remove('today-mark');
             }
         });
-        updateTitleDate(startOfWeek, "week");
+        
     }
 
     function updateMonthCalendarDates(startOfMonth) {
@@ -72,8 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 dayElement.textContent = date.getDate();
                 dayElement.dataset.day = date.getDay();
 
-                // 오늘 날짜 마킹
-                if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
+                 // 오늘 날짜 마킹
+                 if (date.toDateString() === today.toDateString()) {
                     dayElement.classList.add('today-mark');
                 } else {
                     dayElement.classList.remove('today-mark');
@@ -85,28 +85,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 dayElement.style.display = 'none';
             }
         });
-        updateTitleDate(firstDayOfMonth, "month");
+       
     }
 
-    /*
-    function updateTitleDate(startDate, viewType) {
-        const titleDate = document.querySelector('.title-date');
-        const year = startDate.getFullYear();
-
-        if (viewType === "week") {
-            const startMonth = startDate.getMonth() + 1;
-            const endDate = new Date(startDate);
-            endDate.setDate(startDate.getDate() + 6);
-            const endMonth = endDate.getMonth() + 1;
-            const monthDisplay = startMonth !== endMonth
-                ? `${startMonth}월 - ${endMonth}월`
-                : `${startMonth}월`;
-            titleDate.textContent = `${year}년 ${monthDisplay}`;
-        } else if (viewType === "month") {
-            const month = startDate.getMonth() + 1;
-            titleDate.textContent = `${year}년 ${month}월`;
-        }
-    } */
+  
 
     function initializeDates() {
         const year = today.getFullYear();

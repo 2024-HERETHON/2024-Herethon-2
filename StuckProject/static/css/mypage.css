@@ -5,7 +5,9 @@
 body {
     background-color: #FAFAFA;
 }
-
+.cal, .profile{
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
 .mypage-main {
     width: 1040px;
     margin: 0 auto;
@@ -39,7 +41,6 @@ body {
 .pro-sc1 {
     width: 95%;
     margin: 0 auto;
-    padding-top: 40px;
     display: flex;
     justify-content: space-between;
 }
@@ -167,11 +168,13 @@ textarea:focus {
 
 .cal {
     width: 686px;
-    height: 1011px;
+    height: 1020px;
     padding: 100px 160px;
     background-color: #fff;
     border-radius: 20px;
+    overflow-y: auto;
 }
+
 
 .calender {
     flex: 2;
@@ -198,7 +201,8 @@ textarea:focus {
     background-color: rgba(0, 0, 0, 0);
     border: none;
     float: right;
-    height: 42px;
+    height: fit-content;
+    padding-top: 10px;
     margin-right: 8px;
 }
 
@@ -234,11 +238,16 @@ textarea:focus {
     width: 100%;
     display: flex;
     flex-direction: column;
-
     padding: 0;
     margin: 0;
 }
-
+.month-cal div{
+    background-color: #F1F1F1;
+    color: #3B3B3B;
+}
+.month-cal .today-mark{
+    background-color: #09A8FA;
+}
 .week-cal {
     width: 100%;
     display: flex;
@@ -351,6 +360,8 @@ a{
     height: 50px;
     display: flex;
     align-items: center;
+    margin-bottom: 50px;
+    
 }
 input:focus {
     outline: none;
@@ -365,6 +376,7 @@ input:focus {
     height: 100%;
     padding:0 10px ;
     margin-top: 10px;
+    
 
 }
 .input_todo img,
@@ -377,8 +389,20 @@ input:focus {
     padding: 0 20px;
 
 }
+ul{
+    padding-left:0 ;
+}
 .checkbox img{
     width: 35px;
+}
+.todo-list{
+    display: flex;
+    margin-bottom: 5px;
+}
+.todo-list a{
+    display: block;
+    line-height: 38px;
+    color: #3B3B3B;
 }
 .todobtn{
 

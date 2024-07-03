@@ -48,7 +48,7 @@ input{
     align-items: center;
 }
 .id input, .pwd input{
-    
+    font-size: 16px;
     margin-top: 10px;
     padding: 0 10px;
     border: 1px solid #D2D2D2;
