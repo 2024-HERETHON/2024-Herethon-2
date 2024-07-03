@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateTitleDate(firstDayOfMonth, "month");
     }
 
+     /*
     function updateTitleDate(startDate, viewType) {
         const titleDate = document.querySelector('.title-date');
         const year = startDate.getFullYear();
@@ -79,7 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const month = startDate.getMonth() + 1;
             titleDate.textContent = `${year}년 ${month}월`;
         }
-    }
+    } */
+
 
     function initializeDates() {
         const year = today.getFullYear();
@@ -134,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
             updateMonthCalendarDates(currentMonthStart);
             isWeekView = false;
         } else {
-            console.log("in")
             calBtn.textContent = '주';
             monthCal.classList.add('nodisplay');
             monthCal.classList.remove('display');

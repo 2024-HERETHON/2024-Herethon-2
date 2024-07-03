@@ -80,11 +80,8 @@ def mypage(request, year=None, month=None, day=None, week_offset=0):
     else:
         selected_date = date.today() 
 
-    print(week_offset)
-
     # offset 만큼 week 변화
     selected_date += timedelta(weeks=week_offset)
-    print(selected_date)
 
     # 클릭한 날짜에 해당하는 todo를 가져옴
     todos = ToDo.objects.filter(routine__in=routines, date=selected_date)
@@ -92,6 +89,17 @@ def mypage(request, year=None, month=None, day=None, week_offset=0):
     # 일요일 시작 
     start_of_week = selected_date - timedelta(days=(selected_date.weekday() + 1) % 7)  # Sunday
     end_of_week = start_of_week + timedelta(days=6)  # Saturday
+
+    # 주에 걸친 월 정보
+    start_month = start_of_week.month
+    end_month = end_of_week.month
+    start_year = start_of_week.year
+    end_year = end_of_week.year
+
+    if start_month == end_month:
+        week_month = f"{start_year}년 {start_month}월"
+    else:
+        week_month = f"{start_year}년 {start_month}월 - {end_month}월"
 
     week_days = []
     for i in range(7):
@@ -128,7 +136,8 @@ def mypage(request, year=None, month=None, day=None, week_offset=0):
         'routine_form': routine_form,
         'todo_form': todo_form,
         'week_offset': week_offset,
-        'chlicked_day': chlicked_day
+        'chlicked_day': chlicked_day,
+        'week_month': week_month
     }
 
     return render(request, 'accounts/mypage.html', context)
