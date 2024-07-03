@@ -1,9 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px; /* 제목과 겹치지 않도록 여백 추가 */
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .grid-item img {
+            width: 70px;
+            height: 80px;
+        }
+    </style>
 </head>
 <body>
     <!-- 프론트분들께 설명 -->
@@ -21,46 +46,43 @@
         {% endif %}
     {% endif %}
 
-
-
     <div id="trash-bin">쓰레기통</div>
 
-    <h3>folder</h3>
-    <ul ondrop="drop(event, {% if folder %}{{ folder.id }}{% else %}0{% endif %})" ondragover="allowDrop(event)">
+    <section class="grid-container">
+        <!-- 현재 폴더 하위에 있는 폴더 출력 -->
         {% for child in children %}
-            <li id="folder-{{ child.id }}" class="draggable" draggable="true">
-                <a href="{% url 'quiz:folder-view' child.id %}">{{ child.name }}</a>
-            </li>
+        <div id="folder-{{ child.id }}" class="grid-item" ondrop="drop(event, 'folder', {{ child.id }})" ondragover="allowDrop(event)">
+            <a id="folder-{{ child.id }}" class="draggable" draggable="true" href="{% url 'quiz:folder-view' child.id %}">
+                <img src="{% static 'img/folder.svg' %}" alt="Folder Icon">
+                <p>{{ child.name }}</p>
+            </a>
+        </div>
         {% endfor %}
-    </ul>
 
-    <h3>quiz</h3>
-    <ul ondragover="allowDrop(event)">
+        <!-- 현재 폴더 하위에 있는 Q 파일 출력 -->
         {% for q in folder.quizs.all %}
-            <li id="quiz-{{ q.id }}" class="draggable" draggable="true">
-                <a id="quiz-{{ q.id }}" href="{% url 'quiz:view-questions' folder.id q.id %}">{{ q.title }}</a>
-            </li>
+        <div id="quiz-{{ q.id }}" class="grid-item" draggable="true" ondragstart="drag(event)">
+            <img src="{% static 'img/q.png' %}" alt="Q File Icon">
+            <p><a id="quiz-{{ q.id }}" href="{% url 'quiz:view-questions' folder.id q.id %}">{{ q.title }}</a></p>
+        </div>
         {% endfor %}
-    </ul>
 
-    <h3>q&a</h3>
-    <ul ondragover="allowDrop(event)">
+        <!-- 현재 폴더 하위에 있는 T 파일 출력 -->
         {% for q in folder.qnas.all %}
-            <li id="qna-{{ q.id }}" class="draggable" draggable="true">
-                <a id="qna-{{ q.id }}" href="{% url 'qna:enter-question-room' folder.id q.id %}">{{ q.title }}</a>
-            </li>
+        <div id="qna-{{ q.id }}" class="grid-item" draggable="true" ondragstart="drag(event)">
+            <img src="{% static 'img/t.png' %}" alt="T File Icon">
+            <p><a id="qna-{{ q.id }}" href="{% url 'qna:enter-question-room' folder.id q.id %}">{{ q.title }}</a></p>
+        </div>
         {% endfor %}
-    </ul>
+    </section>
 
     <br><br>
     {% if folder %}
-
         {% if folder.parent == None %}
             <a href="{% url 'quiz:folder-view' 0 %}">루트 폴더로 이동</a>
         {% else %}
             <a href="{% url 'quiz:folder-view' folder.parent.id %}">폴더 뒤로 가기</a>
         {% endif %}
-
     {% endif %}
     <br><br>
 
@@ -122,48 +144,34 @@
     
     <script>
         function drag(event) {
-            console.log(event.target)
-            console.log(event.target.href)
             event.dataTransfer.setData("text", event.target.id);
-            console.log("Drag started: " + event.target.id);
         }
 
         function allowDrop(event) {
             event.preventDefault();
         }
 
-        function drop(event, parentId) {
+        function drop(event, type, folderId) {
             event.preventDefault();
             var data = event.dataTransfer.getData("text");
-            console.log(data)
-            var test = data.split('-')[0];
-            console.log(`test ${test}`);
+            var element = document.getElementById(data);
+            var itemId = data.split('-')[1];
 
-            if (test === "quiz") {
-                var quizId = data.split('-')[1];
-                var targetElement = event.target.closest('li');
-                var newCategoryId = targetElement ? targetElement.id.split('-')[1] : '0';
-                var currentUrl = window.location.href;
-                var categoryId = currentUrl.match(/folder\/(\d+)\//)[1];
-                window.location.href = `/quiz/move/${categoryId}/${quizId}/to/${newCategoryId}/`;
-            } else if (test === "qna") {
-                var qnaId = data.split('-')[1];
-                var targetElement = event.target.closest('li');
-                var currentFolderId = targetElement ? targetElement.id.split('-')[1] : '0';
-                var currentUrl = window.location.href;
-                var moveFolderId = currentUrl.match(/folder\/(\d+)\//)[1];
-                window.location.href = `/qna/move/${currentFolderId}/${qnaId}/to/${moveFolderId}/`;
-            } else {
-                    var categoryId = data.split('/')[4];
-                    // 드롭한 위치의 가장 가까운 li 요소 찾기
-                    var targetElement = event.target.closest('li'); 
-                    // 부모 ID 추출
-                    var parentId = targetElement ? targetElement.id.split('-')[1] : '0'; 
-                    console.log(data)
-                    console.log(categoryId)
-                    // 생성한 폴더 이동
-                    window.location.href = `/folder/move/${categoryId}/to/${parentId}/`;
+            const path = window.location.pathname;
+            const segments = path.split('/');
+            console.log(segments)
+            let parentId = segments[2]; 
+            console.log(parentId)
+
+            if (type === 'folder') {
+                if (data.startsWith('quiz-')) {
+                    window.location.href = `/quiz/move/${parentId}/${itemId}/to/${folderId}/`;
+                } else if (data.startsWith('qna-')) {
+                    window.location.href = `/qna/move/${parentId}/${itemId}/to/${folderId}/`;
+                } else {
+                    window.location.href = `/folder/move/${folderId}/to/${itemId}/`;
                 }
+            }
         }
 
         document.querySelectorAll('.draggable').forEach(function(element) {
@@ -185,19 +193,17 @@
         function dropToTrash(event) {
             event.preventDefault();
             var data = event.dataTransfer.getData("text");
-            var test = data.split('-')[0];
             var itemId = data.split('-')[1];
-            console.log(test)
 
-            if (test === "quiz") {
+            if (data.startsWith('quiz-')) {
                 window.location.href = `/quiz/delete/${itemId}/`;
-            } else if (test === "qna") {
+            } else if (data.startsWith('qna-')) {
                 window.location.href = `/qna/delete/${itemId}/`;
             } else {
-                var itemId = data.split('/')[4];
                 window.location.href = `/folder/delete/${itemId}/`;
             }
         }
     </script>
 </body>
 </html>
+{% endblock %}

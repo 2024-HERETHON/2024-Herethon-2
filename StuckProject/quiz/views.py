@@ -144,12 +144,12 @@ def add_folder(request, parent_id):
 
 # 폴더 드래그로 이동
 def move_folder(request, folder_id, parent_id):
-    folder = get_object_or_404(Folder, id=folder_id)
+    folder = get_object_or_404(Folder, id=parent_id)
 
-    if parent_id == 0:
+    if folder_id == 0:
         new_parent = None
     else:
-        new_parent = get_object_or_404(Folder, id=parent_id)
+        new_parent = get_object_or_404(Folder, id=folder_id)
 
     folder.parent = new_parent
     folder.save()
