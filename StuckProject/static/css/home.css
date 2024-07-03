@@ -2,6 +2,9 @@ main {
     width: 1305px;
     margin: 0 auto;
 }
+.navbar .nav-home * {
+    color: #09A8FA;
+}
 
 
 .top {
