@@ -135,7 +135,8 @@ p {
   background: var(--Primary-Hover, linear-gradient(0deg, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.30) 100%), #09A8FA);
   border: none;
   height: 31px;
-  width: 81px;
+  width: 85px;
   font-size: 14px;
-  color: white
+  color: white;
+  margin-left: 12px;
 }
