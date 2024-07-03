@@ -7,6 +7,7 @@ import os
 from django.contrib import messages
 from django.db import IntegrityError
 from datetime import date, timedelta
+import calendar
 
 # openai
 import openai
@@ -30,7 +31,22 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 # 생성한 퀴즈 word 저장
 from docx import Document
 
-# 메인페이지
+
+def calculate_week_number_within_month(today):
+    # 달의 첫번째 계산
+    first_day_of_month = date(today.year, today.month, 1)
+    # 달의 첫번째 월요일 계산
+    first_week_start = first_day_of_month + timedelta(days=(calendar.MONDAY - first_day_of_month.weekday()) % 7)
+    
+    # 만약 달의 첫번째 날이 첫번째 월요일 이전이라면 주차 번호 조정
+    if first_day_of_month.weekday() > calendar.SUNDAY:
+        first_week_start = first_week_start - timedelta(days=7)
+    
+    # 달 내에서 주차 번호를 계산
+    week_number_within_month = ((today - first_day_of_month).days // 7) + 1
+    
+    return week_number_within_month
+
 def home(request, week_offset=0):
     if not request.user.is_authenticated:
         return render(request, 'quiz/home.html')
@@ -149,6 +165,9 @@ def home(request, week_offset=0):
     day_total_count = day_todos.count()
     day_completion_rate = (day_completed_count / day_total_count * 100) if day_total_count > 0 else 0
 
+    # 주차 계산 (월 기준)
+    week_number_within_month = calculate_week_number_within_month(today)
+
     context = {
         'folder_scraps': folder_scraps,
         'quiz_scraps': quiz_scraps,
@@ -160,10 +179,15 @@ def home(request, week_offset=0):
         'month_completion_rate': int(month_completion_rate),
         'week_completion_rate': int(week_completion_rate),
         'day_completion_rate': int(day_completion_rate),
-        'week_month': week_month, 
+        'week_month': week_month,
+        'week_number': week_number_within_month,
+        'current_year': today.year,
+        'current_month': today.month,
+        'current_day': today.day,
     }
 
     return render(request, 'quiz/home.html', context)
+
 
 # 폴더 조회
 @login_required
