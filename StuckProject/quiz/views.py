@@ -90,6 +90,7 @@ def home(request, week_offset=0):
             'color': color
         })
 
+    # 월간 목표 달성률 계산
     start_of_month = date(today.year, today.month, 1)
     if today.month == 12:
         end_of_month = date(today.year, 12, 31)
@@ -98,8 +99,11 @@ def home(request, week_offset=0):
     
     current_day = start_of_month
     month_days = []
+    month_completed_count = 0
+    month_total_count = 0
     while current_day <= end_of_month:
         day_name = current_day.strftime('%a')
+        day_todos = todos.filter(date=current_day)
         completed_count = day_todos.filter(completed=True).count()
         pending_count = day_todos.filter(completed=False).count()
 
@@ -113,7 +117,22 @@ def home(request, week_offset=0):
             'color': color
         })
         
+        month_completed_count += completed_count
+        month_total_count += completed_count + pending_count
         current_day += timedelta(days=1)
+
+    month_completion_rate = (month_completed_count / month_total_count * 100) if month_total_count > 0 else 0
+
+    # 주간 목표 달성률 계산
+    week_completed_count = sum(day['completed_count'] for day in week_days)
+    week_total_count = sum(day['completed_count'] + day['todo_count'] for day in week_days)
+    week_completion_rate = (week_completed_count / week_total_count * 100) if week_total_count > 0 else 0
+
+    # 일간 목표 달성률 계산
+    day_todos = todos.filter(date=today)
+    day_completed_count = day_todos.filter(completed=True).count()
+    day_total_count = day_todos.count()
+    day_completion_rate = (day_completed_count / day_total_count * 100) if day_total_count > 0 else 0
 
     context = {
         'folder_scraps': folder_scraps,
@@ -122,7 +141,10 @@ def home(request, week_offset=0):
         'documents': documents,
         'week_days': week_days,
         'month_days': month_days,
-        'week_offset': week_offset
+        'week_offset': week_offset,
+        'month_completion_rate': month_completion_rate,
+        'week_completion_rate': week_completion_rate,
+        'day_completion_rate': day_completion_rate,
     }
 
     return render(request, 'quiz/home.html', context)
