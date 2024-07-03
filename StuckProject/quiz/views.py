@@ -440,6 +440,7 @@ def test(request, folder_id, quiz_id):
         'quiz': quiz,
         'type': quiz.type,
         'message': message,
+        'folder_id': folder_id
     }
     
     return render(request, 'quiz/test.html', context)
