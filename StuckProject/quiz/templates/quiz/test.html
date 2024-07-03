@@ -10,6 +10,10 @@
     <h1>제목 : {{ quiz.title }}</h1>
     <p>{{ message}}</p> <!--주관식이라면 채점 안내 문구 뜸-->
     <p>생성 날짜 {{quiz.created_at}} 문제 수 {{quiz.question_num}}</p>
+
+    <a href="{% url 'quiz:save-quiz-as-pdf' folder_id quiz.id %}">문제 pdf로 다운로드</a>
+    <a href="{% url 'quiz:save-quiz-as-word' folder_id quiz.id %}">문제 word로 다운로드</a>
+
     <form method="post">
         {% csrf_token %}
         {% for question in questions %}
