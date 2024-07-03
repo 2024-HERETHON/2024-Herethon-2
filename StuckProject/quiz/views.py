@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import *
 from accounts.models import *
+from todo.models import Routine, ToDo
 import os
 from django.contrib import messages
 from django.db import IntegrityError
+from datetime import date, timedelta
 
 # openai
 import openai
@@ -29,9 +31,9 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 from docx import Document
 
 # 메인페이지
-def home(request):
+def home(request, week_offset=0):
     if not request.user.is_authenticated:
-         return render(request, 'quiz/home.html')
+        return render(request, 'quiz/home.html')
 
     user = get_object_or_404(User, id=request.user.id)
     custom_user = get_object_or_404(CustomUser, user=user)
@@ -62,15 +64,106 @@ def home(request):
                 'obj': obj,
                 'folder_id': folder_id
             })
+
+    # 루틴 및 투두 정보
+    routines = Routine.objects.filter(user=custom_user)
+    todos = ToDo.objects.filter(routine__in=routines)
+
+    # offset 만큼 week 변화
+    today = date.today() + timedelta(weeks=week_offset)
+    # 일요일부터 시작
+    start_of_week = today - timedelta(days=(today.weekday() + 1) % 7)  # Sunday
+    end_of_week = start_of_week + timedelta(days=6)
+
+    week_days = []
+    for i in range(7):
+        day = start_of_week + timedelta(days=i)
+        day_name = day.strftime('%a')
+        day_todos = todos.filter(date=day)
+        completed_count = day_todos.filter(completed=True).count()
+        pending_count = day_todos.filter(completed=False).count()
+        color = "blue" if completed_count > 0 else "gray"
+        week_days.append({
+            'day_name': day_name,
+            'date': day.day,
+            'todo_count': pending_count,
+            'completed_count': completed_count,
+            'color': color
+        })
+
+    # 주간에 포함된 월 이름 결정
+    start_year = start_of_week.year
+    end_year = end_of_week.year
+    start_month = start_of_week.month
+    end_month = end_of_week.month
+
+    if start_year == end_year:
+        if start_month == end_month:
+            week_month = f"{start_year}년 {start_month}월"
+        else:
+            week_month = f"{start_year}년 {start_month}월 - {end_month}월"
+    else:
+        week_month = f"{start_year}년 {start_month}월 - {end_year}년 {end_month}월"
+
+    # 월간 목표 달성률 계산
+    start_of_month = date(today.year, today.month, 1)
+    if today.month == 12:
+        end_of_month = date(today.year, 12, 31)
+    else:
+        end_of_month = date(today.year, today.month + 1, 1) - timedelta(days=1)
+    
+    current_day = start_of_month
+    month_days = []
+    month_completed_count = 0
+    month_total_count = 0
+    while current_day <= end_of_month:
+        day_name = current_day.strftime('%a')
+        day_todos = todos.filter(date=current_day)
+        completed_count = day_todos.filter(completed=True).count()
+        pending_count = day_todos.filter(completed=False).count()
+
+        color = "blue" if completed_count > 0 else "gray"
+
+        month_days.append({
+            'day_name': day_name,
+            'date': current_day.day,
+            'todo_count': pending_count,
+            'completed_count': completed_count,
+            'color': color
+        })
+        
+        month_completed_count += completed_count
+        month_total_count += completed_count + pending_count
+        current_day += timedelta(days=1)
+
+    month_completion_rate = (month_completed_count / month_total_count * 100) if month_total_count > 0 else 0
+
+    # 주간 목표 달성률 계산
+    week_completed_count = sum(day['completed_count'] for day in week_days)
+    week_total_count = sum(day['completed_count'] + day['todo_count'] for day in week_days)
+    week_completion_rate = (week_completed_count / week_total_count * 100) if week_total_count > 0 else 0
+
+    # 일간 목표 달성률 계산
+    day_todos = todos.filter(date=today)
+    day_completed_count = day_todos.filter(completed=True).count()
+    day_total_count = day_todos.count()
+    day_completion_rate = (day_completed_count / day_total_count * 100) if day_total_count > 0 else 0
+
     context = {
-         'folder_scraps': folder_scraps,
-         'quiz_scraps': quiz_scraps,
-         'question_room_scraps': question_room_scraps,
-         'documents': documents
+        'folder_scraps': folder_scraps,
+        'quiz_scraps': quiz_scraps,
+        'question_room_scraps': question_room_scraps,
+        'documents': documents,
+        'week_days': week_days,
+        'month_days': month_days,
+        'week_offset': week_offset,
+        'month_completion_rate': int(month_completion_rate),
+        'week_completion_rate': int(week_completion_rate),
+        'day_completion_rate': int(day_completion_rate),
+        'week_month': week_month, 
     }
 
     return render(request, 'quiz/home.html', context)
-
 
 # 폴더 조회
 @login_required
@@ -707,3 +800,20 @@ def search_folder(request, folder_id):
             return redirect('quiz:folder-view', folder_id)
     messages.success(request, "폴더가 성공적으로 검색되었습니다.")
     return redirect('quiz:folder-view', folder.id)
+
+
+
+# 목표 달성률
+from todo.models import ToDo
+
+def get_rate(request):
+    print("rate has been called")
+
+    todos = ToDo.objects.all()
+    total_todos = todos.count()
+    completed_todos = todos.filter(completed=True).count()
+    completion_rate = (completed_todos / total_todos * 100) if total_todos > 0 else 0
+
+    print(f"Completion Rate: {completion_rate}")
+
+    return render(request, 'quiz/home.html', {'completion_rate': completion_rate})

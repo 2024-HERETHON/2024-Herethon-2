@@ -4,7 +4,6 @@
 {% block content %}
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,12 +11,8 @@
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <script src="{% static 'js/home.js' %}" defer></script>
 </head>
-
 <body>
-
-
     <main class="home-main">
-        
         <section class="top">
             <div class="profile">
                 <div class="profile-card">
@@ -26,107 +21,60 @@
                     </div>
                     <div class="tag">{{ request.user.customuser.nickname }}</div>
                     <h5 class="name">{{ request.user.username }}</h5>
-                    <div class="agency">{{request.user.customuser.univ}} {{request.user.customuser.semester}}학기</div>
+                    <div class="agency">{{ request.user.customuser.univ }} {{ request.user.customuser.semester }}학기</div>
                 </div>
             </div>
-
             <div class="report-list">
                 <div class="ment">
-                    <h5>{{ request.user.customuser.resolution }} </h5>
+                    <h5>{{ request.user.customuser.resolution }}</h5>
                 </div>
                 <div class="empty"></div>
                 <div class="graph">
                     <div class="month-goal">
-                        <h5 class="date-month"><span class="year"></span>년 <span class="month"></span>월<span id="h6"> 의
-                                월간 목표달성률</span></h5>
-                        <!--막대그래프 생성 style =" width : 진행률" -->
-
-                        <div class="progress-container" data-progress="30">
+                    
+                        <h5 class="date-month"><span class="year"></span>년 <span class="month"></span>월<span id="h6"> 의 월간 목표달성률</span> {{ month_completion_rate }}%</h5>
+                        <div class="progress-container" data-progress="{{ month_completion_rate }}">
                             <div class="progress-bar blue"></div>
                         </div>
-
                     </div>
                     <div class="week-goal">
-                        <h5 class="date-week"><span class="year"></span>년 <span class="month"></span>월 <span
-                                class="week"></span>주차<span id="h6"> 의 주간 목표달성률</span></h5>
-
-
-                        <!--막대그래프 생성 style =" width : 진행률" -->
+                        <h5 class="date-week"><span class="year"></span>년 <span class="month"></span>월 <span class="week"></span>주차<span id="h6"> 의 주간 목표달성률 </span> {{ week_completion_rate|floatformat:"0" }}%</h5>
                         <div class="progress-container">
-                            <div class="progress-bar lightblue" style="width: 90%;"></div>
+                            <div class="progress-bar lightblue" style="width: {{ week_completion_rate }}%;"></div>
                         </div>
-
-
                     </div>
                     <div class="day-goal">
-                        <h5 class="date-day"> <span class="year"></span>년 <span class="month"></span>월 <span
-                                class="day"></span>일<span id="h6"> 의 일간 목표달성률</span></h5>
-
-                        <!--막대그래프 생성 style =" width : 진행률" -->
+                        <h5 class="date-day"> <span class="year"></span>년 <span class="month"></span>월 <span class="day"></span>일<span id="h6"> 의 일간 목표달성률</span> {{ day_completion_rate|floatformat:"0" }}%</h5>
                         <div class="progress-container">
-                            <div class="progress-bar skyblue" style="width: 50%;"></div>
+                            <div class="progress-bar skyblue" style="width: {{ day_completion_rate}}%;"></div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
-            </div>
-
         </section>
-
         <section class="middle">
             <div class="empty"></div>
-
             <wrap class="middle-sec">
                 <div class="calender">
-                    <h4 class="title-date"> <span class="year"></span>년 <span class="month"></span>월</h4>
-                    <button class="cal_btn ">주</button>
+                    <h4>{{ week_month }}</h4>
+                    <button class="cal_btn">주</button>
                     <button type="button" class="right btn">
                         <img src="{% static 'img/right_allow.png' %}">
                     </button>
                     <button type="button" class="left btn">
                         <img src="{% static 'img/left_allow.png' %}">
                     </button>
-
                     <ul class="week-cal display">
-                        <li class="sun">
-                            <h6>일</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
-                        <li class="mon">
-                            <h6>월</h6>
-                            <div class=" check-todo blue">
-                                <span class="count-todo">5</span>
+                        {% for day in week_days %}
+                        <li class="{{ day.day_name|lower }}">
+                            <h6>{{ day.day_name }}</h6>
+                            <div class="check-todo {{ day.color }}">
+                                <span class="count-todo">{{ day.todo_count }}</span>
                             </div>
-                            <h6 class="day"></h6>
+                            <!-- <h6 class="day">{{ day.date }}</h6> -->
+                            <h6>{{ day.date }}</h6>
                         </li>
-                        <li class="tue">
-                            <h6>화</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
-                        <li class="wed">
-                            <h6>수</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
-                        <li class="thu">
-                            <h6>목</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
-                        <li class="fri">
-                            <h6>금</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
-                        <li class="sat">
-                            <h6>토</h6>
-                            <div class="check-todo gray"></div>
-                            <h6 class="day"></h6>
-                        </li>
+                        {% endfor %}
                     </ul>
                     <wrap class="month-cal nodisplay">
                         <ul class="week-cal">
@@ -137,8 +85,8 @@
                             </li>
                             <li class="mon">
                                 <h6>월</h6>
-                                <div class="check-todo blue">5</div>
-                                <h6 class="m-day"></h6>
+                                <div class="check-todo gray"><h6 class="m-day"></h6></div>
+                                
                             </li>
                             <li class="tue">
                                 <h6>화</h6>
@@ -292,56 +240,72 @@
                     <div class="scrap">
                         <div class="subtitle">즐겨찾기</div>
         
-                        <ul  class="scrap-list">
-                            <!-- 폴더 스크랩 정보 -->
+                        <ul class="scrap-list">
                             {% for scrap in folder_scraps %}
                                 <li class="scrap-list1"><a href="{% url 'quiz:folder-view' scrap.folder.id %}">[폴더] {{ scrap.folder.name }}</a></li>
                             {% endfor %}
-                            <!-- 퀴즈 스크랩 정보 -->
                             {% for scrap in quiz_scraps %}
-                                <li class="scrap-list1"><a href="{% url 'quiz:view-questions' scrap.quiz.folder.id  scrap.quiz.id %}">[퀴즈] {{ scrap.quiz.title }}</a></li>
+                                <li class="scrap-list1"><a href="{% url 'quiz:view-questions' scrap.quiz.folder.id scrap.quiz.id %}">[퀴즈] {{ scrap.quiz.title }}</a></li>
                             {% endfor %}
-
-                            <!-- 질문 스크랩 정보 -->
+                           
                             {% for scrap in question_room_scraps %}
-                                <li class="scrap-list1"><a href="{% url 'qna:enter-question-room' scrap.question_room.folder.id scrap.question_room.id %}">[질문 방] {{ scrap.question_room.title }}</a></li>
-                            {% endfor %}
-
-                        </ul>
-                    </div>
-                    <div class="recent">
-                        <div class="subtitle">최근 열어본 문서</div>
-
-                        <ul class="scrap-list">
-                            {% for doc in documents %}
-                                <li class="scrap-list1">
-                                    {% if doc.type == 'quiz' %}
-                                        <a href="{% url 'quiz:quiz-results' doc.folder_id doc.obj.id %}">[퀴즈] {{ doc.obj.title }}</a>
-                                    {% elif doc.type == 'questionroom' %}
-                                        <a href="{% url 'qna:enter-question-room' doc.folder_id doc.obj.id %}">[질문 방] {{ doc.obj.title }}</a>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                            <li class="scrap-list1"><a href="{% url 'qna:enter-question-room' scrap.question_room.folder.id scrap.question_room.id %}">[질문 방] {{ scrap.question_room.title }}</a></li>
+                        {% endfor %}
+                    </ul>
                 </div>
-            </wrap>
-            <div class="empty"></div>
+                <div class="recent">
+                    <div class="subtitle">최근 열어본 문서</div>
 
-        </section>
+                    <ul class="scrap-list">
+                        {% for doc in documents %}
+                            <li class="scrap-list1">
+                                {% if doc.type == 'quiz' %}
+                                    <a href="{% url 'quiz:quiz-results' doc.folder_id doc.obj.id %}">[퀴즈] {{ doc.obj.title }}</a>
+                                {% elif doc.type == 'questionroom' %}
+                                    <a href="{% url 'qna:enter-question-room' doc.folder_id doc.obj.id %}">[질문 방] {{ doc.obj.title }}</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </wrap>
+        <div class="empty"></div>
+    </section>
 
-        <section class="bottom">
+    <section class="bottom">
+        <a href="{% url 'quiz:select-folder' 0 %}"><button class="btn-quiz">교재 내용으로 문제풀기</button></a>
+        <a href="{% url 'qna:select-folder' 0 %}"><button class="btn-qna">교재 내용 질문하기</button></a>
+    </section>
+</main>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const prevButton = document.querySelector(".left.btn");
+        const nextButton = document.querySelector(".right.btn");
 
-            <a href="{% url 'quiz:select-folder' 0 %}"><button class="btn-quiz">교재 내용으로 문제풀기</button></a>
-            <a href="{% url 'qna:select-folder' 0 %}"><button class="btn-qna">교재 내용 질문하기</button></a>
-        </section>
+        const currentUrl = window.location.href;
 
-    </main>
+        const urlSegments = currentUrl.split('/');
+        console.log(currentUrl)
+        let currentOffset = urlSegments[4];
 
+        if (isNaN(currentOffset)) {
+            currentOffset = 0; 
+        }
 
+        console.log(currentOffset)
+        
+        prevButton.addEventListener("click", function() {
+            currentOffset = parseInt(currentOffset) - 1;
+            window.location.href = `/week/${currentOffset}/`;
+        });
 
-    
+        nextButton.addEventListener("click", function() {
+            currentOffset = parseInt(currentOffset) + 1;
+            window.location.href = `/week/${currentOffset}/`;
+        });
+    });
+</script>
 </body>
 {% endblock %}
-
 </html>
