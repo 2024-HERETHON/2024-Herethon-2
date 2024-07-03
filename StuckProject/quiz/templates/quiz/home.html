@@ -56,8 +56,8 @@
             <div class="empty"></div>
             <wrap class="middle-sec">
                 <div class="calender">
-                    <h4>{{ week_month }}</h4>
-                    <button class="cal_btn">주</button>
+                    <h4 class="title-date">{{ week_month }}</h4>
+                    <button class="cal_btn ">주</button>
                     <button type="button" class="right btn">
                         <img src="{% static 'img/right_allow.png' %}">
                     </button>
@@ -304,6 +304,7 @@
             currentOffset = parseInt(currentOffset) + 1;
             window.location.href = `/week/${currentOffset}/`;
         });
+        
     });
 </script>
 </body>

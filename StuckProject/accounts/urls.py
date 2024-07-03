@@ -12,7 +12,7 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
 
     # 마이페이지
-    path('mypage/', views.mypage, name="my-page"),
+    # path('mypage/', views.mypage, name="my-page"),
     path('mypage/<int:year>/<int:month>/<int:day>/<negint:week_offset>/', views.mypage, name='mypage_by_date'),
 
 ]

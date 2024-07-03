@@ -9,7 +9,7 @@ from .models import Routine, ToDo, CustomUser
 from .forms import RoutineForm, ToDoForm
 from django.contrib.auth.models import User
 
-def todo_list(request):
+def todo_list(request,  year, month, day, offset):
     user = get_object_or_404(User, id=request.user.id)
     custom_user = get_object_or_404(CustomUser, user=user)
 
@@ -23,7 +23,7 @@ def todo_list(request):
                 routine = routine_form.save(commit=False)
                 routine.user = custom_user
                 routine.save()
-                return redirect('accounts:my-page')
+                return redirect('accounts:mypage_by_date', year, month, day, offset)
         
         # 할일 추가
         elif 'todo_submit' in request.POST:
@@ -34,7 +34,7 @@ def todo_list(request):
                 todo = todo_form.save(commit=False)
                 todo.routine = routine
                 todo.save()
-                return redirect('accounts:my-page')
+                return redirect('accounts:mypage_by_date', year, month, day, offset)
     else:
         routine_form = RoutineForm()
         todo_form = ToDoForm()
@@ -45,7 +45,7 @@ def todo_list(request):
     completed_todos = todos.filter(completed=True).count()
     completion_rate = (completed_todos / total_todos * 100) if total_todos > 0 else 0
 
-    return redirect('accounts:my-page')
+    return redirect('accounts:mypage_by_date', year, month, day, offset)
 
 
     return render(request, 'todo/todo_list.html', {
@@ -58,8 +58,11 @@ def todo_list(request):
 
 
 # 할 일 완료
-def complete_todo(request, pk):
+def complete_todo(request, year, month, day, offset, pk):
     todo = get_object_or_404(ToDo, pk=pk)
-    todo.completed = True
+    if todo.completed:
+        todo.completed = False
+    else:
+        todo.completed = True
     todo.save()
-    return redirect('accounts:my-page')
+    return redirect('accounts:mypage_by_date', year, month, day, offset)

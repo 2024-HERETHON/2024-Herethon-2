@@ -75,7 +75,7 @@
 
         <h3>나의 목표</h3>
         <section class="cal">
-            <h4 class="title-date"> <span class="year"></span>년 <span class="month"></span>월</h4>
+            <h4 class="title-date">{{week_month}}</h4>
                 <div class="calender">
                     
                     <button class="cal_btn ">주</button>
@@ -103,7 +103,7 @@
                 </ul>
 
                     <div class="todo display">
-                        <form method="POST" action="{% url 'todo:todo_list' %}">
+                        <form method="POST" action="{% url 'todo:todo_list' chlicked_day.year chlicked_day.month chlicked_day.day week_offset %}">
 
                         <div class="btn">
                             <button  type="submit" name="routine_submit" class="add-routine button">루틴 추가
@@ -112,7 +112,7 @@
                         </div>
                         <div class="input_todo">
                                 {% csrf_token %}
-                                <input type="text" placeholder="루틴을 입력해주세요." class="input_routine" name="{{ routine_form.name.html_name }}" value="{{ routine_form.name.value }}" class="input_routine">
+                                <input type="text" placeholder="루틴을 입력해주세요." class="input_routine" name="{{ routine_form.name.html_name }}" class="input_routine">
 
                                 <img src="{% static 'img/add_w.png' %}" alt="add_btn">
                             </div>
@@ -129,26 +129,42 @@
 
                         </button>
 
-                        <form method="post" action="{% url 'todo:todo_list' %}" class="todo_form">
+                        <form method="post" action="{% url 'todo:todo_list' chlicked_day.year chlicked_day.month chlicked_day.day week_offset %}" class="todo_form">
                             {% csrf_token %}
                             <button type="button" class="checkbox"><img src="{% static 'img/todo-before.png' %}" alt="체크박스" class="todo_check"></button>
                             <input type="hidden" class="todo_form" placeholder="할 일을 입력해주세요." name="routine_id" value="{{ routine.id }}">
-                            {{ todo_form.description }}
+                            <input type="text" placeholder="할 일을 입력해주세요." class="todo_form" name="{{ todo_form.description.name }}">
+
+               
                             <button type="submit" class="todobtn" name="todo_submit">등록</button>
                         </form>
 
                         <ul>
                             {% for todo in todos %}
-                            {% if todo.routine.id == routine.id %}
-                            <li>
-                                {% if todo.completed %}
-                                <strike>{{ todo.description }}</strike>
-                                {% else %}
-                                {{ todo.description }}
-                                <a href="{% url 'todo:complete_todo' todo.pk %}">완료</a>
+                                {% if todo.routine.id == routine.id %}
+                                <li>
+                                    <form action="{% url 'todo:complete_todo' chlicked_day.year chlicked_day.month chlicked_day.day week_offset todo.pk %}" method="POST">
+                                        {% csrf_token %}
+             
+                                        <label for="todo-{{ todo.pk }}">
+                                            <button type="button"  class="checkbox" onclick="this.closest('form').submit()">
+                                                {% if todo.completed %}
+                                                    <img src="{% static 'img/todo-after.png' %}" alt="체크박스" class="todo_check">
+                                                {% else %}
+                                                    <img src="{% static 'img/todo-before.png' %}" alt="체크박스" class="todo_check">
+                                                {% endif %}
+                                            </button>
+                                            {% if todo.completed %}
+                                                <strike><a href="{% url 'todo:complete_todo' chlicked_day.year chlicked_day.month chlicked_day.day week_offset todo.pk %}">{{ todo.description }}</a></strike>
+                                            {% else %}
+                                            <a href="{% url 'todo:complete_todo' chlicked_day.year chlicked_day.month chlicked_day.day week_offset todo.pk %}">{{ todo.description }}</a>
+                                            {% endif %}
+                                            </button>
+                                        </label>
+                            
+                                    </form>
+                                </li>
                                 {% endif %}
-                            </li>
-                            {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
@@ -370,7 +386,7 @@
 
         const today = new Date();
         const year = today.getFullYear();
-        const month = today.getMonth() + 1; // 월은 0부터 시작하므로 1을 더해줍니다.
+        const month = today.getMonth() + 1; 
         const day = today.getDate();
         
         prevButton.addEventListener("click", function() {
