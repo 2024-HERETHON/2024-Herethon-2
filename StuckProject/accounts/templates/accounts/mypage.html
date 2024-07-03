@@ -112,7 +112,7 @@
                         </div>
                         <div class="input_todo">
                                 {% csrf_token %}
-                                <input type="text" placeholder="루틴을 입력해주세요." class="input_routine" name="{{ routine_form.name.html_name }}" value="{{ routine_form.name.value }}" class="input_routine">
+                                <input type="text" placeholder="루틴을 입력해주세요." class="input_routine" name="{{ routine_form.name.html_name }}" class="input_routine">
 
                                 <img src="{% static 'img/add_w.png' %}" alt="add_btn">
                             </div>
@@ -133,7 +133,9 @@
                             {% csrf_token %}
                             <button type="button" class="checkbox"><img src="{% static 'img/todo-before.png' %}" alt="체크박스" class="todo_check"></button>
                             <input type="hidden" class="todo_form" placeholder="할 일을 입력해주세요." name="routine_id" value="{{ routine.id }}">
-                            {{ todo_form.description }}
+                            <input type="text" placeholder="할 일을 입력해주세요." class="todo_form" name="{{ todo_form.description.name }}">
+
+               
                             <button type="submit" class="todobtn" name="todo_submit">등록</button>
                         </form>
 
@@ -159,9 +161,7 @@
                                             {% endif %}
                                             </button>
                                         </label>
-                                        {% if not todo.completed %}
-                                        <a href="{% url 'todo:complete_todo' chlicked_day.year chlicked_day.month chlicked_day.day week_offset todo.pk %}">완료</a>
-                                        {% endif %}
+                            
                                     </form>
                                 </li>
                                 {% endif %}

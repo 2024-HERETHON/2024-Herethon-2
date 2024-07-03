@@ -45,7 +45,7 @@ def todo_list(request,  year, month, day, offset):
     completed_todos = todos.filter(completed=True).count()
     completion_rate = (completed_todos / total_todos * 100) if total_todos > 0 else 0
 
-    return redirect('accounts:my-mypage_by_date', year, month, day, offset)
+    return redirect('accounts:mypage_by_date', year, month, day, offset)
 
 
     return render(request, 'todo/todo_list.html', {
