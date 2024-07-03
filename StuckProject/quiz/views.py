@@ -73,6 +73,7 @@ def home(request, week_offset=0):
     today = date.today() + timedelta(weeks=week_offset)
     # 일요일부터 시작
     start_of_week = today - timedelta(days=(today.weekday() + 1) % 7)  # Sunday
+    end_of_week = start_of_week + timedelta(days=6)
 
     week_days = []
     for i in range(7):
@@ -89,6 +90,20 @@ def home(request, week_offset=0):
             'completed_count': completed_count,
             'color': color
         })
+
+    # 주간에 포함된 월 이름 결정
+    start_year = start_of_week.year
+    end_year = end_of_week.year
+    start_month = start_of_week.month
+    end_month = end_of_week.month
+
+    if start_year == end_year:
+        if start_month == end_month:
+            week_month = f"{start_year}년 {start_month}월"
+        else:
+            week_month = f"{start_year}년 {start_month}월 - {end_month}월"
+    else:
+        week_month = f"{start_year}년 {start_month}월 - {end_year}년 {end_month}월"
 
     # 월간 목표 달성률 계산
     start_of_month = date(today.year, today.month, 1)
@@ -145,11 +160,10 @@ def home(request, week_offset=0):
         'month_completion_rate': month_completion_rate,
         'week_completion_rate': week_completion_rate,
         'day_completion_rate': day_completion_rate,
+        'week_month': week_month, 
     }
 
     return render(request, 'quiz/home.html', context)
-
-
 
 # 폴더 조회
 @login_required

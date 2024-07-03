@@ -56,7 +56,7 @@
             <div class="empty"></div>
             <wrap class="middle-sec">
                 <div class="calender">
-                    <h4 class="title-date"> <span class="year"></span>년 <span class="month"></span>월</h4>
+                    <h4>{{ week_month }}</h4>
                     <button class="cal_btn">주</button>
                     <button type="button" class="right btn">
                         <img src="{% static 'img/right_allow.png' %}">
@@ -71,7 +71,8 @@
                             <div class="check-todo {{ day.color }}">
                                 <span class="count-todo">{{ day.todo_count }}</span>
                             </div>
-                            <h6 class="day">{{ day.date }}</h6>
+                            <!-- <h6 class="day">{{ day.date }}</h6> -->
+                            <h6>{{ day.date }}</h6>
                         </li>
                         {% endfor %}
                     </ul>
