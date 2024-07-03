@@ -31,20 +31,20 @@
                 <div class="empty"></div>
                 <div class="graph">
                     <div class="month-goal">
-                        <div>Completion Rate: {{ completion_rate }}%</div>
+                        <div>Completion Rate: {{ completion_rate|floatformat:"0" }}%</div>
                         <h5 class="date-month"><span class="year"></span>년 <span class="month"></span>월<span id="h6"> 의 월간 목표달성률</span> {{ month_completion_rate }}%</h5>
                         <div class="progress-container" data-progress="{{ month_completion_rate }}">
                             <div class="progress-bar blue"></div>
                         </div>
                     </div>
                     <div class="week-goal">
-                        <h5 class="date-week"><span class="year"></span>년 <span class="month"></span>월 <span class="week"></span>주차<span id="h6"> 의 주간 목표달성률 </span> {{ week_completion_rate }}%</h5>
+                        <h5 class="date-week"><span class="year"></span>년 <span class="month"></span>월 <span class="week"></span>주차<span id="h6"> 의 주간 목표달성률 </span> {{ week_completion_rate|floatformat:"0" }}%</h5>
                         <div class="progress-container">
                             <div class="progress-bar lightblue" style="width: {{ week_completion_rate }}%;"></div>
                         </div>
                     </div>
                     <div class="day-goal">
-                        <h5 class="date-day"> <span class="year"></span>년 <span class="month"></span>월 <span class="day"></span>일<span id="h6"> 의 일간 목표달성률</span> {{ day_completion_rate }}%</h5>
+                        <h5 class="date-day"> <span class="year"></span>년 <span class="month"></span>월 <span class="day"></span>일<span id="h6"> 의 일간 목표달성률</span> {{ day_completion_rate|floatformat:"0" }}%</h5>
                         <div class="progress-container">
                             <div class="progress-bar skyblue" style="width: {{ day_completion_rate}}%;"></div>
                         </div>

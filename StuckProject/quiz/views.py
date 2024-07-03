@@ -157,9 +157,9 @@ def home(request, week_offset=0):
         'week_days': week_days,
         'month_days': month_days,
         'week_offset': week_offset,
-        'month_completion_rate': month_completion_rate,
-        'week_completion_rate': week_completion_rate,
-        'day_completion_rate': day_completion_rate,
+        'month_completion_rate': int(month_completion_rate),
+        'week_completion_rate': int(week_completion_rate),
+        'day_completion_rate': int(day_completion_rate),
         'week_month': week_month, 
     }
 
