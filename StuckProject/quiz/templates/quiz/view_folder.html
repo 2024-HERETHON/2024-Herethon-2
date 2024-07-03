@@ -34,24 +34,22 @@
         }
 
         .favorites .grid-container {
+            display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
+            gap: 15px;
+            margin-top: 20px;
         }
 
-        .trash-bin {
-            margin-top: 20px;
-            padding: 10px;
-            border: 2px dashed #ccc;
-            text-align: center;
-            cursor: pointer;
-        }
+
     </style>
 </head>
 <body>
     <!-- 프론트분들께 설명 -->
+     <!-- 
     <h1>전달 내용</h1>
     <li>folder, quiz, q&a를 드래그해서 folder에 놓으면 해당 folder의 하위 문서로 들어갑니다.</li>
-    <li>folder, quiz, q&a를 쓰레기통 텍스트로 드래그하면 파일, 폴더가 삭제됩니다.</li> <br><br>
+    <li>folder, quiz, q&a를 쓰레기통 텍스트로 드래그하면 파일, 폴더가 삭제됩니다.</li> <br><br> -->
+    
     <a href="{% url 'quiz:home' %}">홈으로</a>
     <h1>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</h1>
 
@@ -79,15 +77,15 @@
         <!-- 현재 폴더 하위에 있는 Q 파일 출력 -->
         {% for q in folder.quizs.all %}
         <div id="quiz-{{ q.id }}" class="grid-item" draggable="true" ondragstart="drag(event)">
-            <img src="{% static 'img/q.png' %}" alt="Q File Icon">
+            <img src="{% static 'img/q_blue.png' %}" height="80px" alt="Q File Icon">
             <p><a id="quiz-{{ q.id }}" href="{% url 'quiz:view-questions' folder.id q.id %}">{{ q.title }}</a></p>
         </div>
         {% endfor %}
 
         <!-- 현재 폴더 하위에 있는 T 파일 출력 -->
         {% for q in folder.qnas.all %}
-        <div id="qna-{{ q.id }}" class="grid-item" draggable="true" ondragstart="drag(event)">
-            <img src="{% static 'img/t.png' %}" alt="T File Icon">
+        <div id="qna-{{ q.id }}" class="grid-item"  draggable="true" ondragstart="drag(event)">
+            <img src="{% static 'img/t_blue.png' %}" alt="T File Icon">
             <p><a id="qna-{{ q.id }}" href="{% url 'qna:enter-question-room' folder.id q.id %}">{{ q.title }}</a></p>
         </div>
         {% endfor %}
@@ -109,21 +107,21 @@
         <section class="grid-container">
             {% for scrap in folder_scraps %}
             <div class="grid-item">
-                <img src="{% static 'img/folder.svg' %}" alt="Folder Icon">
+                <img src="{% static 'img/folder_gray.svg' %}" alt="Folder Icon">
                 <p><a href="{% url 'quiz:folder-view' scrap.folder.id %}">{{ scrap.folder.name }}</a></p>
             </div>
             {% endfor %}
 
             {% for scrap in quiz_scraps %}
             <div class="grid-item">
-                <img src="{% static 'img/q.png' %}" alt="Q File Icon">
+                <img src="{% static 'img/q_darkgray.png' %}" alt="Q File Icon">
                 <p><a href="{% url 'quiz:view-questions' 0 scrap.quiz.id %}">{{ scrap.quiz.title }}</a></p>
             </div>
             {% endfor %}
 
             {% for scrap in question_room_scraps %}
             <div class="grid-item">
-                <img src="{% static 'img/t.png' %}" alt="T File Icon">
+                <img src="{% static 'img/t_darkgray.png' %}" alt="T File Icon">
                 <p><a href="{% url 'qna:enter-question-room' 0 scrap.question_room.id %}">{{ scrap.question_room.title }}</a></p>
             </div>
             {% endfor %}
