@@ -182,6 +182,12 @@
 
         <!-- 폴더 생성 섹션 -->
         <section class="make_folders">
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color:red">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
             <h6>새로운 폴더 생성하기</h6>
             {% if folder %}
             <form action="{% url 'quiz:add-folder' folder.id %}" method="POST">
@@ -193,7 +199,7 @@
             <form action="{% url 'quiz:add-folder' 0 %}" method="POST">
                 {% csrf_token %}
                 <input type="text" id="folder_name" name="folder_name" placeholder="폴더명을 입력해주세요">
-                <button type="submit" class="input_foldername">폴더 생성</button>
+                <button type="submit" class="makequestion_before">폴더 생성</button>
             </form>
             {% endif %}
         </section>
