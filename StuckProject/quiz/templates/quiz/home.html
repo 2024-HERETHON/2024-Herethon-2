@@ -10,6 +10,14 @@
     <title>STOCK</title>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <script src="{% static 'js/home.js' %}" defer></script>
+    <style>
+        .today {
+            font-weight: bold;
+            background-color: #09A8FA;
+            padding: 5px; 
+            border-radius: 30px;
+        }
+    </style>
 </head>
 <body>
     <main class="home-main">
@@ -69,9 +77,9 @@
                             <h6>{{ day.day_name }}</h6>
                             <div class="check-todo {{ day.color }}">
                                 <span class="count-todo">{{ day.todo_count }}</span>
-                            </div>
+                            </div> 
                             <!-- <h6 class="day">{{ day.date }}</h6> -->
-                            <h6>{{ day.date }}</h6>
+                            <h6 {% if day.date == today_day %}class="today"{% endif %}>{{ day.date }}</h6>
                         </li>
                         {% endfor %}
                     </ul>

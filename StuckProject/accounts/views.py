@@ -137,7 +137,8 @@ def mypage(request, year=None, month=None, day=None, week_offset=0):
         'todo_form': todo_form,
         'week_offset': week_offset,
         'chlicked_day': chlicked_day,
-        'week_month': week_month
+        'week_month': week_month,
+        'today_day': date.today().day
     }
 
     return render(request, 'accounts/mypage.html', context)

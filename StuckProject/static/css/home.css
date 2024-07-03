@@ -6,6 +6,13 @@ main {
     color: #09A8FA;
 }
 
+.today {
+    font-weight: bold;
+    background-color: #09A8FA;
+    padding: 5px; 
+    border-radius: 3px;
+}
+
 
 .top {
     display: flex;
