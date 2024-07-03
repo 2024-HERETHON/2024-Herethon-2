@@ -177,15 +177,16 @@ main {
     flex: 1;
 }
 
-.btn {
+.left-btn, .right-btn{
     background-color: rgba(0, 0, 0, 0);
     border: none;
     float: right;
-    height: 42px;
+    height: fit-content;
     margin-right: 8px;
+    padding-top: 10px;
 }
 
-.btn img {
+.left-btn img, .right-btn img {
     width: 11px;
 }
 
@@ -213,9 +214,15 @@ main {
     width: 100%;
     display: flex;
     flex-direction: column;
-
     padding: 0;
     margin: 0;
+}
+.month-cal div{
+    background-color: #F1F1F1;
+    color: #3B3B3B;
+}
+.month-cal .today-mark{
+    background-color: #09A8FA;
 }
 
 .week-cal {
