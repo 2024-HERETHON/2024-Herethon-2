@@ -51,7 +51,22 @@
     <li>folder, quiz, q&a를 쓰레기통 텍스트로 드래그하면 파일, 폴더가 삭제됩니다.</li> <br><br> -->
     
     <a href="{% url 'quiz:home' %}">홈으로</a>
-    <h1>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</h1>
+    <h1>{% if folder %}{{ path }}{% else %}Stuck/{% endif %}</h1>
+
+    <!-- 뒤로 이동하기 -->
+    {% if folder %}
+    <section>
+        {% if folder.parent %}
+        <a href="{% url 'quiz:folder-view' folder.parent.id %}">
+          <img src="{% static 'img/left_allow.png' %}" alt="left_arrow" class="left_circle">
+        </a>
+        {% else %}
+        <a href="{% url 'quiz:folder-view' 0 %}">
+          <img src="{% static 'img/left_allow.png' %}" alt="left_arrow" class="left_circle">
+        </a>
+        {% endif %}
+    </section>
+    {% endif %}
 
     {% if folder %}
         {% if not folder in request.user.customuser.scrap_folders.all %}
@@ -90,15 +105,6 @@
         </div>
         {% endfor %}
     </section>
-
-    <br><br>
-    {% if folder %}
-        {% if folder.parent == None %}
-            <a href="{% url 'quiz:folder-view' 0 %}">루트 폴더로 이동</a>
-        {% else %}
-            <a href="{% url 'quiz:folder-view' folder.parent.id %}">폴더 뒤로 가기</a>
-        {% endif %}
-    {% endif %}
     <br><br>
 
     <!-- 스크랩 항목 조회 -->
