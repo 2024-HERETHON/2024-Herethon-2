@@ -1,11 +1,72 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</title>
+    <link rel="stylesheet" href="{% static 'css/view_folder.css' %}" />
 </head>
 <body>
+    <main class="folder_main">
+<!-- 조회화면 상단부: 폴더명, 삭제하기, 저장 및 검색창 -->
+        <section class="top">
+            <div class="top-left">
+                <div class="title">
+                <a href="{% url 'quiz:home' %}"><img class="left_allow" src="{% static 'img/left_allow.png' %}" /></a>
+                <h4>MY STUCK</h4>
+                </div>
+                <div class="detail">
+                    <div class="scrap">
+                        <img class="icon_scrap" src="{% static 'img/icon_scrap.svg' %}" />
+                        <p>폴더 즐겨찾기에 저장</p>
+                    </div>
+                    <div class="search">
+                        <img class="icon_search" src="{% static 'img/icon_scrap.svg' %}" />
+                        <p>찾고 싶은 파일과 문서를 검색하세요</p>
+                    </div>
+                </div> 
+            </div>
+            <div class="top-right">
+                <img class="icon_delete" src="{% static 'img/icon_delete.png' %}" />
+                <div>
+                    <h5>삭제하기</h5>
+                    <p>삭제할 폴더와 문서를 여기로 드래그</p>
+                </div>
+            </div>
+        </section>
+<!-- 저장할 폴더 정하는 박스 -->  
+        
+<!-- 폴더 이미지 + 폴더명 -->
+        <section class="myfolders">
+            <div class="folder_frame1">
+                <img class="folder_image1" src="{% static 'img/folder_shadow.svg' %}" />
+                <p>폴더명(선택된 경우)</p>
+            </div>
+            <div class="folder_frame2">
+                <img class="folder_image2" src="{% static 'img/folder.svg' %}" />
+                <p>폴더명(선택 안 된 경우)</p>
+            </div> 
+            <div class="folder_frame3">
+                <img class="q" src="{% static  'img/q.png' %}" />
+                <p>파일명(문제)</p> 
+            </div>
+            <div class="folder_frame4">
+                <img class="t" src="{% static 'img/t.png' %}" />
+                <p>파일명(텍스트?)</p>
+            </div> 
+            <div class="folder_frame5">
+                <img class="txt" src="{% static 'img/txt.png' %}" />
+                <p>파일명(요약본?)</p>
+            </div> 
+        </section>
+<!-- 폴더 이미지 + 폴더명 -->
+        
+
+        
+    </main>
+
     <a href="{% url 'quiz:home' %}">홈으로</a>
     <h1>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</h1>
 
@@ -145,4 +206,5 @@
         }
     </script>
 </body>
+{% endblock %}
 </html>

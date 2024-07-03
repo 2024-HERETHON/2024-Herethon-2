@@ -3,24 +3,107 @@ main {
   margin: 0 auto;
 }
 
+.title {
+  display: flex;
+  width: 200px;
+  margin-top: 18px;;
+}
+
+.title h4 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-left: 52.41px;
+}
+
 .top {
   display: flex;
   flex-direction: column;
-  background-color: #f1f1f1;
-  height: 159px;
+}
+
+.top-left {
+  display: flex;
+  flex-direction: column;
   border-radius: 20px;
-  margin-top: 25px;
-  padding: 31px 24px;
-  gap: 28px;
-  justify-content: space-around;
+  margin-right: 24px;
+}
+
+.left_allow {
+width: 21.588px;
+height: 32.5px;
 }
 
 h4 {
   font-family: Pretendard;
   color: #3b3b3b;
-  font-size: 36px;
+  font-size: 24px;
   font-weight: 700;
   margin: 0;
+}
+
+.scrap {
+  display: flex;
+  width: 186px;
+  height: 37px;
+  padding: 8px 18px 8px 10px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 100px;
+  border: 1px solid var(--Teritary, #F1F1F1);
+}
+
+.search {
+  display: flex;
+  width: 690px;
+  height: 37px;
+  padding: 8px 18px 8px 10px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 100px;
+  border: 1px solid var(--Teritary, #F1F1F1);
+}
+
+.icon_scrap {
+  width: 24px;
+  height: 24px;
+}
+
+.icon_search {
+  width: 24px;
+  height: 24px;
+}
+
+.scrap, search p {
+  font-size: 14px;
+  font-weight: 400;
+  color:#3b3b3b; 
+}
+
+.top-right {
+  display: flex;
+  width: 283px;
+  height: 137px;
+  padding: 24px 38px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px;
+  background: var(--Teritary-Hover, linear-gradient(0deg, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.30) 100%), #F1F1F1);
+}
+
+.top-right h5 {
+  color: #3B3B3B;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.top-right p { 
+  color: #3B3B3B;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.icon_delete {
+  width: 26px;
+  height: 29px;
 }
 
 h6 {
@@ -96,6 +179,7 @@ p {
 
 .myfolders {
   display: flex;
+  margin-bottom: 80px;
 }
 
 .make_folders{
@@ -124,18 +208,20 @@ p {
   padding: 0 18px;
 }
 
-#folder_name::placeholder {
+#folder_name::placeholder  {
   font-size: 12px;
   color: #3b3b3b;
 }
 
 .input_foldername button {
-  padding: 7px 15px;  
+  padding: 7px 14px;  
   border-radius: 100px;
   background: var(--Primary-Hover, linear-gradient(0deg, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.30) 100%), #09A8FA);
   border: none;
   height: 31px;
   width: 81px;
   font-size: 14px;
-  color: white
+  color: white;
+  font-weight: 400;
+  margin-left: 12px;
 }

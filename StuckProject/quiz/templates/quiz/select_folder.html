@@ -6,22 +6,64 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% if folder %}{{ folder.name }}{% else %}Stuck{% endif %}</title>
-    {% extends "base.html" %} {% load static %} {% block content %}
 
     <link rel="stylesheet" href="{% static 'css/select_folder.css' %}" />
   </head>
 
+
   <body>
-    <main class="folder main">
+    <main class="folder_main">
+<!-- 저장할 폴더 정하는 박스 오른쪽 이미지로 작업 -->
       <section class="top">
-        <h1>저장할 폴더 선택하기</h1>
+        <h4>저장할 폴더 선택하기</h4>
         <!--폴더 이름 출력,  이름이 없다면 Root로 설정-->
-        <h1>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</h1>
+        <div class="detail">
+          <img class="left_circle" src="{% static 'img/left_circle.png' %}" />
+          <h6>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</h6>  
+          <button class="makequestion_before">문제 생성</button>
+          <button class="makequestion_after">문제 생성</button>
+        </div> 
       </section>
+<!-- 저장할 폴더 정하는 박스 -->  
+
+<!-- 폴더 이미지 + 폴더명 -->
+      <section class="myfolders">
+        <div class="folder_frame1">
+          <img class="folder_image1" src="{% static 'img/folder_shadow.svg' %}" />
+          <p>폴더명(선택된 경우)</p>
+        </div>
+        <div class="folder_frame2">
+          <img class="folder_image2" src="{% static 'img/folder.svg' %}" />
+          <p>폴더명(선택 안 된 경우)</p>
+        </div> 
+        <div class="folder_frame3">
+          <img class="q" src="{% static  'img/q.png' %}" />
+          <p>파일명(문제)</p> 
+        </div>
+        <div class="folder_frame4">
+          <img class="t" src="{% static 'img/t.png' %}" />
+          <p>파일명(텍스트?)</p>
+        </div> 
+        <div class="folder_frame5">
+          <img class="txt" src="{% static 'img/txt.png' %}" />
+          <p>파일명(요약본?)</p>
+        </div> 
+      </section>
+<!-- 폴더 이미지 + 폴더명 -->
+
+<!-- 새로운 폴더 생성하는 박스 -->
+<section class="make_folders">
+  <h6>새로운 폴더 생성하기</h6>
+  <div class="input_foldername">
+    <input type="text" id="folder_name" name="folder_name" placeholder="폴더명을 입력해주세요" />
+    <button type="submit">폴더 생성</button>
+  </div>
+</section>
+<!-- 새로운 폴더 생성하는 박스 -->
+
     </main>
 
-
-    {% i f folder %}
+    {% if folder %}
     <form method="POST" action="{% url 'quiz:select-folder' folder.id %}">
       {% csrf_token %} {{ path }} <button>폴더 선택</button>
     </form>
@@ -53,10 +95,9 @@
                 <a href="{% url 'quiz:save-quiz-as-word' folder.id q.id %}">문제 word로 다운로드</a> -->
       </li>
       {% endfor %}
-    </ul>
+    </ul> 
 
-
-<h3>q&a</h3>
+    <h3>q&a</h3>
     <br /><br />
     <!--현재 폴더가 루트 폴더가 아니라면-->
     {% if folder %}
@@ -75,7 +116,6 @@
     {% else %}
     <a href="{% url 'quiz:folder-view' folder.parent.id %}">폴더 뒤로 가기</a>
     {% endif %}
-
 
     <!--현재 폴더가 루트 폴더라면-->
     {% else %}
@@ -145,5 +185,5 @@
       });
     </script>
   </body>
-
+  {% endblock %}
 </html>

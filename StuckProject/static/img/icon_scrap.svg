@@ -1,0 +1,13 @@
+<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="bookmark_add">
+<mask id="mask0_1_795" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
+<rect id="Bounding box" y="0.5" width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_1_795)">
+<g id="bookmark_add_2">
+<path d="M6 20V6.1155C6 5.65517 6.15417 5.27083 6.4625 4.9625C6.77083 4.65417 7.15517 4.5 7.6155 4.5H13V5.5H7.6155C7.4615 5.5 7.32042 5.56408 7.19225 5.69225C7.06408 5.82042 7 5.9615 7 6.1155V18.45L12 16.3L17 18.45V11.5H18V20L12 17.423L6 20ZM17 9.5V7.5H15V6.5H17V4.5H18V6.5H20V7.5H18V9.5H17Z" fill="#3B3B3B"/>
+<path d="M6 20V6.1155C6 5.65517 6.15417 5.27083 6.4625 4.9625C6.77083 4.65417 7.15517 4.5 7.6155 4.5H13V5.5H7.6155C7.4615 5.5 7.32042 5.56408 7.19225 5.69225C7.06408 5.82042 7 5.9615 7 6.1155V18.45L12 16.3L17 18.45V11.5H18V20L12 17.423L6 20ZM17 9.5V7.5H15V6.5H17V4.5H18V6.5H20V7.5H18V9.5H17Z" fill="white" fill-opacity="0.3"/>
+</g>
+</g>
+</g>
+</svg>
