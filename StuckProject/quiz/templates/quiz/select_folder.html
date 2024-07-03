@@ -10,7 +10,10 @@
     <title>{% if folder %}{{ folder.name }}{% else %}Stuck{% endif %}</title>
     <link rel="stylesheet" href="{% static 'css/select_folder.css' %}">
     <style>
-      
+        .main {
+            width: 80%;
+        }
+
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -34,12 +37,11 @@
             display: flex;
             flex-direction: column;
             background-color: #f1f1f1;
-            height: 180px;
             border-radius: 20px;
-            margin-top: 25px;
-            padding: 31px 24px;
+
             gap: 28px;
             justify-content: space-around;
+            height: auto;
         }
 
         .detail {
@@ -117,31 +119,34 @@
             font-size: 14px;
             color: white;
         }
+
+        h4 h6 {
+            margin: none;
+        }
     </style>
+
 </head>
 <body>
     <main class="folder main">
-      
         <section class="top">
-          <div class="detail">
             <h4>저장할 폴더 정하기</h4>
-
+            <div class="detail">
             <!-- 폴더 경로 이동 섹션 -->
             {% if folder %}
             <section>
                 {% if folder.parent %}
                 <a href="{% url 'quiz:select-folder' folder.parent.id %}">
-                  <img src="{% static 'img/left_allow.png' %}" alt="left_arrow" class="left_circle">
+                  <img src="{% static 'img/left_circle.png' %}" alt="left_arrow" class="left_circle">
                 </a>
                 {% else %}
                 <a href="{% url 'quiz:select-folder' 0 %}">
-                  <img src="{% static 'img/left_allow.png' %}" alt="left_arrow" class="left_circle">
+                  <img src="{% static 'img/left_circle.png' %}" alt="left_arrow" class="left_circle">
                 </a>
                 {% endif %}
             </section>
             {% endif %}
             
-                <h6>{% if folder %}{{ path }}{% else %}Stuck/{% endif %}</h4>
+                <h6>{% if folder %}{{ path }}{% else %}Stuck/{% endif %}</h6>
                 {% if folder %}
                 <form method="POST" action="{% url 'quiz:select-folder' folder.id %}">
                     {% csrf_token %}<button class="makequestion_before">문제 생성</button>
