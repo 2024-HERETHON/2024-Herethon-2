@@ -1,5 +1,6 @@
 from datetime import date, timedelta
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import CustomUser
 from todo.models import Routine, ToDo
 from django.contrib.auth.models import User
@@ -53,7 +54,15 @@ def logout(request):
 
 
 # 마이페이지 - 본인 정보 수정 
+@login_required
 def mypage(request, year=None, month=None, day=None, week_offset=0):
+    
+    chlicked_day = {
+        'year': year,
+        'month': month,
+        'day': day
+    }
+
     user = get_object_or_404(User, id=request.user.id)
     custom_user = get_object_or_404(CustomUser, user=user)
 
@@ -118,7 +127,8 @@ def mypage(request, year=None, month=None, day=None, week_offset=0):
         'completion_rate': completion_rate,
         'routine_form': routine_form,
         'todo_form': todo_form,
-        'week_offset': week_offset
+        'week_offset': week_offset,
+        'chlicked_day': chlicked_day
     }
 
     return render(request, 'accounts/mypage.html', context)
