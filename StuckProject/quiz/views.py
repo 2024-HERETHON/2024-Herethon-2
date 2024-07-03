@@ -184,6 +184,7 @@ def home(request, week_offset=0):
         'current_year': today.year,
         'current_month': today.month,
         'current_day': today.day,
+        'today_day': date.today().day
     }
 
     return render(request, 'quiz/home.html', context)

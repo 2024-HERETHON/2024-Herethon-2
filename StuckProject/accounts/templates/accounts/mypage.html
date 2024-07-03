@@ -12,6 +12,14 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
     <script src="{% static 'js/mypage.js' %}" defer></script>
+    <style>
+        .today {
+            font-weight: bold;
+            background-color: #09A8FA;
+            padding: 5px; 
+            border-radius: 30px;
+        }
+    </style>
 </head>
 
 <body>
@@ -97,7 +105,7 @@
                                 </div>
                             </a>
                             <!-- <h6 class="day">{{ day.date.day }}</h6> -->
-                            <h6>{{ day.date.day }}</h6>
+                            <h6 {% if day.date.day == today_day %}class="today"{% endif %}>{{ day.date.day }}</h6>
                         </li>
                         {% endfor %}
                         
