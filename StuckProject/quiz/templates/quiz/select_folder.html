@@ -51,7 +51,7 @@
         </section>
 
         <section class="grid-container">
-            <!-- 현재 폴더 하위에 있는 폴더 출력 -->
+            <!-- * 현재 폴더 하위에 있는 폴더 출력 -->
             {% for child in children %}
             <div class="grid-item">
                 <a href="{% url 'quiz:select-folder' child.id %}">
