@@ -1,53 +1,154 @@
-<!-- {% load static %} -->
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입 페이지</title>
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
 </head>
+
 <body>
-    <h1>회원가입</h1>
-    <form class="user" method="POST">
-        {% csrf_token %}
-        <div>
-            <input type="text" name="username" placeholder="ID를 입력하세요.">
-        </div>
-        <div>
-            <input type="password" name="password" placeholder="비밀번호를 입력하세요">
-        </div>
-        <div>
-            <input type="password" name="password2" placeholder="비밀번호를 다시 한 번 입력하세요">
+    <div class="empty"></div>
+    <div class="empty"></div>
+    <main class="signup-main">
+
+        <div class="wrap">
+            
+            <div class="logo">
+                <img src="{% static 'img/LOGO.png' %}" alt="logo">
+                <h4>회원가입</h4>
+            </div>
             {% if error_message %}
-                <p style="color: red;">{{ error_message }}</p>
-            {% endif %} 
-        </div>
-        <div>
-            <input type="email" name="email" placeholder="이메일을 입력하세요" required>
-        </div>
-        별명 선택
-        <select name="nickname">
-            <option value="끈기 있는 마에스트로" {% if request.user.customuser.resolution == "끈기 있는 마에스트로" %}selected{% endif %}>끈기 있는 마에스트로</option>
-            <option value="열정의 천재" {% if request.user.customuser.resolution == "열정의 지니어스" %}selected{% endif %}>열정의 천재</option>
-            <option value="성실한 지니어스" {% if request.user.customuser.resolution == "성실한 천재" %} selected {% endif %}>성실한 지니어스</option>
-            <option value="노력의 귀재" {% if request.user.customuser.resolution == "노력의 귀재" %}selected{% endif %}>노력의 귀재</option>
-            <option value="묵묵한 달인" {% if request.user.customuser.resolution == "묵묵한 달인" %}selected{% endif %}>묵묵한 달인</option>
-        </select>
-        <div>
-            <input type="text" name="univ" placeholder="재학중인 학교를 입력하세요">
-        </div>
-        <div>
-            <input type="number" name="semester" placeholder="학기를 입력하세요">
-        </div>
-        <div>
-            <input type="text" name="resolution" placeholder="한줄 다짐을 적어주세요" required>
-        </div>
-        <div>
-            <input type="text" name="introduce" placeholder="한줄 소개을 적어주세요" required>
+            <p style="color: red;">{{ error_message }}</p>
+            {% endif %}
+
+            <form class="user" method="POST">
+                {% csrf_token %}
+                <div class="input-form id">
+                    <h6>아이디</h6>
+                    <input type="text" name="username" placeholder="아이디를 입력하세요.">
+                </div>
+                <div class="input-form pwd">
+                    <h6>비밀번호</h6>
+                    <p class="check-pwd">영문/숫자/특수문자 중 2가지 이상의 종류를 조합하여 10자 이상의 비밀번호를 입력해주세요</p>
+                    <input type="password" name="password" placeholder="비밀번호를 입력해주세요">
+                </div>
+                <div class="input-form pwd">
+                    <input type="password" name="password2" placeholder="비밀번호를 한 번 더 입력해주세요">
+                    {% if error_message %}
+                    <p style="color: red;">{{ error_message }}</p>
+                    {% endif %}
+                </div>
+               
+                <div class="input-form email">
+                    <h6>이메일</h6>
+                    <input type="email" name="email" placeholder="이메일을 입력하세요" required>
+                </div>
+                <div class="line"></div>
+                <div class="input-form resolution">
+                    <h6>한 줄 다짐</h6>
+                    <input type="text" name="resolution" placeholder="한줄 다짐을 적어주세요" required>
+                </div>
+               
+                <div class="input-form ">
+                    <h6>별명</h6>
+                    <select  name="nickname" class="nickname" >
+                       
+                            <option value="끈기 있는 마에스트로" selected {% if request.user.customuser.nickname == "끈기 있는 마에스트로" %}selected{% endif %}>끈기
+                                있는 마에스트로</option>
+                            <option value="열정의 천재" {% if request.user.customuser.nickname == "열정의 지니어스" %}selected{% endif %}>열정의 천재
+                            </option>
+                            <option value="성실한 지니어스" {% if request.user.customuser.nickname == "성실한 천재" %} selected {% endif %}>성실한 지니어스
+                            </option>
+                            <option value="노력의 귀재" {% if request.user.customuser.nickname == "노력의 귀재" %}selected{% endif %}>노력의 귀재
+                            </option>
+                            <option value="묵묵한 달인" {% if request.user.customuser.nickname == "묵묵한 달인" %}selected{% endif %}>묵묵한 달인
+                            </option>
+                    </select>
+                </div>
+                <div class="input-form introduce">
+                    <h6>한 줄 소개</h6>
+                    <input type="text" name="introduce" placeholder="한줄 소개을 적어주세요" required>
+                </div>
+                <div class="input-form univ">
+                    <h6>학교</h6>
+                    <input type="text" name="univ" placeholder="재학중인 학교를 입력하세요">
+                </div>
+                <div class="input-form semester">
+                    <h6>학기</h6>
+                    <input type="number" name="semester" placeholder="학기를 입력하세요">
+                </div>
+
+                <div class="terms-check">
+                    <input type="checkbox" name="terms" class="terms1">
+                    <h6>전체동의</h6>
+                </div>
+                <div class="small-line"></div>
+                <div class="terms-check">
+                    <input type="checkbox" name="terms" class="terms2">
+                    <p>서비스 이용약관 동의 (필수)</p>
+                </div>
+                <div class="terms-check">
+                    <input type="checkbox" name="terms" class="terms3">
+                    <p>개인정보 처리방침 (필수)</p>
+                </div>
+                
+                <div class="terms-check">
+                    <input type="checkbox" name="terms" class="terms4">
+                    <p>만 14세 이상입니다 (필수)</p>
+                </div>
+                <div class="terms-check">
+                    <input type="checkbox" name="terms" class="terms5">
+                    <p>광고성 정보 수신 동의 (선택)</p>
+                    
+                </div>    
+                <div class="empty"></div>
+                <input type="submit" value="가입하기" class="accountbtn">
+                
+                
+                
+            </form>
+           
+
         </div>
 
-        <input type="submit" value="가입하기">
-    </form>
+        
+    </main>
+
+    <div class="empty"></div>
+    <div class="empty"></div>
 
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const allTermsCheckbox = document.querySelector('.terms1');
+    const individualCheckboxes = document.querySelectorAll('input[name="terms"]:not(.terms1)');
+    
+
+    const updateAllTermsCheckbox = () => {
+        const allChecked = Array.from(individualCheckboxes).every(checkbox => checkbox.checked);
+        allTermsCheckbox.checked = allChecked;
+    };
+    
+    allTermsCheckbox.addEventListener('change', function() {
+        individualCheckboxes.forEach(checkbox => {
+            checkbox.checked = allTermsCheckbox.checked;
+        });
+    });
+    
+    individualCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateAllTermsCheckbox);
+    });
+
+    updateAllTermsCheckbox();
+});
+
+</script>
+{% endblock %}
+
 </html>
