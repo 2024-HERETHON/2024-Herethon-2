@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이디 찾기</title>
+</head>
+<body>
+    <h1>아이디 찾기</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+        이메일을 입력하세요: <input type="email" name="email">
+        <input type="submit">
+
+        {% for message in messages %}
+            {{message}}
+        {% endfor %}
+
+    </form>
+</body>
+</html>

@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from todo.forms import RoutineForm, ToDoForm
 
+from django.conf import settings
+from django.contrib import messages
+from django.core.mail import EmailMessage
 
 # Create your views here.
 def signup(request):
@@ -52,6 +55,43 @@ def logout(request):
     auth_logout(request)
     return redirect('quiz:home')
 
+
+
+# 마이페이지 - 본인 정보 수정 
+@login_required
+def mypage(request, year=None, month=None, day=None, week_offset=0):
+    
+    chlicked_day = {
+        'year': year,
+        'month': month,
+        'day': day
+    }
+
+    return render(request, 'accounts/mypage.html')
+
+
+
+# 아이디 찾기
+def forgot_id(request):
+    context = {}
+    if request.method == "POST":
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+            if user:
+                method_email = EmailMessage(
+                    'STUCK에서 온 아이디 찾기 메일입니다.',
+                    str(user.username),
+                    settings.EMAIL_HOST_USER,
+                    [email],
+                )
+                method_email.send(fail_silently=False)
+                messages.success(request, "이메일로 아이디가 전송되었습니다.")
+                return render(request, 'accounts/login.html', context)
+        except User.DoesNotExist:
+            messages.info(request, "등록된 이메일이 없습니다.")
+        
+    return render(request, 'accounts/forgot_id.html', context)            
 
 
 # 마이페이지 - 본인 정보 수정 
