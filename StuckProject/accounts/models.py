@@ -7,6 +7,7 @@ from django.dispatch import receiver
 
 class CustomUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.EmailField(unique=True)
     nickname = models.CharField(max_length=30)
     univ = models.TextField(max_length=100)
     semester = models.IntegerField()

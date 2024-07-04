@@ -50,6 +50,10 @@
                 <div class="input-form email">
                     <h6>이메일</h6>
                     <input type="email" name="email" placeholder="이메일을 입력하세요" required>
+                    <!-- 이메일 에러 -->
+                    {% if error_email_message %}
+                    <p style="color: red;">{{ error_email_message }}</p>
+                    {% endif %}
                 </div>
                 <div class="line"></div>
                 <div class="input-form resolution">
