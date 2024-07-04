@@ -23,7 +23,7 @@
             <p style="color: red;">{{ error_message }}</p>
             {% endif %}
 
-            <form class="user" method="POST">
+            <form class="user" action="{% url 'accounts:login' %}" method="POST">
                 {% csrf_token %}
                 <div class="login-form id" >
                     <h6>아이디</h6>
@@ -35,8 +35,17 @@
                 </div>
                 <input type="submit" value="로그인" class="loginbtn">
             </form>
+
+            <!-- 이메일 전송 완료 메세지 -->
+            <div style="text-align: center; color: #09A8FA">
+                {% for message in messages %}
+                    {{message}}
+                {% endfor %}
+                </div>
+             
             <div class="findUser">
-                <a href="/" class="findId">아이디 찾기</a>
+            
+                <a href="{% url 'accounts:forgot_id' %}" class="findId">아이디 찾기</a>
                 <div class="line"></div>
                 <a href="/" class="findPwd">비밀번호 찾기</a>
             </div>

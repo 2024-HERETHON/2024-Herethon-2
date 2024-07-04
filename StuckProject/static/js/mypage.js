@@ -1,7 +1,5 @@
-
 document.addEventListener("DOMContentLoaded", function () {
 
-  
     //프로필 수정
     const setbtn = document.querySelector(".set");
     const savebtn = document.querySelector(".save");
@@ -74,9 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                  // 오늘 날짜 마킹
                  if (date.toDateString() === today.toDateString()) {
-                    dayElement.classList.add('today-mark');
+                    dayElement.classList.add('todaymark');
                 } else {
-                    dayElement.classList.remove('today-mark');
+                    dayElement.classList.remove('todaymark');
                 }
 
                 dayElement.style.display = 'block';
@@ -190,7 +188,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-   
+    function confirmDelete(routineName) {
+        return confirm(`Routine 이름: ${routineName}을(를) 지우시겠습니까?`);
+    }
 
 
 

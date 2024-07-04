@@ -75,11 +75,9 @@
                     <div class="category">
                         <button class="add-todo button">
                             <span>{{ routine.name }}</span>
-                            <img src="{% static 'img/add.png' %}" alt="add_btn">
-                        
-
-
-
+                            <a href="{% url 'todo:delete-routine' chlicked_day.year chlicked_day.month chlicked_day.day week_offset routine.pk %}" onclick="return confirmDelete('{{ routine.name }}')">
+                                <img src="{% static 'img/delete.png' %}" alt="add_btn">
+                            </a>
 
                         </button>
 
@@ -420,6 +418,11 @@
 
         
     });
+</script>
+<script>
+    function confirmDelete(routineName) {
+        return confirm(`${routineName}을(를) 지우시겠습니까?\n루틴에 해당하는 모든 할 일이 함께 사라집니다.`);
+    }
 </script>
 
 

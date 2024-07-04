@@ -220,9 +220,14 @@ main {
 .month-cal div{
     background-color: #F1F1F1;
     color: #3B3B3B;
+    overflow: hidden;
 }
-.month-cal .today-mark{
+.month-cal .todaymark{
     background-color: #09A8FA;
+    padding-top: 60px;
+    width: 100%;
+    height: 100%;
+    color: #fff;
 }
 
 .week-cal {
@@ -259,7 +264,9 @@ main {
     border-radius: 20%;
     color: #fff;
 }
-
+.todaymark{
+    background-color: #09A8FA;
+}
 .check-todo.gray {
     background-color: #F1F1F1;
 }
