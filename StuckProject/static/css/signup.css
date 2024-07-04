@@ -44,11 +44,11 @@ body{
     margin: 0;
     margin-top: 20px;
     padding: 0;
-    margin-left: -60%;
+    margin-left: -70%;
 }
 .logo img{
     width: 143px;
-    margin-left: -60%;
+    margin-left: -70%;
 }
 h6{
     margin: 0;
@@ -164,3 +164,10 @@ p{
     height: 1px;
     background-color: #F1F1F1;
   }
+  .error-checkbox{
+    margin-top: 10px;
+    margin-left: -60%;
+    color: red;
+    
+  }
+ 

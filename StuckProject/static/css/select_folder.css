@@ -1,10 +1,239 @@
-main {
+.main {
   width: 80%;
   margin: 0 auto;
 }
 
+h6 {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+h4 {
+  margin: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px; /* 제목과 겹치지 않도록 여백 추가 */
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.grid-item img {
+  width: 70px;
+  height: 80px;
+}
+
 .top {
   display: flex;
+  flex-direction: column;
+  background-color: #F1F1F1;
+  border-radius: 20px;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.left_circle {
+  width: 40px;
+  height: 40px;
+}
+
+.left_circle_white {
+  height: 40px;
+  width: 40px;;
+}
+
+.bf_select {
+  display: flex;
+}
+
+.makequestion_before {
+  width: 102px;
+  height: 38px;
+  background-color: #09A8FA;
+  border-radius: 100px;
+  border: none;
+  font-size: 20px;
+  color: white;
+  font-weight: 700;
+}
+
+.makequestion_after {
+  width: 102px;
+  height: 38px;
+  background-color: #09A8FA;
+  border-radius: 100px;
+  border: none;
+  font-size: 20px;
+  color: white;
+  font-weight: 700;
+}
+
+.make_folders {
+  width: 486px;
+  height: 154px;
+  border-radius: 20px;
+  border: 2px solid var(--Teritary, #F1F1F1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 30px;
+  margin-top: 40px; /* 상단과의 여백 추가 */
+}
+
+.make_folders h6 {
+  color: black;
+  margin-bottom: 24px;
+}
+
+#folder_name {
+  border-radius: 20px;
+  border: 0.5px solid var(--Secondary-Disabled, rgba(59, 59, 59, 0.20));
+  background: var(--Teritary-Disabled, rgba(241, 241, 241, 0.20));
+  box-shadow: -3px 4px 4px -3px rgba(0, 0, 0, 0.10) inset;
+  width: 320px;
+  height: 38px;
+  padding: 0 18px;
+}
+
+#folder_name::placeholder {
+  font-size: 12px;
+  color: #3b3b3b;
+}
+
+.input_foldername button {
+  padding: 7px 15px;  
+  border-radius: 100px;
+  background: var(--Primary-Hover, linear-gradient(0deg, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.30) 100%), #09A8FA);
+  border: none;
+  height: 31px;
+  width: 81px;
+  font-size: 14px;
+  color: white;
+}
+
+h4 h6 {
+  margin: none;
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px; /* 제목과 겹치지 않도록 여백 추가 */
+}
+
+.grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.grid-item img {
+  width: 70px;
+  height: 80px;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
   background-color: #f1f1f1;
-  height: 160px;
+  height: 180px;
+  border-radius: 20px;
+  margin-top: 25px;
+  padding: 31px 24px;
+  gap: 28px;
+  justify-content: space-around;
+}
+
+.detail {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.left_circle {
+  width: 40px;
+  height: 40px;
+}
+
+.makequestion_before {
+  width: 102px;
+  height: 38px;
+  background-color: #09A8FA;
+  border-radius: 100px;
+  border: none;
+  font-size: 20px;
+  color: white;
+  font-weight: 700;
+}
+
+.makequestion_after {
+  width: 102px;
+  height: 38px;
+  background-color: #09A8FA;
+  border-radius: 100px;
+  border: none;
+  font-size: 20px;
+  color: white;
+  font-weight: 700;
+}
+
+.make_folders {
+  width: 486px;
+  height: 154px;
+  border-radius: 20px;
+  border: 2px solid var(--Teritary, #F1F1F1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 30px;
+  margin-top: 40px; /* 상단과의 여백 추가 */
+}
+
+.make_folders h6 {
+  color: black;
+  margin-bottom: 24px;
+}
+
+#folder_name {
+  border-radius: 20px;
+  border: 0.5px solid var(--Secondary-Disabled, rgba(59, 59, 59, 0.20));
+  background: var(--Teritary-Disabled, rgba(241, 241, 241, 0.20));
+  box-shadow: -3px 4px 4px -3px rgba(0, 0, 0, 0.10) inset;
+  width: 320px;
+  height: 38px;
+  padding: 0 18px;
+}
+
+#folder_name::placeholder {
+  font-size: 12px;
+  color: #3b3b3b;
+}
+
+.input_foldername button {
+  padding: 7px 15px;  
+  border-radius: 100px;
+  background: var(--Primary-Hover, linear-gradient(0deg, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.30) 100%), #09A8FA);
+  border: none;
+  height: 31px;
+  width: 81px;
+  font-size: 14px;
+  color: white;
 }

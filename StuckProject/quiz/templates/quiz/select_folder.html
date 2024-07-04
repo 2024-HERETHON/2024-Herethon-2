@@ -1,109 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
 
-{% extends "base.html" %} {% load static %}
-
-
-
-    {% block content %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if folder %}{{ folder.name }}{% else %}Stuck{% endif %}</title>
+    <link rel="stylesheet" href="{% static 'css/select_folder.css' %}">
 
-
-    <link rel="stylesheet" href="{% static 'css/select_folder.css' %}" />
-  </head>
-
-  <body>
-     
+</head>
+<body>
     <main class="folder main">
-      <section class="top">
-        <h3>저장할 폴더 선택하기</h3>
-        <!--폴더 이름 출력,  이름이 없다면 Root로 설정-->
-        <h3>{% if folder %}{{ path }}{% else %}Stuck{% endif %}</h3>
-      </section>
-    </main>
+        <section class="top">
+            <h4>저장할 폴더 정하기</h4>
+            <div class="detail">
+            <!-- 폴더 경로 이동 섹션 -->
+            {% if folder %}
+            <section>
+                {% if folder.parent %}
+                <a href="{% url 'quiz:select-folder' folder.parent.id %}">
+                  <img src="{% static 'img/left_circle.png' %}" alt="left_arrow" class="left_circle">
+                </a>
+                {% else %}
+                <a href="{% url 'quiz:select-folder' 0 %}">
+                  <img src="{% static 'img/left_circle.png' %}" alt="left_arrow" class="left_circle">
+                </a>
+                {% endif %}
+            </section>
+            {% endif %}
+            
+            <div class="bf_select">
+                {% if folder %}
+                {{ path }}
+                {% else %}
+                  <img class="left_circle_white" src="{% static 'img/left_circle_white.png' %}" alt="이미지 설명" />
+                {% endif %}
+                <h6>문제 풀기</h6>
+            </div>
+                {% if folder %}
+                <form method="POST" action="{% url 'quiz:select-folder' folder.id %}">
+                    {% csrf_token %}<button class="makequestion_before">문제 생성</button>
+                </form>
+                {% endif %}
+                
+            </div>
+          
+        </section>
 
-
-    {% if folder %}
-    <form method="POST" action="{% url 'quiz:select-folder' folder.id %}">
-      {% csrf_token %} {{ path }} <button>폴더 선택</button>
-    </form>
-    {% endif %}
-    <!--현재 폴더 하위에 있는 폴더 출력-->
-    <h3>folder</h3>
-
-    <ul >
-      {% for child in children %}
-      <li>
-        <a href="{% url 'quiz:select-folder' child.id %}">{{ child.name }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-
-    <h3>file</h3>
-    <ul>
-      {% for q in folder.quizs.all %}
-      <li>
-        {{q.title}}
-        <!-- <a href="{% url 'quiz:test' folder.id q.id %}">다시풀기</a>
-
-                <a href="{% url 'quiz:view-wrong-questions' folder.id q.id %}">틀린문제만 보기</a>
-                <a href="{% url 'quiz:save-quiz-as-pdf' folder.id q.id %}">문제 pdf로 다운로드</a>
-                <a href="{% url 'quiz:save-quiz-as-word' folder.id q.id %}">문제 word로 다운로드</a> -->
-      </li>
-      {% endfor %}
-    </ul>
-
-
-
-<h3>q&a</h3>
-<ul  >
-    {% for q in folder.qnas.all %}
-        <li>
-            {{q.title}} 
-         </li>
-    {% endfor %}
-</ul>
-
-
-    <br><br>
-    <!-- 폴더 생성 시 성공 여부 -->
-    {% if messages %}
-            {% for message in messages %}
-                <p style="color:red">{{ message }}</p>
+        <section class="grid-container">
+            <!-- 현재 폴더 하위에 있는 폴더 출력 -->
+            {% for child in children %}
+            <div class="grid-item">
+                <a href="{% url 'quiz:select-folder' child.id %}">
+                    <img src="{% static 'img/folder.svg' %}" alt="Folder Icon">
+                    <p>{{ child.name }}</p>
+                </a>
+            </div>
             {% endfor %}
-    {% endif %}
 
+            <!-- 현재 폴더 하위에 있는 Q 파일 출력 -->
+            {% for q in folder.quizs.all %}
+            <div class="grid-item">
+                <img src="{% static 'img/q.png' %}" alt="Q File Icon">
+                <p>{{ q.title }}</p>
+            </div>
+            {% endfor %}
 
-<!--현재 폴더가 루트 폴더가 아니라면-->
-    {% if folder %}
-    <form action="{% url 'quiz:add-folder' folder.id %}" method="POST">
-      {% csrf_token %}
-      <label for="folder_name">New Subfolder Name:</label>
-      <input type="text" id="folder_name" name="folder_name" />
-      <button type="submit">Add Subfolder</button>
-    </form>
-    <!-- <a href="{% url 'quiz:create-quiz' folder.id %}">퀴즈 생성</a><br> -->
+            <!-- 현재 폴더 하위에 있는 T 파일 출력 -->
+            {% for q in folder.qnas.all %}
+            <div class="grid-item">
+                <img src="{% static 'img/t.png' %}" alt="T File Icon">
+                <p>{{ q.title }}</p>
+            </div>
+            {% endfor %}
+        </section>
 
-    <!--상위 폴더가 루트 폴더라면-->
-    {% if folder.parent == None %}
-    <a href="{% url 'quiz:select-folder' 0 %}">루트 폴더로 이동</a>
-    <!--상위 폴더가 루트 폴더가 아니라면-->
-    {% else %}
-    <a href="{% url 'quiz:select-folder' folder.parent.id %}">폴더 뒤로 가기</a>
-    {% endif %}
+        <!-- 폴더 생성 섹션 -->
+        <section class="make_folders">
+            <h6>새로운 폴더 생성하기</h6>
+            {% if folder %}
+            <form action="{% url 'quiz:add-folder' folder.id %}" method="POST">
+                {% csrf_token %}
+                <input type="text" id="folder_name" name="folder_name" placeholder="폴더명을 입력해주세요">
+                <button type="submit" class="makequestion_before">폴더 생성</button>
+            </form>
+            {% else %}
+            <form action="{% url 'quiz:add-folder' 0 %}" method="POST">
+                {% csrf_token %}
+                <input type="text" id="folder_name" name="folder_name" placeholder="폴더명을 입력해주세요">
+                <button type="submit" class="input_foldername">폴더 생성</button>
+            </form>
+            {% endif %}
+        </section>
 
-
-    <!--현재 폴더가 루트 폴더라면-->
-    {% else %}
-    <form action="{% url 'quiz:add-folder' 0 %}" method="POST">
-      {% csrf_token %}
-      <label for="folder_name">New folder Name:</label>
-      <input type="text" id="folder_name" name="folder_name" />
-      <button type="submit">Add folder</button>
-    </form>
-    {% endif %}
-
-    <br /><br />
-
-  </body>
-  {% endblock%}
+    </main>
+</body>
 </html>
-
+{% endblock %}
