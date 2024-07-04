@@ -5,10 +5,11 @@
 
 👉🏻 서비스 바로가기
 
+<br><br>
 ### 📙 프로젝트 소개
 우리 서비스는 말이죠~
 
-
+<br><br>
 ### 🦁 STUCK 개발 팀원 소개
 #### Plan & Design
 | <center> 박우현  </center>                                                                                                                    |
@@ -29,7 +30,7 @@
 | <center> 로그인 회원가입<br>아이디 비밀번호 찾기<br>목표 설정</center>                               | <center> 문제 & 질문 관련 기능<br>MyStuck 폴더 구조</center>                                           | 
 | <center>  [@Kimgah](https://github.com/Kimgah) </center>                                          | <center> [@7beunseo](https://github.com/7beunseo) </center>                                           | 
 
-
+<br><br>
 ### 🔥 기술 스택
 
 ####  ️Front-end
@@ -41,6 +42,7 @@
 #### ETC
 <img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=OpenAI&logoColor=white"> <img src="https://img.shields.io/badge/Google Cloud Vision-4285F4?style=for-the-badge&logo=Google Cloud&logoColor=white"> <img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
 
+<br><br>
 ### 📁 폴더 구조
 ```plain text
 📂 2024-Herethon-2
@@ -95,14 +97,20 @@
  └─ manage.py
 ```
 
+<br><br>
 ### 🖥️ 개발환경에서의 실행 방법
 ```shell
+cd 2024-Herethon-2
+python -m venv venv
+source venv/Scripts/activate
+cd StuckProject
+pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate --run-syncdb
 python manage.py runserer
 ```
 * google cloud vision에서 api 발급 후 service_account.json 파일 다운로드
 * openAI API 토큰 발급하여 .env 파일에 저장
-    ```.env
-    OPENAI_API_KEY="발급받은 토큰"
-    ```
+```.env
+OPENAI_API_KEY="발급받은 토큰"
+```
