@@ -190,7 +190,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-   
+    function confirmDelete(routineName) {
+        return confirm(`Routine 이름: ${routineName}을(를) 지우시겠습니까?`);
+    }
 
 
 
