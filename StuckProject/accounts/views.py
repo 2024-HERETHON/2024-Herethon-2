@@ -25,10 +25,15 @@ from django.http import HttpResponseRedirect
 def signup(request):
     if request.method=='POST':    
         if request.POST['password'] == request.POST['password2']:
+            email = request.POST['email']
+            if User.objects.filter(email=email).exists():
+                error_email_message = "이미 사용 중인 이메일입니다."
+                return render(request, 'accounts/signup.html', {'error_email_message': error_email_message})
+
             new_user = User.objects.create_user(
                 username=request.POST['username'],
                 password=request.POST['password'],
-                email=request.POST['email']
+                email=email,
                 )
             nickname=request.POST['nickname']
             univ = request.POST['univ']
@@ -39,8 +44,8 @@ def signup(request):
             customuser.save()
 
         elif request.POST['password'] != request.POST['password2']:
-            error_message = "비밀번호가 일치하지 않습니다"
-            return render(request, 'accounts/signup.html', {'error_message': error_message})
+            error_pw_message = "비밀번호가 일치하지 않습니다"
+            return render(request, 'accounts/signup.html', {'error_pw_message': error_pw_message})
         return redirect('accounts:login')
 
     return render(request, 'accounts/signup.html')
