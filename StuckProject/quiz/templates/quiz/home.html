@@ -14,6 +14,7 @@
 </head>
 <body>
     <main class="home-main">
+        {% if request.user.is_authenticated %}
         <section class="top">
             <div class="profile">
                 <div class="profile-card">
@@ -314,6 +315,9 @@
         <a href="{% url 'quiz:select-folder' 0 %}"><button class="btn-quiz">교재 내용으로 문제풀기</button></a>
         <a href="{% url 'qna:select-folder' 0 %}"><button class="btn-qna">교재 내용 질문하기</button></a>
     </section>
+    {% else %}
+    로그인을 진행해주세요
+    {% endif %}
 </main>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
