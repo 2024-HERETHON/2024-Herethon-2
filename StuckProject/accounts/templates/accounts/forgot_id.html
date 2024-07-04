@@ -1,23 +1,51 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>아이디 찾기</title>
+    <link rel="stylesheet" href="{% static 'css/forgot_id.css' %}"/>
 </head>
+
 <body>
-    <h1>아이디 찾기</h1>
+    <div class="empty"></div>
+    <div class="empty"></div>
+    <main class="findId-main">
+        <div class="wrap">
 
-    <form method="POST">
+            <div class="logo">
+                <img src="{% static 'img/LOGO.png' %}" alt="logo">
+                <h4>아이디 찾기</h4>
+            </div>
+            <div class="empty"></div>
 
-        {% csrf_token %}
-        이메일을 입력하세요: <input type="email" name="email">
-        <input type="submit">
+            <h6>가입 이메일</h6>
+            <form method="POST">
 
-        {% for message in messages %}
-            {{message}}
-        {% endfor %}
+                {% csrf_token %}
+                
+                <input type="email" name="email" placeholder="이메일을 입력해주세요">
 
-    </form>
+                {% for message in messages %}
+                <p class="error"> {{message}}</p>
+                {% endfor %}
+
+                <div class="empty"></div>
+                <input type="submit" placeholder="이메일로 아이디 찾기">
+
+                
+
+            </form>
+    </main>
+    <div class="empty"></div>
+    <div class="empty"></div>
 </body>
+
+{% endblock %}
+
 </html>
