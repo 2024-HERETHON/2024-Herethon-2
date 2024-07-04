@@ -19,7 +19,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def signup(request):
@@ -139,6 +139,7 @@ class CustomPasswordResetView(PasswordResetView):
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'accounts/password_reset_confirm.html'
+    success_url = reverse_lazy('accounts:login')
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_user(kwargs['uidb64'])
@@ -148,7 +149,7 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
             form.save()
             context = self.get_context_data()
             context['message'] = "비밀번호가 재설정되었습니다"
-            return self.render_to_response(context)
+            return HttpResponseRedirect(self.success_url)
         else:
             return self.form_invalid(form)
 
