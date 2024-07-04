@@ -48,3 +48,10 @@ def complete_todo(request, year, month, day, offset, pk):
         todo.completed = True
     todo.save()
     return redirect('accounts:mypage_by_date', year, month, day, offset)
+
+
+# 루틴 삭제
+def delete_routine(request,  year, month, day, offset, pk):
+    routine = get_object_or_404(Routine, id=pk)
+    routine.delete()
+    return redirect('accounts:mypage_by_date', year, month, day, offset)
