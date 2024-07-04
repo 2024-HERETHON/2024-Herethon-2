@@ -47,7 +47,7 @@
             
                 <a href="{% url 'accounts:forgot_id' %}" class="findId">아이디 찾기</a>
                 <div class="line"></div>
-                <a href="/" class="findPwd">비밀번호 찾기</a>
+                <a href="{% url 'password_reset' %}" class="findPwd">비밀번호 찾기</a>
             </div>
             
             <div class="go-account"> <a href="{% url 'accounts:signup' %}" >스턱이 처음이에요 <span class="blue">가입하기</span></a></div>

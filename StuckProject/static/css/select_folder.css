@@ -23,7 +23,7 @@ h4 {
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 15px;
   margin-top: 20px;
-  margin-bottom: 185px;
+  margin-bottom: 100px;
 }
 
 .grid-item {
@@ -41,7 +41,7 @@ h4 {
 .top {
   display: flex;
   flex-direction: column;
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   border-radius: 20px;
   height: 159px;
   padding: 31px 24px;
@@ -61,7 +61,7 @@ h4 {
 
 .left_circle_white {
   height: 40px;
-  width: 40px;;
+  width: 40px;
 }
 
 .bf_select {
@@ -71,7 +71,7 @@ h4 {
   font-weight: 700;
   font-size: 20px;
   font-weight: 700;
-  color: #7D7D7D;
+  color: #7d7d7d;
 }
 
 .bf_select h6 {
@@ -82,14 +82,15 @@ h4 {
   color: white;
   height: 38px;
   width: 98px;
-  background-color: #C7E8F8;
+  background-color: #c7e8f8;
   border-radius: 100px;
 }
 
-.input_foldername, makequestion_before {
+.input_foldername,
+makequestion_before {
   width: 102px;
   height: 38px;
-  background-color: #09A8FA;
+  background-color: #09a8fa;
   border-radius: 100px;
   border: none;
   font-size: 20px;
@@ -101,7 +102,7 @@ h4 {
 .makequestion_after {
   width: 102px;
   height: 38px;
-  background-color: #09A8FA;
+  background-color: #09a8fa;
   border-radius: 100px;
   border: none;
   font-size: 20px;
@@ -113,7 +114,7 @@ h4 {
   width: 486px;
   height: 154px;
   border-radius: 20px;
-  border: 2px solid var(--Teritary, #F1F1F1);
+  border: 2px solid var(--Teritary, #f1f1f1);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -129,9 +130,9 @@ h4 {
 
 #folder_name {
   border-radius: 20px;
-  border: 0.5px solid var(--Secondary-Disabled, rgba(59, 59, 59, 0.20));
-  background: var(--Teritary-Disabled, rgba(241, 241, 241, 0.20));
-  box-shadow: -3px 4px 4px -3px rgba(0, 0, 0, 0.10) inset;
+  border: 0.5px solid var(--Secondary-Disabled, rgba(59, 59, 59, 0.2));
+  background: var(--Teritary-Disabled, rgba(241, 241, 241, 0.2));
+  box-shadow: -3px 4px 4px -3px rgba(0, 0, 0, 0.1) inset;
   width: 320px;
   height: 38px;
   padding: 0 18px;
@@ -143,9 +144,17 @@ h4 {
 }
 
 .input_foldername button {
-  padding: 7px 15px;  
+  padding: 7px 15px;
   border-radius: 100px;
-  background: var(--Primary-Hover, linear-gradient(0deg, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.30) 100%), #09A8FA);
+  background: var(
+    --Primary-Hover,
+    linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.3) 100%
+    ),
+    #09a8fa
+  );
   border: none;
   height: 31px;
   width: 81px;
@@ -156,7 +165,6 @@ h4 {
 h4 h6 {
   margin: none;
 }
-
 
 .grid-container {
   display: grid;
@@ -204,7 +212,7 @@ h4 h6 {
 .makequestion_before {
   width: 102px;
   height: 38px;
-  background-color: #09A8FA;
+  background-color: #09a8fa;
   border-radius: 100px;
   border: none;
   font-size: 20px;
@@ -215,7 +223,7 @@ h4 h6 {
 .makequestion_after {
   width: 102px;
   height: 38px;
-  background-color: #09A8FA;
+  background-color: #09a8fa;
   border-radius: 100px;
   border: none;
   font-size: 20px;
@@ -227,7 +235,7 @@ h4 h6 {
   width: 486px;
   height: 154px;
   border-radius: 20px;
-  border: 2px solid var(--Teritary, #F1F1F1);
+  border: 2px solid var(--Teritary, #f1f1f1);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -242,9 +250,9 @@ h4 h6 {
 
 #folder_name {
   border-radius: 20px;
-  border: 0.5px solid var(--Secondary-Disabled, rgba(59, 59, 59, 0.20));
-  background: var(--Teritary-Disabled, rgba(241, 241, 241, 0.20));
-  box-shadow: -3px 4px 4px -3px rgba(0, 0, 0, 0.10) inset;
+  border: 0.5px solid var(--Secondary-Disabled, rgba(59, 59, 59, 0.2));
+  background: var(--Teritary-Disabled, rgba(241, 241, 241, 0.2));
+  box-shadow: -3px 4px 4px -3px rgba(0, 0, 0, 0.1) inset;
   width: 320px;
   height: 38px;
   padding: 0 18px;
@@ -256,9 +264,17 @@ h4 h6 {
 }
 
 .input_foldername button {
-  padding: 7px 15px;  
+  padding: 7px 15px;
   border-radius: 100px;
-  background: var(--Primary-Hover, linear-gradient(0deg, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.30) 100%), #09A8FA);
+  background: var(
+    --Primary-Hover,
+    linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.3) 100%
+    ),
+    #09a8fa
+  );
   border: none;
   height: 31px;
   width: 81px;

@@ -6,39 +6,44 @@ from todo.models import Routine, ToDo
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from todo.forms import RoutineForm, ToDoForm
-from django.db import IntegrityError
 
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import EmailMessage
 
+# 비밀번호 찾기
+from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.urls import reverse_lazy
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
+
 # Create your views here.
 def signup(request):
-    if request.method == 'POST':
+    if request.method=='POST':    
         if request.POST['password'] == request.POST['password2']:
-            try:
-                new_user = User.objects.create_user(
-                    username=request.POST['username'],
-                    password=request.POST['password'],
-                    email=request.POST['email']
+            new_user = User.objects.create_user(
+                username=request.POST['username'],
+                password=request.POST['password'],
+                email=request.POST['email']
                 )
-                nickname = request.POST['nickname']
-                univ = request.POST['univ']
-                semester = request.POST['semester']
-                resolution = request.POST['resolution']
-                introduce = request.POST['introduce']
-                customuser = CustomUser(user=new_user, nickname=nickname, univ=univ, semester=semester, resolution=resolution, introduce=introduce)
-                customuser.save()
-                return redirect('accounts:login')
-            except IntegrityError:
-                error_id_message = "이미 사용 중인 사용자 이름입니다."
-                return render(request, 'accounts/signup.html', {'error_id_message': error_id_message})
-        else:
-            error_pw_message = "비밀번호가 일치하지 않습니다."
-            return render(request, 'accounts/signup.html', {'error_pw_message': error_pw_message})
+            nickname=request.POST['nickname']
+            univ = request.POST['univ']
+            semester = request.POST['semester']
+            resolution = request.POST['resolution']
+            introduce = request.POST['introduce']
+            customuser = CustomUser(user=new_user, nickname=nickname, univ=univ, semester=semester, resolution=resolution, introduce=introduce)
+            customuser.save()
+
+        elif request.POST['password'] != request.POST['password2']:
+            error_message = "비밀번호가 일치하지 않습니다"
+            return render(request, 'accounts/signup.html', {'error_message': error_message})
+        return redirect('accounts:login')
 
     return render(request, 'accounts/signup.html')
-
 
 def login(request):
     if request.method=='POST':
@@ -96,7 +101,58 @@ def forgot_id(request):
         except User.DoesNotExist:
             messages.info(request, "등록된 이메일이 없습니다.")
         
-    return render(request, 'accounts/forgot_id.html', context)            
+    return render(request, 'accounts/forgot_id.html', context)       
+
+
+# 비밀번호 찾기
+class CustomPasswordResetView(PasswordResetView):
+    success_url = reverse_lazy('password_reset_done')
+    template_name = 'accounts/password_reset.html'
+
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get('email')
+        username = request.POST.get('username')
+        context = {}  
+
+        try:
+            user = User.objects.get(email=email, username=username)
+            context = {
+                'email': user.email,
+                'domain': self.request.META['HTTP_HOST'],
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+                'protocol': 'http',
+            }
+            email_content = render_to_string('accounts/password_reset_email.html', context)
+            send_mail("Password reset on your site", email_content, None, [user.email], fail_silently=False)
+            context['message'] = "해당 이메일 주소로 이메일이 발송되었습니다. 이메일을 확인하여 비밀번호를 재설정하세요."
+        except User.DoesNotExist:
+            context['message'] = "이메일 또는 ID를 확인해주세요"
+
+        return render(request, self.template_name, context)
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'accounts/password_reset_confirm.html'
+    success_url = reverse_lazy('accounts:login')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_user(kwargs['uidb64'])
+        form = self.get_form()
+        
+        if form.is_valid():
+            form.save()
+            context = self.get_context_data()
+            context['message'] = "비밀번호가 재설정되었습니다"
+            return HttpResponseRedirect(self.success_url)
+        else:
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        context = self.get_context_data()
+        context['form'] = form
+        context['message'] = "비밀번호 재설정에 실패했습니다. 다시 시도해주세요."
+        return self.render_to_response(context)
 
 
 # 마이페이지 - 본인 정보 수정 
