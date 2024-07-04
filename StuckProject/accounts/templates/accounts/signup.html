@@ -130,25 +130,43 @@
     document.addEventListener('DOMContentLoaded', function() {
     const allTermsCheckbox = document.querySelector('.terms1');
     const individualCheckboxes = document.querySelectorAll('input[name="terms"]:not(.terms1)');
-    
+    const requiredCheckboxes = document.querySelectorAll('.terms2, .terms3, .terms4');
+    const submitButton = document.querySelector('.accountbtn');
+    const messageDiv = document.createElement('div');
+    messageDiv.style.color = 'red';
+    messageDiv.style.display = 'none';
+    messageDiv.textContent = '필수항목을 체크해주세요.';
+    document.querySelector('.empty').insertAdjacentElement('beforebegin', messageDiv);
 
     const updateAllTermsCheckbox = () => {
         const allChecked = Array.from(individualCheckboxes).every(checkbox => checkbox.checked);
         allTermsCheckbox.checked = allChecked;
     };
     
+    const updateSubmitButtonState = () => {
+        const allRequiredChecked = Array.from(requiredCheckboxes).every(checkbox => checkbox.checked);
+        submitButton.disabled = !allRequiredChecked;
+        messageDiv.style.display = allRequiredChecked ? 'none' : 'block';
+    };
+    
     allTermsCheckbox.addEventListener('change', function() {
         individualCheckboxes.forEach(checkbox => {
             checkbox.checked = allTermsCheckbox.checked;
         });
+        updateSubmitButtonState();
     });
     
     individualCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateAllTermsCheckbox);
+        checkbox.addEventListener('change', () => {
+            updateAllTermsCheckbox();
+            updateSubmitButtonState();
+        });
     });
-
+    
     updateAllTermsCheckbox();
+    updateSubmitButtonState();
 });
+
 
 </script>
 {% endblock %}
