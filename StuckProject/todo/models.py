@@ -9,7 +9,7 @@ class Routine(models.Model):
         return self.name
 
 class ToDo(models.Model):
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()
     routine = models.ForeignKey(Routine, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, default='할 일')
     completed = models.BooleanField(default=False)

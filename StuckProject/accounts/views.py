@@ -1,7 +1,11 @@
-from django.shortcuts import render, redirect
+from datetime import date, timedelta
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import CustomUser
+from todo.models import Routine, ToDo
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from todo.forms import RoutineForm, ToDoForm
 
 
 # Create your views here.
@@ -17,7 +21,8 @@ def signup(request):
             univ = request.POST['univ']
             semester = request.POST['semester']
             resolution = request.POST['resolution']
-            customuser = CustomUser(user=new_user, nickname=nickname, univ=univ, semester=semester, resolution=resolution, introduce="")
+            introduce = request.POST['introduce']
+            customuser = CustomUser(user=new_user, nickname=nickname, univ=univ, semester=semester, resolution=resolution, introduce=introduce)
             customuser.save()
 
         elif request.POST['password'] != request.POST['password2']:
@@ -50,11 +55,91 @@ def logout(request):
 
 
 # 마이페이지 - 본인 정보 수정 
-def mypage(request):
-    if request.method == "POST":
-        request.user.customuser.nickname = request.POST['nickname']
-        request.user.customuser.resolution = request.POST['resolution']
-        request.user.customuser.introduce = request.POST['introduce']
-        request.user.customuser.save()
+@login_required
+def mypage(request, year=None, month=None, day=None, week_offset=0):
+    
+    chlicked_day = {
+        'year': year,
+        'month': month,
+        'day': day
+    }
 
-    return render(request, 'accounts/mypage.html')
+    user = get_object_or_404(User, id=request.user.id)
+    custom_user = get_object_or_404(CustomUser, user=user)
+
+    if request.method == "POST":
+        custom_user.nickname = request.POST['nickname']
+        custom_user.resolution = request.POST['resolution']
+        custom_user.introduce = request.POST['introduce']
+        custom_user.save()
+
+    # 루틴 및 투두 정보
+    routines = Routine.objects.filter(user=custom_user)
+
+    if year and month and day:
+        selected_date = date(year, month, day) 
+    else:
+        selected_date = date.today() 
+
+    # offset 만큼 week 변화
+    selected_date += timedelta(weeks=week_offset)
+
+    # 클릭한 날짜에 해당하는 todo를 가져옴
+    todos = ToDo.objects.filter(routine__in=routines, date=selected_date)
+
+    # 일요일 시작 
+    start_of_week = selected_date - timedelta(days=(selected_date.weekday() + 1) % 7)  # Sunday
+    end_of_week = start_of_week + timedelta(days=6)  # Saturday
+
+    # 주에 걸친 월 정보
+    start_month = start_of_week.month
+    end_month = end_of_week.month
+    start_year = start_of_week.year
+    end_year = end_of_week.year
+
+    if start_month == end_month:
+        week_month = f"{start_year}년 {start_month}월"
+    else:
+        week_month = f"{start_year}년 {start_month}월 - {end_month}월"
+
+    week_days = []
+    for i in range(7):
+        day = start_of_week + timedelta(days=i)
+        day_name = day.strftime('%a')
+
+        day_todos = ToDo.objects.filter(routine__in=routines, date=day)
+        completed_count = day_todos.filter(completed=True).count()
+        pending_count = day_todos.filter(completed=False).count()
+
+        color = "blue" if completed_count > 0 else "gray"
+
+        week_days.append({
+            'day_name': day_name,
+            'date': day,
+            'todo_count': pending_count,
+            'completed_count': completed_count,
+            'color': color
+        })
+
+    total_todos = todos.count()
+    completed_todos = todos.filter(completed=True).count()
+    completion_rate = (completed_todos / total_todos * 100) if total_todos > 0 else 0
+
+    routine_form = RoutineForm()
+    todo_form = ToDoForm()
+
+    context = {
+        'week_days': week_days,
+        'selected_date': selected_date,
+        'routines': routines,  
+        'todos': todos,  
+        'completion_rate': completion_rate,
+        'routine_form': routine_form,
+        'todo_form': todo_form,
+        'week_offset': week_offset,
+        'chlicked_day': chlicked_day,
+        'week_month': week_month,
+        'today_day': date.today().day
+    }
+
+    return render(request, 'accounts/mypage.html', context)
