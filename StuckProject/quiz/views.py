@@ -379,7 +379,6 @@ def create_question(request, folder_id):
         text = extract_text_from_image(file_path)
 
     openai.api_key = settings.OPENAI_API_KEY
-
     print(text)
     print(type)
 
