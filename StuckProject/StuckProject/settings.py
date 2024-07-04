@@ -47,6 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # 아이디, 비밀번호 찾기
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
+    'crispy_forms',
+
     'accounts',
     'quiz',
     'qna',
@@ -61,7 +66,26 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 이메일
+    'django.middleware.csrf.CsrfViewMiddleware',
+
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587  
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'kimes0403@gmail.com'
+EMAIL_HOST_PASSWORD = 'zkjz undx stfr neab'
+
+SITE_ID = 1
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# URL 설정
+LOGIN_URL = 'accounts:login'
+LOGOUT_URL = 'accounts:logout'
+LOGIN_REDIRECT_URL = 'quiz:home'
 
 ROOT_URLCONF = 'StuckProject.urls'
 
@@ -147,3 +171,16 @@ load_dotenv(dotenv_path)
 
 # 환경 변수에서 API 키 가져옴
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+
+
+# Email Backend 설정
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# 이메일 호스트 설정
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+
+# 이메일 계정 정보
+# EMAIL_HOST_USER =   
+# EMAIL_HOST_PASSWORD =   
