@@ -23,15 +23,16 @@
                 <img src="{% static 'img/LOGO.png' %}" alt="logo">
                 <h4>회원가입</h4>
             </div>
-            {% if error_message %}
-            <p style="color: red;">{{ error_message }}</p>
-            {% endif %}
 
             <form class="user" method="POST">
                 {% csrf_token %}
                 <div class="input-form id">
                     <h6>아이디</h6>
                     <input type="text" name="username" placeholder="아이디를 입력하세요.">
+                    <!-- 아이디 에러 -->
+                    {% if error_id_message %}
+                    <p style="color: red;">{{ error_id_message }}</p>
+                    {% endif %}
                 </div>
                 <div class="input-form pwd">
                     <h6>비밀번호</h6>
@@ -40,8 +41,9 @@
                 </div>
                 <div class="input-form pwd">
                     <input type="password" name="password2" placeholder="비밀번호를 한 번 더 입력해주세요">
-                    {% if error_message %}
-                    <p style="color: red;">{{ error_message }}</p>
+                    <!-- 비밀번호 에러 -->
+                    {% if error_pw_message %}
+                    <p style="color: red;">{{ error_pw_message }}</p>
                     {% endif %}
                 </div>
                
