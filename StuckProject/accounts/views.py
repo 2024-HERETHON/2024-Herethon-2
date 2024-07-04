@@ -108,11 +108,11 @@ def forgot_id(request):
 class CustomPasswordResetView(PasswordResetView):
     success_url = reverse_lazy('password_reset_done')
     template_name = 'accounts/password_reset.html'
-    context = {}
 
     def post(self, request, *args, **kwargs):
         email = request.POST.get('email')
         username = request.POST.get('username')
+        context = {}  
 
         try:
             user = User.objects.get(email=email, username=username)
@@ -126,15 +126,10 @@ class CustomPasswordResetView(PasswordResetView):
             email_content = render_to_string('accounts/password_reset_email.html', context)
             send_mail("Password reset on your site", email_content, None, [user.email], fail_silently=False)
             context['message'] = "해당 이메일 주소로 이메일이 발송되었습니다. 이메일을 확인하여 비밀번호를 재설정하세요."
-            
         except User.DoesNotExist:
             context['message'] = "이메일 또는 ID를 확인해주세요"
-            
-        return render(request, self.template_name, context)
 
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
-    
+        return render(request, self.template_name, context)
 
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
