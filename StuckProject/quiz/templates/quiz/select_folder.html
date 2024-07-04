@@ -35,8 +35,8 @@
                 {% if folder %}
                 {{ path }}
                 {% else %}
-                    <img class="left_circle_white" src="{% static 'img/left_circle_white.png' %}" alt="이미지 설명" />
-                    <h6>Stuck/</h6>
+                  <img class="left_circle_white" src="{% static 'img/left_circle_white.png' %}" alt="이미지 설명" />
+                  <p>Stuck/</p>
                 {% endif %}
             </div>
             <div class="af_select">
@@ -45,13 +45,13 @@
                     {% csrf_token %}<button class="makequestion_before">문제 생성</button>
                 </form>
                 {% endif %}
+                
             </div>
-            </div>
-          
+          </div>
         </section>
 
         <section class="grid-container">
-            <!-- 현재 폴더 하위에 있는 폴더 출력 -->
+            <!-- *gi 현재 폴더 하위에 있는 폴더 출력 -->
             {% for child in children %}
             <div class="grid-item">
                 <a href="{% url 'quiz:select-folder' child.id %}">
