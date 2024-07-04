@@ -21,7 +21,8 @@ def signup(request):
             univ = request.POST['univ']
             semester = request.POST['semester']
             resolution = request.POST['resolution']
-            customuser = CustomUser(user=new_user, nickname=nickname, univ=univ, semester=semester, resolution=resolution, introduce="")
+            introduce = request.POST['introduce']
+            customuser = CustomUser(user=new_user, nickname=nickname, univ=univ, semester=semester, resolution=resolution, introduce=introduce)
             customuser.save()
 
         elif request.POST['password'] != request.POST['password2']:
