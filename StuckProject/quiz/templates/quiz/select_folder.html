@@ -35,16 +35,17 @@
                 {% if folder %}
                 {{ path }}
                 {% else %}
-                  <img class="left_circle_white" src="{% static 'img/left_circle_white.png' %}" alt="이미지 설명" />
+                    <img class="left_circle_white" src="{% static 'img/left_circle_white.png' %}" alt="이미지 설명" />
+                    <h6>Stuck/</h6>
                 {% endif %}
-                <h6>문제 풀기</h6>
             </div>
+            <div class="af_select">
                 {% if folder %}
                 <form method="POST" action="{% url 'quiz:select-folder' folder.id %}">
                     {% csrf_token %}<button class="makequestion_before">문제 생성</button>
                 </form>
                 {% endif %}
-                
+            </div>
             </div>
           
         </section>
