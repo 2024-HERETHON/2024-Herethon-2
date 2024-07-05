@@ -444,6 +444,11 @@ def create_question(request, folder_id):
 
     print(f"questions len {len(questions)}")
     print(f"answers len {len(answers)}")
+
+    if len(questions) != int(question_num) or len(answers) != int(question_num):
+        message = "문제 생성 중 오류가 발생했습니다."
+        return render(request, 'quiz/create_quiz.html', {'folder_id':folder_id, 'message' : message})
+
     
     # 각 질문과 답안을 개별적으로 저장
     for i in range(0, int(question_num)):
