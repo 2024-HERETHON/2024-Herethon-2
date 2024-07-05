@@ -14,6 +14,7 @@
 
 <body>
   <div class="empty"></div>
+  
 
   <main class="folder main">
     <section class="top">
@@ -21,7 +22,7 @@
         <div class="wrap">
           <div class="detail">
             {% if folder %}
-            <section>
+            <section class="folder-title">
               {% if folder.parent %}
               <a href="{% url 'quiz:folder-view' folder.parent.id %}">
                 <img src="{% static 'img/left_allow.png' %}" alt="left_arrow" class="left_circle">
@@ -38,7 +39,8 @@
 
             <div class="bf_select">
               {% if folder %}
-              {{ path }}
+              <h4 class="rootpath">MY STUCK /</h4>
+              <h4 class="path-title">{{ path }}</h4>
               {% else %}
               <img class="left_circle_white" src="{% static 'img/left_allow.png' %}" alt="이미지 설명" />
               <h4 class="title">MY STUCK</h4>
@@ -56,28 +58,29 @@
           </div>
 
         </div>
-        
+
         <div class="find">
           <div class="sc1 ">
+
             {% if folder %}
-          {% if not folder in request.user.customuser.scrap_folders.all %}
-          <a href="{% url 'quiz:add-scrap-folder' folder_id=folder.id %}">
-          <img src="{% static 'img/add-bookmark.png' %}" alt="북마크">
-            <p>폴더 즐겨찾기에 저장</p>
-          </a>
-          {% else %}
-          <a href="{% url 'quiz:cancel-scrap-folder' folder_id=folder.id %}">
-          <img src="{% static 'img/add-bookmark.png' %}" alt="북마크">
-            <p>폴더 즐겨찾기 취소</p>
-          </a>
-          {% endif %}
-          {% endif %}
-          
+            {% if not folder in request.user.customuser.scrap_folders.all %}
+            <a href="{% url 'quiz:add-scrap-folder' folder_id=folder.id %}">
+              <img src="{% static 'img/add-bookmark.png' %}" alt="북마크">
+              <p>폴더 즐겨찾기에 저장</p>
+            </a>
+            {% else %}
+            <a href="{% url 'quiz:cancel-scrap-folder' folder_id=folder.id %}">
+              <img src="{% static 'img/add-bookmark.png' %}" alt="북마크">
+              <p>폴더 즐겨찾기 취소</p>
+            </a>
+            {% endif %}
+            {% endif %}
+
           </div>
           <div class="sc2">
             <img src="{% static 'img/serch.png' %}" alt="검색">
             {% if messages %} {% for message in messages %}
-            <p style="color: red">{{ message }}</p>
+            <p class="error" style="color: red">{{ message }}</p>
             {% endfor %} {% endif %} {% if folder %}
             
             <form action="{% url 'quiz:search-folder' folder.id %}" method="POST">
@@ -94,7 +97,7 @@
             {% endif %}
           </div>
         </div>
-        
+
       </div>
       <div class="delete">
         <img src="{% static 'img/trashbin.png' %}" alt="휴지통">
@@ -112,121 +115,126 @@
     <section class="grid-container">
       <!-- 현재 폴더 하위에 있는 폴더 출력 -->
       {% for child in children %}
-      <div id="folder-{{ child.id }}" class="grid-item" ondrop="drop(event, 'folder', {{ child.id }})" ondragover="allowDrop(event)">
-          <a id="folder-{{ child.id }}" class="draggable" draggable="true" href="{% url 'quiz:folder-view' child.id %}">
-              <img src="{% static 'img/folder.svg' %}" alt="Folder Icon">
-              <p>{{ child.name }}</p>
-          </a>
+      <div id="folder-{{ child.id }}" class="grid-item" ondrop="drop(event, 'folder', {{ child.id }})"
+        ondragover="allowDrop(event)">
+        <a id="folder-{{ child.id }}" class="draggable" draggable="true" href="{% url 'quiz:folder-view' child.id %}">
+          <img src="{% static 'img/folder.svg' %}" alt="Folder Icon">
+          <p>{{ child.name }}</p>
+        </a>
       </div>
       {% endfor %}
 
-       <!-- 현재 폴더 하위에 있는 Q 파일 출력 -->
-       {% for q in folder.quizs.all %}
-       <div id="quiz-{{ q.id }}" class="grid-item" draggable="true" ondragstart="drag(event)">
-           <img src="{% static 'img/t_blue.png' %}" height="80px" alt="Q File Icon">
-           <p><a id="quiz-{{ q.id }}" href="{% url 'quiz:view-questions' folder.id q.id %}">{{ q.title }}</a></p>
-       </div>
-       {% endfor %}
+      <!-- 현재 폴더 하위에 있는 Q 파일 출력 -->
+      {% for q in folder.quizs.all %}
+      <div id="quiz-{{ q.id }}" class="grid-item" draggable="true" ondragstart="drag(event)">
+        <img src="{% static 'img/t_blue.png' %}" height="80px" alt="Q File Icon">
+        <p><a id="quiz-{{ q.id }}" href="{% url 'quiz:view-questions' folder.id q.id %}">{{ q.title }}</a></p>
+      </div>
+      {% endfor %}
 
-        <!-- 현재 폴더 하위에 있는 T 파일 출력 -->
-        {% for q in folder.qnas.all %}
-        <div id="qna-{{ q.id }}" class="grid-item"  draggable="true" ondragstart="drag(event)">
-            <img src="{% static 'img/q_blue.png' %}" alt="T File Icon">
-            <p><a id="qna-{{ q.id }}" href="{% url 'qna:enter-question-room' folder.id q.id %}">{{ q.title }}</a></p>
-        </div>
-        {% endfor %}
+      <!-- 현재 폴더 하위에 있는 T 파일 출력 -->
+      {% for q in folder.qnas.all %}
+      <div id="qna-{{ q.id }}" class="grid-item" draggable="true" ondragstart="drag(event)">
+        <img src="{% static 'img/q_blue.png' %}" alt="T File Icon">
+        <p><a id="qna-{{ q.id }}" href="{% url 'qna:enter-question-room' folder.id q.id %}">{{ q.title }}</a></p>
+      </div>
+      {% endfor %}
 
     </section>
-    <section class="scrap grid-container">
+    <section class="scrap ">
       <h6>즐겨찾기</h6>
+      <section class="grid-container">
         {% for scrap in folder_scraps %}
         <div class="grid-item">
-            <img src="{% static 'img/folder_gray.svg' %}" alt="Folder Icon">
-            <p><a href="{% url 'quiz:folder-view' scrap.folder.id %}">{{ scrap.folder.name }}</a></p>
+          <img src="{% static 'img/folder_gray.svg' %}" alt="Folder Icon">
+          <p><a href="{% url 'quiz:folder-view' scrap.folder.id %}">{{ scrap.folder.name }}</a></p>
         </div>
         {% endfor %}
 
         {% for scrap in quiz_scraps %}
         <div class="grid-item">
-            <img src="{% static 'img/t_darkgray.png' %}" alt="Q File Icon">
-            <p><a href="{% url 'quiz:view-questions' 0 scrap.quiz.id %}">{{ scrap.quiz.title }}</a></p>
+          <img src="{% static 'img/t_darkgray.png' %}" alt="Q File Icon">
+          <p><a href="{% url 'quiz:view-questions' 0 scrap.quiz.id %}">{{ scrap.quiz.title }}</a></p>
         </div>
         {% endfor %}
 
         {% for scrap in question_room_scraps %}
         <div class="grid-item">
-            <img src="{% static 'img/q_darkgray.png' %}" alt="T File Icon">
-            <p><a href="{% url 'qna:enter-question-room' 0 scrap.question_room.id %}">{{ scrap.question_room.title }}</a></p>
+          <img src="{% static 'img/q_darkgray.png' %}" alt="T File Icon">
+          <p><a href="{% url 'qna:enter-question-room' 0 scrap.question_room.id %}">{{ scrap.question_room.title }}</a>
+          </p>
         </div>
         {% endfor %}
+      </section>
     </section>
-
+    <div class="empty" style="height: 200px;"></div>
+    
   </main>
-
  
+
 
   <script>
     function drag(event) {
-        event.dataTransfer.setData("text", event.target.id);
+      event.dataTransfer.setData("text", event.target.id);
     }
 
     function allowDrop(event) {
-        event.preventDefault();
+      event.preventDefault();
     }
 
     function drop(event, type, folderId) {
-        event.preventDefault();
-        var data = event.dataTransfer.getData("text");
-        var element = document.getElementById(data);
-        var itemId = data.split('-')[1];
+      event.preventDefault();
+      var data = event.dataTransfer.getData("text");
+      var element = document.getElementById(data);
+      var itemId = data.split('-')[1];
 
-        const path = window.location.pathname;
-        const segments = path.split('/');
-        console.log(segments)
-        let parentId = segments[2]; 
-        console.log(parentId)
+      const path = window.location.pathname;
+      const segments = path.split('/');
+      console.log(segments)
+      let parentId = segments[2];
+      console.log(parentId)
 
-        if (type === 'folder') {
-            if (data.startsWith('quiz-')) {
-                window.location.href = `/quiz/move/${parentId}/${itemId}/to/${folderId}/`;
-            } else if (data.startsWith('qna-')) {
-                window.location.href = `/qna/move/${parentId}/${itemId}/to/${folderId}/`;
-            } else {
-                window.location.href = `/folder/move/${folderId}/to/${itemId}/`;
-            }
+      if (type === 'folder') {
+        if (data.startsWith('quiz-')) {
+          window.location.href = `/quiz/move/${parentId}/${itemId}/to/${folderId}/`;
+        } else if (data.startsWith('qna-')) {
+          window.location.href = `/qna/move/${parentId}/${itemId}/to/${folderId}/`;
+        } else {
+          window.location.href = `/folder/move/${folderId}/to/${itemId}/`;
         }
+      }
     }
 
-    document.querySelectorAll('.draggable').forEach(function(element) {
-        element.addEventListener('dragstart', drag);
+    document.querySelectorAll('.draggable').forEach(function (element) {
+      element.addEventListener('dragstart', drag);
     });
 
     var trashBin = document.getElementById('trash-bin');
-    trashBin.addEventListener('dragover', function(event) {
-        event.preventDefault();
-        trashBin.classList.add('dragover');
+    trashBin.addEventListener('dragover', function (event) {
+      event.preventDefault();
+      trashBin.classList.add('dragover');
     });
-    trashBin.addEventListener('dragleave', function(event) {
-        trashBin.classList.remove('dragover');
+    trashBin.addEventListener('dragleave', function (event) {
+      trashBin.classList.remove('dragover');
     });
-    trashBin.addEventListener('drop', function(event) {
-        dropToTrash(event);
+    trashBin.addEventListener('drop', function (event) {
+      dropToTrash(event);
     });
 
     function dropToTrash(event) {
-        event.preventDefault();
-        var data = event.dataTransfer.getData("text");
-        var itemId = data.split('-')[1];
+      event.preventDefault();
+      var data = event.dataTransfer.getData("text");
+      var itemId = data.split('-')[1];
 
-        if (data.startsWith('quiz-')) {
-            window.location.href = `/quiz/delete/${itemId}/`;
-        } else if (data.startsWith('qna-')) {
-            window.location.href = `/qna/delete/${itemId}/`;
-        } else {
-            window.location.href = `/folder/delete/${itemId}/`;
-        }
+      if (data.startsWith('quiz-')) {
+        window.location.href = `/quiz/delete/${itemId}/`;
+      } else if (data.startsWith('qna-')) {
+        window.location.href = `/qna/delete/${itemId}/`;
+      } else {
+        window.location.href = `/folder/delete/${itemId}/`;
+      }
     }
-</script>
+  </script>
 </body>
 {% endblock %}
 

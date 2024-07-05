@@ -20,13 +20,13 @@ a:hover {
   width: 1120px;
   height: 153px;
   padding: 40px;
-  border: 1px solid #f1f1f1;
+  border: 2px solid #D8D8D8;
   border-radius: 20px;
   color: #3b3b3b;
 }
 
 .main {
-  width: 80%;
+  width: 1280px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -70,13 +70,24 @@ h4 {
 
 #trash-bin p {
   font-size: 20px;
-  line-height: 80px;
-}
 
+  line-height:180px;
+  font-weight: bold;
+  color: #757575;
+}
+.rootpath{
+  color: #757575;
+
+}
+.path-title{
+  margin-left: 0;
+  padding-left: 0;
+}
 .delete p {
   font-size: 12px;
   color: #3b3b3b;
-  margin-top: -25px;
+  margin-top: -75px;
+
 }
 
 .top {
@@ -116,14 +127,31 @@ h4 {
 .title {
   color: #3b3b3b;
 }
-
+.folder-title img{
+  width: 21px;
+  height: 36px;
+}
+.scrap{
+  margin: 0 auto;
+}
+.error{
+  position: absolute;
+  margin-top: 73px;
+  margin-left: -120px;
+  font-size: 14px;
+  
+}
 .find {
   display: flex;
   align-items: center;
-  width: 700px;
+  width: 100%;
 }
+.bf_select .path-title{
+  color: #3b3b3b;
 
-.find .sc1, .find .sc2 {
+  background-color: rgba(0, 0, 0, 0);
+}
+.find .sc1 a, .find .sc2 {
   display: flex;
   margin: 20px;
   width: fit-content;
