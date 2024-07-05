@@ -1,9 +1,12 @@
 # 2024-Herethon-2
 2024 여기톤 : HERETHON 2조 <br><br>
 
-<img width="400px" src="./StuckProject/Static/img/LOGO.png">
+![image](https://github.com/2024-HERETHON/2024-Herethon-2/assets/128278212/5eb332b5-dced-484d-9cc9-e7aa85a118da)
 
-👉🏻 서비스 바로가기
+
+👉🏻 [서비스 바로가기](http://15.164.255.252/)
+- id : Stuck
+- password : Stuck1234!!
 
 <br><br>
 ### 📙 프로젝트 소개
