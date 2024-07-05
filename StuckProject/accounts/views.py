@@ -6,6 +6,8 @@ from todo.models import Routine, ToDo
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from todo.forms import RoutineForm, ToDoForm
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 from django.conf import settings
 from django.contrib import messages
@@ -29,6 +31,11 @@ def signup(request):
             if User.objects.filter(email=email).exists():
                 error_email_message = "이미 사용 중인 이메일입니다."
                 return render(request, 'accounts/signup.html', {'error_email_message': error_email_message})
+            try:
+                validate_password(request.POST['password'])
+            except ValidationError:
+                return render(request, 'accounts/signup.html', {'error_pw_valid_message': "비밀번호를 복잡하게 구성해주세요."})
+
 
             new_user = User.objects.create_user(
                 username=request.POST['username'],
