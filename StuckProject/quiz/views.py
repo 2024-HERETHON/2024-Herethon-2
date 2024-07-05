@@ -230,7 +230,7 @@ def select_folder(request, folder_id=None):
     if folder_id:
         folder = get_object_or_404(Folder, id=folder_id)
         children = folder.get_children() # 하위에 있는 모든 폴더
-        path = "Stuck/" + folder.get_path() + "/"
+        path = "Stuck/" + folder.get_path()
     else:
         folder = None
         children = Folder.objects.filter(parent=None, user=request.user) # 루트에 있는 모든 폴더
@@ -262,12 +262,12 @@ def add_folder(request, parent_id):
 
 # 폴더 드래그로 이동
 def move_folder(request, folder_id, parent_id):
-    folder = get_object_or_404(Folder, id=folder_id)
+    folder = get_object_or_404(Folder, id=parent_id)
 
-    if parent_id == 0:
+    if folder_id == 0:
         new_parent = None
     else:
-        new_parent = get_object_or_404(Folder, id=parent_id)
+        new_parent = get_object_or_404(Folder, id=folder_id)
 
     folder.parent = new_parent
     folder.save()
@@ -379,6 +379,7 @@ def create_question(request, folder_id):
         text = extract_text_from_image(file_path)
 
     openai.api_key = settings.OPENAI_API_KEY
+
     print(text)
     print(type)
 
