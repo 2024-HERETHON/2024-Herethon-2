@@ -1,96 +1,78 @@
 {% extends "base.html" %} {% load static %} {% block content %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/create_question_room.css' %}" />
-    <title>질문하기</title>
-  </head>
-  <body>
-    <form
-      action="{% url 'qna:create-question-room' folder_id %}"
-      method="post"
-      enctype="multipart/form-data"
-    >
-      {% csrf_token %}
-      <main class="quiz_main">
-        <section class="quiz_option">
-          <div class="file_name">
-            <h6>질문 파일명</h6>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              required
-              placeholder="파일명을 입력해주세요"
-            />
-          </div>
-        </section>
-        <section class="file_upload">
-          <label
-            for="file"
-            ondrop="dropHandler(event);"
-            ondragover="dragOverHandler(event);"
-          >
-            <img
-              class="cloud"
-              src="{% static 'img/drag.svg' %}"
-              alt="Drag and drop area"
-            />
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/create_question_room.css' %}" />
+  <title>질문하기</title>
+</head>
+
+<body>
+  <style>
+    .navbar .nav-qna * {
+      color: #09A8FA;
+    }
+  </style>
+  <form action="{% url 'qna:create-question-room' folder_id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <main class="quiz_main">
+      <section class="quiz_option">
+        <div class="file_name">
+          <h6>질문 파일명</h6>
+          <input type="text" id="title" name="title" required placeholder="파일명을 입력해주세요" />
+        </div>
+      </section>
+      <section class="file_upload">
+        <label for="file" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+          <img class="cloud" src="{% static 'img/drag.svg' %}" alt="Drag and drop area" />
+        </label>
+        <img class="line" src="{% static 'img/line.svg' %}" />
+        <div class="upload_right" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+          <label for="file">
+            <h5>파일 선택</h5>
           </label>
-          <img class="line" src="{% static 'img/line.svg' %}" />
-          <div
-            class="upload_right"
-            ondrop="dropHandler(event);"
-            ondragover="dragOverHandler(event);"
-          >
-            <label for="file"><h5>파일 선택</h5></label>
-            <p id="file-info">지원되는 파일 형식: .pdf, .png, .jpg</p>
-            <input
-              type="file"
-              id="file"
-              name="file"
-              style="display: none"
-              required
-            />
-          </div>
-        </section>
-        <button class="button" type="submit">교재 내용 질문하기</button>
-      </main>
-    </form>
+          <p id="file-info">지원되는 파일 형식: .pdf, .png, .jpg</p>
+          <input type="file" id="file" name="file" style="display: none" required />
+        </div>
+      </section>
+      <button class="button" type="submit">교재 내용 질문하기</button>
+    </main>
+  </form>
 
-    <script>
-      document.getElementById("file").onchange = function () {
-        var fileNameDisplay = document.getElementById("file-info");
-        fileNameDisplay.textContent = this.files[0].name;
-      };
+  <script>
+    document.getElementById("file").onchange = function () {
+      var fileNameDisplay = document.getElementById("file-info");
+      fileNameDisplay.textContent = this.files[0].name;
+    };
 
-      function dragOverHandler(ev) {
-        ev.preventDefault();
-      }
+    function dragOverHandler(ev) {
+      ev.preventDefault();
+    }
 
-      function dropHandler(ev) {
-        ev.preventDefault();
+    function dropHandler(ev) {
+      ev.preventDefault();
 
-        if (ev.dataTransfer.items) {
-          if (ev.dataTransfer.items[0].kind === "file") {
-            var file = ev.dataTransfer.items[0].getAsFile();
-            console.log("Dropped file:", file.name);
+      if (ev.dataTransfer.items) {
+        if (ev.dataTransfer.items[0].kind === "file") {
+          var file = ev.dataTransfer.items[0].getAsFile();
+          console.log("Dropped file:", file.name);
 
-            var input = document.getElementById("file");
-            var dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            input.files = dataTransfer.files;
+          var input = document.getElementById("file");
+          var dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          input.files = dataTransfer.files;
 
-            document.getElementById("file-info").textContent = file.name;
-          }
-        } else {
-          document.getElementById("file-info").textContent =
-            ev.dataTransfer.files[0].name;
+          document.getElementById("file-info").textContent = file.name;
         }
+      } else {
+        document.getElementById("file-info").textContent =
+          ev.dataTransfer.files[0].name;
       }
-    </script>
-  </body>
+    }
+  </script>
+</body>
+
 </html>
 {% endblock %}
