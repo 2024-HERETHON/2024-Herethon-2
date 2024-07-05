@@ -1,9 +1,11 @@
+{% extends "base.html" %} {% load static %} {% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
+    <link rel="stylesheet" href="{% static 'css/test.css' %}" />
 </head>
 <body>
   
@@ -34,10 +36,11 @@
             <label>{{ question.ai_question|linebreaks }}</label>
             <input type="text" name="answer_{{ question.id }}" placeholder="정답을 입력해주세요" />
           </div>
-          {% endfor %}
           
+          {% endfor %}
+          <button class="gotoresult" >채점하기</button>
         </form>
-        <button class="gotoresult" >채점하기</button>
+        
       </section>
     </div>
     <section class="result nodisplay">
@@ -80,4 +83,5 @@
         <button type="submit">퀴즈 제출</button>
     </form>
 </body>
+{% endblock %}
 </html>

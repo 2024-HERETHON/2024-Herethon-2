@@ -317,10 +317,11 @@ main {
     margin-left: 10px;
     color: #757575;
 }
-.scrap-list li{
+.scrap-list li, .recent li{
     height: 20px;
     display: flex;
     align-items: center;
+    margin: 10px 0;
 }
 a{
     cursor: pointer;
