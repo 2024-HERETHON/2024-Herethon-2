@@ -2,49 +2,101 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/test.css' %}" />
-    <title>Quiz</title>
-  </head>
-  <body>
-    <main class="test_main">
-      <section class="test_info">
-        <h5 class="grid1">{{ type }}</h5>
-        <div class="grid2">
-          <h5>{{ quiz.title }}</h5>
-          <p>{{ message }}</p>
-        </div>
-        <div class="grid3">
-          <p>생성 날짜: {{ quiz.created_at }}</p>
-          <p>문제 수: {{ quiz.question_num }}</p>
-        </div>
-      </section>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'css/test.css' %}" />
+  <script src="{% static 'js/test.js' %}" defer></script>
+  <title>Quiz</title>
+</head>
+
+<body>
+  <section class="test_info">
+    <h5 class="grid1">{{ type }}</h5>
+    <div class="grid2">
+      <h5>{{ quiz.title }}</h5>
+      <p>{{ message }}</p>
+    </div>
+    <div class="grid3">
+      <p>생성 날짜: {{ quiz.created_at }}</p>
+      <p>문제 수: {{ quiz.question_num }}</p>
+    </div>
+  </section>
+  <main class="test_main">
+    <div class="wrap">
+      
       <section class="download">
-        <a href="{% url 'quiz:save-quiz-as-pdf' folder_id quiz.id %}"
-          ><img src="{% static 'img/pdf.png' %}" class="pdf"
-        /></a>
-        <a href="{% url 'quiz:save-quiz-as-word' folder_id quiz.id %}"
-          ><img src="{% static 'img/word.png' %}" class="word"
-        /></a>
+        <a href="{% url 'quiz:save-quiz-as-pdf' folder_id quiz.id %}"><img src="{% static 'img/pdf.png' %}"
+            class="pdf" /></a>
+        <a href="{% url 'quiz:save-quiz-as-word' folder_id quiz.id %}"><img src="{% static 'img/word.png' %}"
+            class="word" /></a>
       </section>
       <section class="questions">
         <form method="post">
           {% csrf_token %} {% for question in questions %}
           <div>
             <label>{{ question.ai_question|linebreaks }}</label>
-            <input
-              type="text"
-              name="answer_{{ question.id }}"
-              placeholder="정답을 입력해주세요"
-            />
+            <input type="text" name="answer_{{ question.id }}" placeholder="정답을 입력해주세요" />
           </div>
           {% endfor %}
-          <button type="submit">채점하기</button>
+          
         </form>
+        <button class="gotoresult" >채점하기</button>
       </section>
-    </main>
-  </body>
+    </div>
+    <section class="result nodisplay">
+      <section class="result_top">
+        <h1>채점 결과</h1>
+        <div class="icons">
+          {% if not quiz in request.user.customuser.scrap_quizs.all %}
+          <a href="{% url 'quiz:add-scrap-quiz' folder_id quiz.id %}"
+            ><img src="{% static 'img/scrap.png' %}" class="scrap"
+          /></a>
+          {% else %}
+          <a href="{% url 'quiz:cancel-scrap-quiz' folder_id quiz.id %}"
+            ><img src="{% static 'img/noscrap.png' %}" class="noscrap"
+          /></a>
+          {% endif %}
+          <a href="{% url 'quiz:save-quiz-as-pdf' folder_id quiz.id %}"
+            ><img src="{% static 'img/pdf.png' %}" class="pdf"
+          /></a>
+          <a href="{% url 'quiz:save-quiz-as-word' folder_id quiz.id %}"
+            ><img src="{% static 'img/word.png' %}" class="word"
+          /></a>
+        </div>
+      </section>
+      <section class="result_detail">
+        <p>
+          총 {{ total_questions }} 문제 중 {{ correct_count }} 문제를
+          맞추셨습니다.
+        </p>
+        <br />
+        {% for q in questions %}
+        <p class="boldP">문제 {{ forloop.counter }}</p>
+        정답: {{ q.correct_answer }}<br />
+        {% if not q.status %}
+        <p style="color: red">내가 입력한 답: {{ q.user_answer }}</p>
+        {% else %}
+        <p style="color: black">내가 입력한 답: {{ q.user_answer }}</p>
+        {% endif %}
+        <br />
+        {% endfor %}
+      </section>
+  
+      <div class="buttons">
+        <a class="b1" href="{% url 'quiz:folder-view' folder_id %}">확인 완료</a>
+        <a class="b1" href="{% url 'quiz:test' folder_id quiz.id %}">다시풀기</a>
+        <a
+          class="b1"
+          href="{% url 'quiz:view-wrong-questions' folder_id quiz.id %}"
+          >틀린문제만 보기</a
+        >
+      </div>
+    </section>
+  </main>
+  <div class="empty"></div>
+</body>
+
 </html>
 {% endblock %}

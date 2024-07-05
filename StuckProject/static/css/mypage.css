@@ -1,7 +1,8 @@
 .navbar .nav-mypage * {
     color: #09A8FA;
 }
-
+.profile-img{
+    margin-top:20px;}
 body {
     background-color: #FAFAFA;
 }
