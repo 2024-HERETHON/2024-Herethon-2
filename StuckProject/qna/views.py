@@ -42,7 +42,7 @@ def select_folder(request, folder_id=None):
     if folder_id:
         folder = get_object_or_404(Folder, id=folder_id)
         children = folder.get_children() # 하위에 있는 모든 폴더
-        path = "Stuck/" + folder.get_path() + "/"
+        path = folder.get_path() + "/"
     else:
         folder = None
         children = Folder.objects.filter(parent=None, user=request.user) # 루트에 있는 모든 폴더
@@ -310,12 +310,12 @@ def delete_question_room(request, question_room_id):
  # 드래그 앤 드랍으로 폴더 삭제
 def move_question_room(request, current_folder_id, question_room_id, move_folder_id):
     questoin_room = get_object_or_404(QuestionRoom, id=question_room_id)
-    move_folder = get_object_or_404(Folder, id=current_folder_id)
+    move_folder = get_object_or_404(Folder, id=move_folder_id)
 
     questoin_room.folder = move_folder
     questoin_room.save()
 
-    return redirect('quiz:folder-view', folder_id=move_folder_id)
+    return redirect('quiz:folder-view', folder_id=current_folder_id)
 
 
 # 질문 방 스크랩

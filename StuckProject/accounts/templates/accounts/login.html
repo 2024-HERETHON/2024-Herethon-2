@@ -19,9 +19,7 @@
 
         <div class="wrap">
             <div class="logo"><img src="{% static 'img/LOGO.png' %}" alt="logo"></div>
-            {% if error_message %}
-            <p style="color: red;">{{ error_message }}</p>
-            {% endif %}
+            
 
             <form class="user" action="{% url 'accounts:login' %}" method="POST">
                 {% csrf_token %}
@@ -33,7 +31,11 @@
                     <h6>비밀번호</h6>
                     <input type="password" name="password" placeholder="비밀번호를 입력하세요">
                 </div>
+                {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+            {% endif %}
                 <input type="submit" value="로그인" class="loginbtn">
+                
             </form>
 
             <!-- 이메일 전송 완료 메세지 -->
@@ -47,7 +49,7 @@
             
                 <a href="{% url 'accounts:forgot_id' %}" class="findId">아이디 찾기</a>
                 <div class="line"></div>
-                <a href="/" class="findPwd">비밀번호 찾기</a>
+                <a href="{% url 'password_reset' %}" class="findPwd">비밀번호 찾기</a>
             </div>
             
             <div class="go-account"> <a href="{% url 'accounts:signup' %}" >스턱이 처음이에요 <span class="blue">가입하기</span></a></div>

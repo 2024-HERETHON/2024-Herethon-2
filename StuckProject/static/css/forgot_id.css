@@ -1,0 +1,99 @@
+header *{
+    display: none;
+}
+.main-header{
+    display: none;
+}
+body{
+    background-color: #fafafa;
+    width: 100%;
+    height: 100%;
+
+}
+.empty{
+    width: 100%;
+    height: 50px;
+}
+
+.findId-main, .findPwd-main{
+    display: flex;
+   justify-content: center;
+}
+.wrap{
+    width: 658px;
+    height:578px;
+    border-radius: 20px;
+    background-color: #fff;
+    padding: 50px;
+    flex-direction: column;
+    box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.1);
+
+}
+.logo{
+    display: flex;
+    flex-direction:column ;
+    margin-top: 30px;
+}
+.logo h4{
+    margin: 0;
+    margin-top: 20px;
+    padding: 0;
+    margin-left: -60%;
+}
+.logo a{
+    width: 90%;
+}
+.logo img{
+    width: 143px;
+    
+}
+h6{
+    margin: 0;
+    margin-top: 30px;
+    padding-left: 50px;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+input[type="email"], input[type="text"]{
+    width: 526px;
+    height: 12px;
+    border-radius: 20px;
+    padding: 20px;
+}
+input{
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 0 10px;
+    border: 1px solid #D2D2D2;
+    background-color: #F8F8F8;
+}
+input::placeholder {
+    color: #D2D2D2;
+  }
+  input[type="submit"] {
+    margin-top: 50px;
+    width: 586px;
+    height: 60px;
+    border: none;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #fff;
+    background-color: #09A8FA;
+  }
+  .error{
+    margin-top: 10px;
+    color: red;
+  }
+  .findPwd-main h4{
+    margin-left: -55%;
+    
+  }
+  .findPwd-main h6{
+    align-self: start;
+  }

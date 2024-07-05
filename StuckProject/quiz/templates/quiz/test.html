@@ -1,28 +1,50 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/test.css' %}" />
     <title>Quiz</title>
-</head>
-<body>
-    <h1>{{ type }}</h1>
-    <h1>제목 : {{ quiz.title }}</h1>
-    <p>{{ message}}</p> <!--주관식이라면 채점 안내 문구 뜸-->
-    <p>생성 날짜 {{quiz.created_at}} 문제 수 {{quiz.question_num}}</p>
-
-    <a href="{% url 'quiz:save-quiz-as-pdf' folder_id quiz.id %}">문제 pdf로 다운로드</a>
-    <a href="{% url 'quiz:save-quiz-as-word' folder_id quiz.id %}">문제 word로 다운로드</a>
-
-    <form method="post">
-        {% csrf_token %}
-        {% for question in questions %}
-            <div>
-                <label>{{ question.ai_question|linebreaks }}</label>
-                <input type="text" name="answer_{{ question.id }}" >
-            </div>
-        {% endfor %}
-        <button type="submit">퀴즈 제출</button>
-    </form>
-</body>
+  </head>
+  <body>
+    <main class="test_main">
+      <section class="test_info">
+        <h5 class="grid1">{{ type }}</h5>
+        <div class="grid2">
+          <h5>{{ quiz.title }}</h5>
+          <p>{{ message }}</p>
+        </div>
+        <div class="grid3">
+          <p>생성 날짜: {{ quiz.created_at }}</p>
+          <p>문제 수: {{ quiz.question_num }}</p>
+        </div>
+      </section>
+      <section class="download">
+        <a href="{% url 'quiz:save-quiz-as-pdf' folder_id quiz.id %}"
+          ><img src="{% static 'img/pdf.png' %}" class="pdf"
+        /></a>
+        <a href="{% url 'quiz:save-quiz-as-word' folder_id quiz.id %}"
+          ><img src="{% static 'img/word.png' %}" class="word"
+        /></a>
+      </section>
+      <section class="questions">
+        <form method="post">
+          {% csrf_token %} {% for question in questions %}
+          <div>
+            <label>{{ question.ai_question|linebreaks }}</label>
+            <input
+              type="text"
+              name="answer_{{ question.id }}"
+              placeholder="정답을 입력해주세요"
+            />
+          </div>
+          {% endfor %}
+          <button type="submit">채점하기</button>
+        </form>
+      </section>
+    </main>
+  </body>
 </html>
+{% endblock %}
