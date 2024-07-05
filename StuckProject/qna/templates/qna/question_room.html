@@ -1,4 +1,5 @@
 {% extends "base.html" %} {% load static %} {% block content %}
+{% load custom_filters %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,20 +17,26 @@
             <a href="{% url 'quiz:folder-view' folder_id %}">
               <img src="{% static 'img/left_allow.png' %}" class="left_allow" />
             </a>
-            <h5>{{ question_room.file.name }}</h5>
+            <h5>{{ question_room.file.name|filename }}</h5>
           </div>
           <div class="icons">
             <!-- 저장하면 바뀌는 거 결과 페이지에는 맞게 구현되어 있으니까 그거 복붙하도 좋을 것 같아요! 카톡에서 말했다시피 제 노트북은 프리티어 꺼도 이 페이지에서는 한 줄에 안 적어져서 오류가 나네요,,, -->
+            {% if not question_room in request.user.customuser.scrap_question_rooms.all %}
             <a
               href="{% url 'qna:add-scrap-question-room' folder_id question_room.id %}"
             >
               <img src="{% static 'img/scrap.png' %}" class="scrap" />
+            </a>
+            {% else %}
+            <a href="{% url 'qna:cancel-scrap-question-room' folder_id question_room.id %}">
+              <img src="{% static 'img/noscrap.png' %}" class="scrap" />
             </a>
             <a
               href="{% url 'qna:save-chat-as-pdf' folder_id question_room.id %}"
             >
               <img src="{% static 'img/pdf.png' %}" class="pdf" />
             </a>
+            {% endif %}
             <a
               href="{% url 'qna:save-chat-as-word' folder_id question_room.id %}"
             >
@@ -90,7 +97,7 @@
           </div>
         </secion>
         <!-- 여기 수정 들어가야합니당 -->
-        {% for chat in chats %} {{ chat.created_at }} {% endfor %}
+        {{ question_room.created_at }}
         <form
           action="{% url 'qna:save-question-memo' folder_id question_room.id %}"
           method="POST"
