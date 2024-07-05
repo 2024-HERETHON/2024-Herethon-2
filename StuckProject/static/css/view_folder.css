@@ -22,6 +22,7 @@ section a:hover img{
 }
 section a:hover p{
   height: fit-content;
+  padding: 0 10px;
   border-radius: 10px;
   background-color: #09a8fa;
   color: #f1f1f1;
