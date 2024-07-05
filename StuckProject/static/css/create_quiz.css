@@ -2,7 +2,9 @@ main {
   width: 80%;
   margin: 0 auto;
 }
-
+.navbar .nav-qna * {
+  color: #09A8FA;
+}
 h6,
 label {
   margin: 0;

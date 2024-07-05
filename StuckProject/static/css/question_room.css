@@ -10,6 +10,9 @@ main {
   height: calc(100vh - 90px); /* header 높이를 뺀 전체 페이지 높이 */
   margin: 0 auto;
 }
+.navbar .nav-qna * {
+  color: #09A8FA;
+}
 
 .left_main,
 .right_main {
