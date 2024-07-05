@@ -10,6 +10,11 @@
   </head>
   <body>
     <main>
+    <link rel="stylesheet" href="{% static 'css/create_question_room.css' %}" />
+</head>
+<body>
+  
+    <main class="main">
       <section class="left_main">
         <section class="left_title">
           <div class="titletop">
@@ -40,18 +45,12 @@
         <section class="chat-container">
           <section class="chat">
             {% for chat in chats %}
+            {% for chat in chats %}
             <br /><br />
-            <div class="chatname">
-              <img src="{% static 'img/profile.png' %}" class="profile" />사용자
-              :
-            </div>
-            <br />{{ chat.user_chat }}<br />
-            <br />
-            <div class="chatname">
-              <img src="{% static 'img/s-icon.png' %}" class="s-icon" />STUCK :
-            </div>
-            <br />{{ chat.gpt_chat | linebreaks }}<br />
+            사용자 : <br />{{ chat.user_chat }}<br /><br />
+            AI : {{ chat.gpt_chat | linebreaks }}<br />
             <hr />
+            {% endfor %}
             {% endfor %}
           </section>
         </section>
@@ -60,6 +59,29 @@
           method="POST"
           class="chat-form"
         >
+          {% csrf_token %} 질문 입력<input type="text" name="user_question" />
+          <button>질문하기</button>
+        </form>
+      </section>
+    </div>
+
+        <form
+          action="{% url 'qna:enter-question-room' folder_id question_room.id %}"
+          method="POST"
+          class="chat-form"
+        >
+        {% csrf_token %}
+        <div class="input_q">
+          <input
+            type="text"
+            name="user_question"
+            placeholder="무엇이 궁금하신가요?"
+          />
+          <button type="submit">
+            <img src="{% static 'img/send.png' %}" class="send" />
+          </button>
+
+    </form>
           {% csrf_token %}
           <div class="input_q">
             <input
