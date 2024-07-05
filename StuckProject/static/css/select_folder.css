@@ -74,6 +74,7 @@ h4 {
   color: #7d7d7d;
 }
 
+
 .bf_select h6 {
   display: flex;
   align-items: center;
@@ -82,12 +83,14 @@ h4 {
   color: white;
   height: 38px;
   width: 98px;
+
   background-color: #c7e8f8;
   border-radius: 100px;
 }
 
 .input_foldername,
 makequestion_before {
+
   width: 102px;
   height: 38px;
   background-color: #09a8fa;
