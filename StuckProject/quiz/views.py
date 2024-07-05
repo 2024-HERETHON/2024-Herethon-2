@@ -821,15 +821,23 @@ def delete_quiz(request, quiz_id):
 
 # 폴더 검색 
 def search_folder(request, folder_id):
-    search_folder_name = request.GET.get('search_folder_name', '')
+    search_folder_name = request.POST.get('search_folder_name', '')
+    print(search_folder_name)
 
     folder = Folder.objects.filter(name=search_folder_name).first()
+    print(folder)
+    file = Quiz.objects.filter(title=search_folder_name).first()
+    file = QuestionRoom.objects.filter(title=search_folder_name).first()
 
-    if not folder:
-            messages.error(request, "폴더가 존재하지 않습니다.")
-            return redirect('quiz:folder-view', folder_id)
-    messages.success(request, "폴더가 성공적으로 검색되었습니다.")
-    return redirect('quiz:folder-view', folder.id)
+    if folder:
+            messages.success(request, "폴더가 성공적으로 검색되었습니다.")
+            return redirect('quiz:folder-view', folder.id)
+    if file:
+        messages.success(request, "폴더가 성공적으로 검색되었습니다.")
+        return redirect('quiz:folder-view', file.folder.id)
+        
+    messages.error(request, "폴더와 파일이 존재하지 않습니다.")
+    return redirect('quiz:folder-view', folder_id)
 
 
 
