@@ -1,6 +1,14 @@
 .main {
-  width: 80%;
+  width: 1240px;
   margin: 0 auto;
+}
+.bf_select .rootpath{
+  color: #3b3b3b;
+  width: fit-content;
+  background-color: rgba(0, 0, 0, 0);
+}
+.empty{
+  height: 50px;
 }
 section a img{
   color: #3b3b3b;

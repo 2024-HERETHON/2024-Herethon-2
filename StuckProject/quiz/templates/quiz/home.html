@@ -303,11 +303,17 @@
                         {% for doc in documents %}
                             <li class="scrap-list1">
                                 {% if doc.type == 'quiz' %}
+                                <img class="mini-quiz" src="{% static 'img/q_blue.png' %}">
                                     <a href="{% url 'quiz:quiz-results' doc.folder_id doc.obj.id %}">
-                                        <img class="mini-quiz" src="{% static 'img/q_blue.png' %}">{{ doc.obj.title }}</a>
+
+                                        {{ doc.obj.title }}</a>
+
                                 {% elif doc.type == 'questionroom' %}
+                                <img class="mini-test" src="{% static 'img/t_blue.png' %}">
                                     <a href="{% url 'qna:enter-question-room' doc.folder_id doc.obj.id %}">
-                                        <img class="mini-test" src="{% static 'img/t_blue.png' %}"> {{ doc.obj.title }}</a>
+
+                                         {{ doc.obj.title }}</a>
+
                                 {% endif %}
                             </li>
                         {% endfor %}

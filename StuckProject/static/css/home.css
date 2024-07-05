@@ -7,8 +7,12 @@ main {
 }
 .mini-folder , .mini-quiz, .mini-test{
     width: 20px;
+    height: 20px;
     margin-right: 10px;
 
+}
+.mini-folder a, .mini-quiz a, .mini-test a{
+    line-height: 20px;
 }
 .today {
     font-weight: bold;

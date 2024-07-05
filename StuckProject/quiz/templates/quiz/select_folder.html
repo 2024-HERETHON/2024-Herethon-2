@@ -15,6 +15,7 @@
       color: #09A8FA;
     }
   </style>
+  <div class="empty"></div>
   <main class="folder main">
     <section class="top">
       <h4>저장할 폴더 정하기</h4>
@@ -26,24 +27,33 @@
           <a href="{% url 'quiz:select-folder' folder.parent.id %}">
             <img src="{% static 'img/left_circle.png' %}" alt="left_arrow" class="left_circle" />
           </a>
+          
           {% else %}
           <a href="{% url 'quiz:select-folder' 0 %}">
             <img src="{% static 'img/left_circle.png' %}" alt="left_arrow" class="left_circle" />
           </a>
+   
+       
           {% endif %}
+          
 
         </section>
         {% endif %}
 
 
         <div class="bf_select">
-          {% if folder %} {{ path }} {% else %}
-          <img class="left_circle_white" src="{% static 'img/left_circle_white.png' %}" alt="이미지 설명" />
-
+          
+          
+          {% if folder %} <h6 class="rootpath">MY STUCK / {{ path }} </h6>
+          
+          {% else %}
+          <img class="left_circle_white" src="{% static 'img/left_circle.png' %}" alt="이미지 설명" />
+          <h6 class="rootpath">MY STUCK / </h6>
           {% endif %}
         </div>
         <div class="af_select">
           {% if folder %}
+          
           <form method="POST" action="{% url 'quiz:select-folder' folder.id %}">
             {% csrf_token %}<button class="makequestion_before">
               문제 생성
@@ -53,7 +63,7 @@
         </div>
       </div>
     </section>
-
+    <div class="empty"></div>
     <section class="grid-container">
       <!-- *gi 현재 폴더 하위에 있는 폴더 출력 -->
       {% for child in children %}
@@ -102,6 +112,7 @@
       {% endif %}
     </section>
   </main>
+  <div class="empty"></div>
 </body>
 
 </html>
