@@ -146,23 +146,27 @@
       <section class="grid-container">
         {% for scrap in folder_scraps %}
         <div class="grid-item">
+          <a href="{% url 'quiz:folder-view' scrap.folder.id %}">
           <img src="{% static 'img/folder_gray.svg' %}" alt="Folder Icon">
-          <p><a href="{% url 'quiz:folder-view' scrap.folder.id %}">{{ scrap.folder.name }}</a></p>
+          <p>{{ scrap.folder.name }}</p>
+        </a>
         </div>
         {% endfor %}
 
         {% for scrap in quiz_scraps %}
         <div class="grid-item">
+          <a href="{% url 'quiz:view-questions' 0 scrap.quiz.id %}">
           <img src="{% static 'img/t_darkgray.png' %}" alt="Q File Icon">
-          <p><a href="{% url 'quiz:view-questions' 0 scrap.quiz.id %}">{{ scrap.quiz.title }}</a></p>
+          <p>{{ scrap.quiz.title }}</p></a>
         </div>
         {% endfor %}
 
         {% for scrap in question_room_scraps %}
         <div class="grid-item">
+          <a href="{% url 'qna:enter-question-room' 0 scrap.question_room.id %}">
           <img src="{% static 'img/q_darkgray.png' %}" alt="T File Icon">
-          <p><a href="{% url 'qna:enter-question-room' 0 scrap.question_room.id %}">{{ scrap.question_room.title }}</a>
-          </p>
+          <p>{{ scrap.question_room.title }}</p>
+        </a>
         </div>
         {% endfor %}
       </section>
@@ -239,6 +243,7 @@
     }
   </script>
 </body>
+
 {% endblock %}
 
 </html>
