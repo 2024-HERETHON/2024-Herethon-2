@@ -36,7 +36,7 @@ from docx.oxml.ns import qn
 
 @login_required
 def landing_page(request):
-    return render(request, 'quiz/landing.html')
+    return render(request, 'qna/landing.html')
 
 # 퀴즈 생성 전 폴더 선택
 @login_required
