@@ -305,11 +305,15 @@
                                 {% if doc.type == 'quiz' %}
                                 <img class="mini-quiz" src="{% static 'img/q_blue.png' %}">
                                     <a href="{% url 'quiz:quiz-results' doc.folder_id doc.obj.id %}">
+
                                         {{ doc.obj.title }}</a>
+
                                 {% elif doc.type == 'questionroom' %}
                                 <img class="mini-test" src="{% static 'img/t_blue.png' %}">
                                     <a href="{% url 'qna:enter-question-room' doc.folder_id doc.obj.id %}">
+
                                          {{ doc.obj.title }}</a>
+
                                 {% endif %}
                             </li>
                         {% endfor %}
