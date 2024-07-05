@@ -5,9 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/landing.css' %}">
 </head>
 <body>
-    
+    <style>
+        .navbar .nav-quiz * {
+    color: #09A8FA;
+}
+    </style>
+    <div class="empty"></div>
+    <main>
+        <img src="{% static 'img/qna-landing.svg' %}" alt="랜딩이미지" >
+        <a href="{% url 'quiz:select-folder' 0 %}"><h4>교재 내용으로 문제풀기</h4></a>
+    </main>
+   
+    <div class="empty"></div>
 </body>
 </html>
 {% endblock %}
