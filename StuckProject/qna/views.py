@@ -34,6 +34,10 @@ from docx import Document
 from docx.shared import Pt
 from docx.oxml.ns import qn
 
+@login_required
+def landing_page(request):
+    return render(request, 'quiz/landing.html')
+
 # 퀴즈 생성 전 폴더 선택
 @login_required
 def select_folder(request, folder_id=None):

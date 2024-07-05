@@ -32,6 +32,10 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 from docx import Document
 
 
+@login_required
+def landing_page(request):
+    return render(request, 'quiz/landing.html')
+
 def calculate_week_number_within_month(today):
     # 달의 첫번째 계산
     first_day_of_month = date(today.year, today.month, 1)
