@@ -196,7 +196,7 @@ def view_folder(request, folder_id=None):
     if folder_id:
         folder = get_object_or_404(Folder, id=folder_id)
         children = folder.get_children() # 하위에 있는 모든 폴더
-        path = "Stuck/" + folder.get_path()
+        path = folder.get_path() + "/"
     else:
         folder = None
         children = Folder.objects.filter(parent=None, user=request.user) # 루트에 있는 모든 폴더
@@ -230,7 +230,7 @@ def select_folder(request, folder_id=None):
     if folder_id:
         folder = get_object_or_404(Folder, id=folder_id)
         children = folder.get_children() # 하위에 있는 모든 폴더
-        path = "Stuck/" + folder.get_path() + "/"
+        path = folder.get_path() + "/"
     else:
         folder = None
         children = Folder.objects.filter(parent=None, user=request.user) # 루트에 있는 모든 폴더
@@ -262,12 +262,12 @@ def add_folder(request, parent_id):
 
 # 폴더 드래그로 이동
 def move_folder(request, folder_id, parent_id):
-    folder = get_object_or_404(Folder, id=folder_id)
+    folder = get_object_or_404(Folder, id=parent_id)
 
-    if parent_id == 0:
+    if folder_id == 0:
         new_parent = None
     else:
-        new_parent = get_object_or_404(Folder, id=parent_id)
+        new_parent = get_object_or_404(Folder, id=folder_id)
 
     folder.parent = new_parent
     folder.save()
@@ -379,6 +379,7 @@ def create_question(request, folder_id):
         text = extract_text_from_image(file_path)
 
     openai.api_key = settings.OPENAI_API_KEY
+
     print(text)
     print(type)
 
@@ -443,6 +444,11 @@ def create_question(request, folder_id):
 
     print(f"questions len {len(questions)}")
     print(f"answers len {len(answers)}")
+
+    if len(questions) != int(question_num) or len(answers) != int(question_num):
+        message = "문제 생성 중 오류가 발생했습니다."
+        return render(request, 'quiz/create_quiz.html', {'folder_id':folder_id, 'message' : message})
+
     
     # 각 질문과 답안을 개별적으로 저장
     for i in range(0, int(question_num)):
@@ -815,15 +821,23 @@ def delete_quiz(request, quiz_id):
 
 # 폴더 검색 
 def search_folder(request, folder_id):
-    search_folder_name = request.GET.get('search_folder_name', '')
+    search_folder_name = request.POST.get('search_folder_name', '')
+    print(search_folder_name)
 
     folder = Folder.objects.filter(name=search_folder_name).first()
+    print(folder)
+    file = Quiz.objects.filter(title=search_folder_name).first()
+    file = QuestionRoom.objects.filter(title=search_folder_name).first()
 
-    if not folder:
-            messages.error(request, "폴더가 존재하지 않습니다.")
-            return redirect('quiz:folder-view', folder_id)
-    messages.success(request, "폴더가 성공적으로 검색되었습니다.")
-    return redirect('quiz:folder-view', folder.id)
+    if folder:
+            messages.success(request, "폴더가 성공적으로 검색되었습니다.")
+            return redirect('quiz:folder-view', folder.id)
+    if file:
+        messages.success(request, "폴더가 성공적으로 검색되었습니다.")
+        return redirect('quiz:folder-view', file.folder.id)
+        
+    messages.error(request, "폴더와 파일이 존재하지 않습니다.")
+    return redirect('quiz:folder-view', folder_id)
 
 
 

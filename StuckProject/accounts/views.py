@@ -33,14 +33,13 @@ def signup(request):
             new_user = User.objects.create_user(
                 username=request.POST['username'],
                 password=request.POST['password'],
-                email=email,
                 )
             nickname=request.POST['nickname']
             univ = request.POST['univ']
             semester = request.POST['semester']
             resolution = request.POST['resolution']
             introduce = request.POST['introduce']
-            customuser = CustomUser(user=new_user, nickname=nickname, univ=univ, semester=semester, resolution=resolution, introduce=introduce)
+            customuser = CustomUser(user=new_user, email=email, nickname=nickname, univ=univ, semester=semester, resolution=resolution, introduce=introduce)
             customuser.save()
 
         elif request.POST['password'] != request.POST['password2']:
@@ -92,7 +91,9 @@ def forgot_id(request):
     if request.method == "POST":
         email = request.POST.get('email')
         try:
-            user = User.objects.get(email=email)
+
+            custom_user = CustomUser.objects.get(email=email)
+            user = custom_user.user
             if user:
                 method_email = EmailMessage(
                     'STUCK에서 온 아이디 찾기 메일입니다.',
@@ -120,17 +121,24 @@ class CustomPasswordResetView(PasswordResetView):
         context = {}  
 
         try:
-            user = User.objects.get(email=email, username=username)
-            context = {
-                'email': user.email,
-                'domain': self.request.META['HTTP_HOST'],
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
-                'protocol': 'http',
-            }
-            email_content = render_to_string('accounts/password_reset_email.html', context)
-            send_mail("Password reset on your site", email_content, None, [user.email], fail_silently=False)
-            context['message'] = "해당 이메일 주소로 이메일이 발송되었습니다. 이메일을 확인하여 비밀번호를 재설정하세요."
+            saved_user = User.objects.get(username=username)
+            custom_user = CustomUser.objects.get(email=email)
+            user = custom_user.user
+            print(saved_user)
+            print(user)
+            if saved_user == user:
+                print('in')
+                print(custom_user.email)
+                context = {
+                    'email': custom_user.email,
+                    'domain': self.request.META['HTTP_HOST'],
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': default_token_generator.make_token(user),
+                    'protocol': 'http',
+                }
+                email_content = render_to_string('accounts/password_reset_email.html', context)
+                send_mail("Password reset on your site", email_content, None, [custom_user.email], fail_silently=False)
+                context['message'] = "해당 이메일 주소로 이메일이 발송되었습니다. 이메일을 확인하여 비밀번호를 재설정하세요."
         except User.DoesNotExist:
             context['message'] = "이메일 또는 ID를 확인해주세요"
 

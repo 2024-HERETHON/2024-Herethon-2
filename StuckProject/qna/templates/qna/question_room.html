@@ -1,50 +1,93 @@
-{% load custom_filters %}
+{% extends "base.html" %} {% load static %} {% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/create_question_room.css' %}" />
 </head>
 <body>
-    <a href="{% url 'quiz:home' %}">홈으로</a>
-    <a href="{% url 'quiz:folder-view' folder_id %}">돌아가기</a>
-
-    <!-- 질문 스크랩 -->
-    {% if not question_room in request.user.customuser.scrap_question_rooms.all %}
-        <a href="{% url 'qna:add-scrap-question-room' folder_id question_room.id %}">질문 스크랩</a>
-    {% else %}
-        <a href="{% url 'qna:cancel-scrap-question-room' folder_id question_room.id %}">질문 스크랩 취소</a>
-    {% endif %}
-
-    <h2>파일 이름 : {{ question_room.file.name|filename }}</h2>
-
+    <main>
+      <section class="left_main">
+        <section class="left_title">
+          <div class="titletop">
+            <a href="{% url 'quiz:folder-view' folder_id %}">
+              <img src="{% static 'img/left_allow.png' %}" class="left_allow" />
+            </a>
+            <h5>{{ question_room.file.name }}</h5>
+          </div>
+          <div class="icons">
+            <a
+              href="{% url 'qna:add-scrap-question-room' folder_id question_room.id %}"
+            >
+              <img src="{% static 'img/scrap.png' %}" class="scrap" />
+            </a>
+            <a
+              href="{% url 'qna:save-chat-as-pdf' folder_id question_room.id %}"
+            >
+              <img src="{% static 'img/pdf.png' %}" class="pdf" />
+            </a>
+            <a
+              href="{% url 'qna:save-chat-as-word' folder_id question_room.id %}"
+            >
+              <img src="{% static 'img/word.png' %}" class="word" />
+            </a>
+          </div>
+        </section>
+        <section class="chat-container">
+          <section class="chat">
     {% for chat in chats %}
-        {{ chat.created_at }}<br><br>
-        사용자 : <br>{{chat.user_chat}}<br><br>
-        AI : {{chat.gpt_chat | linebreaks}}<br><HR>
+            <br /><br />
+            <div class="chatname">
+              <img src="{% static 'img/profile.png' %}" class="profile" />사용자
+              :
+            </div>
+            <br />{{ chat.user_chat }}<br />
+            <br />
+            <div class="chatname">
+              <img src="{% static 'img/s-icon.png' %}" class="s-icon" />STUCK :
+            </div>
+            <br />{{ chat.gpt_chat | linebreaks }}<br />
+            <hr />
     {% endfor %}
-    <form action="{% url 'qna:enter-question-room' folder_id question_room.id %}" method="POST">
+          </section>
+        </section>
+        <form
+          action="{% url 'qna:enter-question-room' folder_id question_room.id %}"
+          method="POST"
+          class="chat-form"
+        >
         {% csrf_token %}
-        질문 입력<input type="text" name="user_question">
+          <input
+            type="text"
+            name="user_question"
+            placeholder="무엇이 궁금하신가요?"
+          />
         <button>질문하기</button>
     </form>
-
-    <!-- 채팅 다운로드 -->
-    <a href="{% url 'qna:save-chat-as-pdf' folder_id question_room.id %}">pdf로 채팅 저장</a>
-    <a href="{% url 'qna:save-chat-as-word' folder_id question_room.id %}">word로 채팅 저장</a>
-
-    <br><br>
-    <!-- memo 입력 폼 -->
-    <form action="{% url 'qna:save-question-memo' folder_id question_room.id %}" method="POST">
+      </section>
+      <section class="right_main">
+        <session class=" "></session>
+        <form
+          action="{% url 'qna:save-question-memo' folder_id question_room.id %}"
+          method="POST"
+        >
         {% csrf_token %}
         <textarea name="memo">{{ question_room.memo }}</textarea>
         <button type="submit">memo 저장</button>
     </form>
 
     <!-- 메모 다운로드 -->
-     <a href="{% url 'qna:save-memo-as-pdf' folder_id question_room.id %}">pdf로 메모 저장</a>
-     <a href="{% url 'qna:save-memo-as-word' folder_id question_room.id %}">word로 메모 저장</a>
-
+        <a href="{% url 'qna:save-memo-as-pdf' folder_id question_room.id %}"
+          >pdf로 메모 저장</a
+        >
+        <a href="{% url 'qna:save-memo-as-word' folder_id question_room.id %}"
+          >word로 메모 저장</a
+        >
+      </section>
+    </main>
 </body>
 </html>
+{% endblock %}

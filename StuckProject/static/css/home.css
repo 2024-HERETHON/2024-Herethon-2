@@ -5,12 +5,16 @@ main {
 .navbar .nav-home * {
     color: #09A8FA;
 }
+.mini-folder , .mini-quiz, .mini-test{
+    width: 20px;
+    margin-right: 10px;
 
+}
 .today {
     font-weight: bold;
     background-color: #09A8FA;
     padding: 5px; 
-    border-radius: 3px;
+    border-radius: 8px;
 }
 
 
@@ -302,11 +306,16 @@ main {
     height: fit-content;
     padding: 20px;
     border-radius: 20px;
-    border:1px solid #F1F1F1;
+    border:1px solid #D8D8D8;
 }
 .scrap .subtitle, .recent .subtitle{
     margin-left: 10px;
     color: #757575;
+}
+.scrap-list li{
+    height: 20px;
+    display: flex;
+    align-items: center;
 }
 a{
     cursor: pointer;
