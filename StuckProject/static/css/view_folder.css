@@ -305,15 +305,6 @@ makequestion_before {
 .input_foldername button {
   padding: 7px 15px;
   border-radius: 100px;
-  background: var(
-    --Primary-Hover,
-    linear-gradient(
-      0deg,
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(255, 255, 255, 0.3) 100%
-    ),
-    #09a8fa
-  );
   border: none;
   height: 31px;
   width: 81px;
