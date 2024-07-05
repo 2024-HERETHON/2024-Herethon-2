@@ -18,7 +18,7 @@ STUCK은 자기주도학습을 위한 AI 문제생성 및 질의응답 서비스
 | <center> <img width="150px" src="https://ipainting.co.kr/wp-content/uploads/2019/02/%EB%8F%99%EB%AC%BC%EB%8F%84%EC%95%88_46.jpg"></center> | 
 | <center> 기획, 디자인 </center>                                                                                                                 |
 ####  ️Front-end
-| <center> 박수진 </center>                                                                         | <center> 송유선 </center>                                                                         | 
+| <center> 최수진 </center>                                                                         | <center> 송유선 </center>                                                                         | 
 |---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
 | <center> <img width="150px" src="https://avatars.githubusercontent.com/u/134383155?v=4"></center> | <center> <img width="150px" src="https://avatars.githubusercontent.com/u/164325907?v=4"></center> | 
 | <center> 역할1 </center>                                                                          | <center> 역할2 </center>                                                                           | 
