@@ -2,13 +2,13 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/create_question_room.css' %}" />
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'css/question_room.css' %}" />
+  </head>
+  <body>
     <main>
       <section class="left_main">
         <section class="left_title">
@@ -19,6 +19,7 @@
             <h5>{{ question_room.file.name }}</h5>
           </div>
           <div class="icons">
+            <!-- 저장하면 바뀌는 거 결과 페이지에는 맞게 구현되어 있으니까 그거 복붙하도 좋을 것 같아요! 카톡에서 말했다시피 제 노트북은 프리티어 꺼도 이 페이지에서는 한 줄에 안 적어져서 오류가 나네요,,, -->
             <a
               href="{% url 'qna:add-scrap-question-room' folder_id question_room.id %}"
             >
@@ -38,7 +39,7 @@
         </section>
         <section class="chat-container">
           <section class="chat">
-    {% for chat in chats %}
+            {% for chat in chats %}
             <br /><br />
             <div class="chatname">
               <img src="{% static 'img/profile.png' %}" class="profile" />사용자
@@ -51,7 +52,7 @@
             </div>
             <br />{{ chat.gpt_chat | linebreaks }}<br />
             <hr />
-    {% endfor %}
+            {% endfor %}
           </section>
         </section>
         <form
@@ -59,35 +60,47 @@
           method="POST"
           class="chat-form"
         >
-        {% csrf_token %}
-          <input
-            type="text"
-            name="user_question"
-            placeholder="무엇이 궁금하신가요?"
-          />
-        <button>질문하기</button>
-    </form>
+          {% csrf_token %}
+          <div class="input_q">
+            <input
+              type="text"
+              name="user_question"
+              placeholder="무엇이 궁금하신가요?"
+            />
+            <button type="submit">
+              <img src="{% static 'img/send.png' %}" class="send" />
+            </button>
+          </div>
+        </form>
       </section>
       <section class="right_main">
-        <session class=" "></session>
+        <secion class="right_title">
+          <img src="{% static 'img/typo.png' %}" class="typo" />
+          <div class="icons2">
+            <a
+              href="{% url 'qna:save-memo-as-pdf' folder_id question_room.id %}"
+            >
+              <img src="{% static 'img/pdf.png' %}" class="pdf" />
+            </a>
+            <a
+              href="{% url 'qna:save-memo-as-word' folder_id question_room.id %}"
+            >
+              <img src="{% static 'img/word.png' %}" class="word" />
+            </a>
+          </div>
+        </secion>
+        <!-- 여기 수정 들어가야합니당 -->
+        {% for chat in chats %} {{ chat.created_at }} {% endfor %}
         <form
           action="{% url 'qna:save-question-memo' folder_id question_room.id %}"
           method="POST"
         >
-        {% csrf_token %}
-        <textarea name="memo">{{ question_room.memo }}</textarea>
-        <button type="submit">memo 저장</button>
-    </form>
-
-    <!-- 메모 다운로드 -->
-        <a href="{% url 'qna:save-memo-as-pdf' folder_id question_room.id %}"
-          >pdf로 메모 저장</a
-        >
-        <a href="{% url 'qna:save-memo-as-word' folder_id question_room.id %}"
-          >word로 메모 저장</a
-        >
+          {% csrf_token %}
+          <textarea name="memo">{{ question_room.memo }}</textarea>
+          <button type="submit">memo 저장</button>
+        </form>
       </section>
     </main>
-</body>
+  </body>
 </html>
 {% endblock %}
