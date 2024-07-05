@@ -118,7 +118,7 @@
       <div id="folder-{{ child.id }}" class="grid-item" ondrop="drop(event, 'folder', {{ child.id }})"
         ondragover="allowDrop(event)">
         <a id="folder-{{ child.id }}" class="draggable" draggable="true" href="{% url 'quiz:folder-view' child.id %}">
-          <img src="{% static 'img/folder.svg' %}" alt="Folder Icon">
+          <img id="folder-{{ child.id }}"  src="{% static 'img/folder.svg' %}" alt="Folder Icon">
           <p>{{ child.name }}</p>
         </a>
       </div>
@@ -127,7 +127,7 @@
       <!-- 현재 폴더 하위에 있는 Q 파일 출력 -->
       {% for q in folder.quizs.all %}
       <div id="quiz-{{ q.id }}" class="grid-item" draggable="true" ondragstart="drag(event)">
-        <img src="{% static 'img/t_blue.png' %}" height="80px" alt="Q File Icon">
+        <img id="quiz-{{ q.id }}"  src="{% static 'img/t_blue.png' %}" height="80px" alt="Q File Icon">
         <p><a id="quiz-{{ q.id }}" href="{% url 'quiz:view-questions' folder.id q.id %}">{{ q.title }}</a></p>
       </div>
       {% endfor %}
@@ -135,7 +135,7 @@
       <!-- 현재 폴더 하위에 있는 T 파일 출력 -->
       {% for q in folder.qnas.all %}
       <div id="qna-{{ q.id }}" class="grid-item" draggable="true" ondragstart="drag(event)">
-        <img src="{% static 'img/q_blue.png' %}" alt="T File Icon">
+        <img id="qna-{{ q.id }}" src="{% static 'img/q_blue.png' %}" alt="T File Icon">
         <p><a id="qna-{{ q.id }}" href="{% url 'qna:enter-question-room' folder.id q.id %}">{{ q.title }}</a></p>
       </div>
       {% endfor %}
@@ -174,7 +174,10 @@
 
 
   <script>
+    let event
     function drag(event) {
+      event = event
+      console.log("event : " ,event)
       event.dataTransfer.setData("text", event.target.id);
     }
 
