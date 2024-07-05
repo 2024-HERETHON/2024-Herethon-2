@@ -79,6 +79,7 @@
             {% if messages %} {% for message in messages %}
             <p style="color: red">{{ message }}</p>
             {% endfor %} {% endif %} {% if folder %}
+            
             <form action="{% url 'quiz:search-folder' folder.id %}" method="POST">
               {% csrf_token %}
               <input name="search_folder_name" type="text" placeholder="찾고 싶은 파일과 문서를 검색해주세요" />
