@@ -63,6 +63,11 @@ STUCK은 자기주도학습을 위한 AI 문제생성 및 질의응답 서비스
   <img width="400px" src="./readme_img/img_13.png">
 
 #### 6. 아이디, 비밀번호 찾기
+* 아이디를 잃어버렸을 경우 이메일 입력을 통해 가입했을 때의 아이디를 찾을 수 있습니다.
+* 비밀번호를 잃어버렸을 경우 이메알, ID 입력을 통해 비밀번호를 재설정할 수 있습니다.
+  <img width="400px" src="./readme_img/img_16.png">
+  <img width="400px" src="./readme_img/img_15.png">
+  <img width="400px" src="./readme_img/img_14.png">
 
 
 <br><br>
