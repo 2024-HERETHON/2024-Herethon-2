@@ -25,8 +25,8 @@ STUCK은 자기주도학습을 위한 AI 문제생성 및 질의응답 서비스
 * 생성한 문제는 PDF와 WORD 형태로 저장할 수 있습니다.
   * 자주 보는 문제는 즐겨찾기를 눌러 나중에 MySTUCK 페이지에서 확인할 수 있습니다.
   <br><br>
-  <img width="400px" src="./readme_img/img_4.png">
-  <img width="400px" src="./readme_img/img_5.png">
+  <img width="300px" src="./readme_img/img_4.png">
+  <img width="300px" src="./readme_img/img_5.png">
   
 
 #### 2. 질문하기
@@ -36,8 +36,8 @@ STUCK은 자기주도학습을 위한 AI 문제생성 및 질의응답 서비스
 * 질의응답 채팅 내용, 메모 모두 PDF와 WORD로 저장할 수 있습니다.
 * 틀린 문제만 보기, 다시 풀기 옵션을 제공합니다.
 * 자주 보는 질문하기는 즐겨찾기를 눌러 나중에 MySTUCK 페이지에서 확인할 수 있습니다. <br><br>
-  <img width="400px" src="./readme_img/img_8.png">
-  <img width="400px" src="./readme_img/img_7.png">
+  <img width="300px" src="./readme_img/img_8.png">
+  <img width="300px" src="./readme_img/img_7.png">
 
 
 #### 3. My Stuck
@@ -45,7 +45,7 @@ STUCK은 자기주도학습을 위한 AI 문제생성 및 질의응답 서비스
 * 컴퓨터 시스템의 파일탐색기와 매우 유사하며, 드래그하여 삭제, 드래그하여 폴더 및 파일 이동 기능을 모두 지원합니다.
 * 폴더 및 파일 찾기도 가능합니다.
 * 즐겨찾기한 항목은 아래에 회색으로 나타납니다.<br><br>
-  <img width="400px" src="./readme_img/img_9.png">
+  <img width="300px" src="./readme_img/img_9.png">
 
 
 #### 4. MyPage
@@ -53,21 +53,21 @@ STUCK은 자기주도학습을 위한 AI 문제생성 및 질의응답 서비스
 * 캘린더와 연동했으며 할 일을 완수한 날이 있다면 파란색 배경, 할 일을 완수하지 못했다면 회색 배경으로 나타납니다.
 * 루틴, 할 일은 추가 및 삭제가 가능합니다.
 * 목표설정 아래를 스크롤하면 내 정보를 수정할 수 있습니다. <br><br>
-  <img width="400px" src="./readme_img/img_10.png">
-  <img width="400px" src="./readme_img/img_11.png">
+  <img width="300px" src="./readme_img/img_10.png">
+  <img width="300px" src="./readme_img/img_11.png">
 
 #### 5. Home
 * 월간 달성률, 주간 달성률, 일간 달성률을 확인할 수 있습니다.
 * 즐겨찾기한 항목, 최근 열어본 문서를 확인할 수 있습니다. <br><br>
-  <img width="400px" src="./readme_img/img_12.png">
-  <img width="400px" src="./readme_img/img_13.png">
+  <img width="300px" src="./readme_img/img_12.png">
+  <img width="300px" src="./readme_img/img_13.png">
 
 #### 6. 아이디, 비밀번호 찾기
 * 아이디를 잃어버렸을 경우 이메일 입력을 통해 가입했을 때의 아이디를 찾을 수 있습니다.
-* 비밀번호를 잃어버렸을 경우 이메알, ID 입력을 통해 비밀번호를 재설정할 수 있습니다.
-  <img width="400px" src="./readme_img/img_16.png">
-  <img width="400px" src="./readme_img/img_15.png">
-  <img width="400px" src="./readme_img/img_14.png">
+* 비밀번호를 잃어버렸을 경우 이메알, ID 입력을 통해 비밀번호를 재설정할 수 있습니다. <br><br>
+  <img width="300px" src="./readme_img/img_16.png">
+  <img width="300px" src="./readme_img/img_15.png">
+  <img width="300px" src="./readme_img/img_14.png">
 
 
 <br><br>
