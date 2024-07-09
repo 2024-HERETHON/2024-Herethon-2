@@ -90,7 +90,6 @@ def create_question_room(request, folder_id):
         )
 
         return redirect('qna:enter-question-room', folder_id, question_room.id)
-
     context = {
         'folder_id': folder_id
     }

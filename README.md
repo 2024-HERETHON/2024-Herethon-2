@@ -9,6 +9,18 @@
 ### 📙 프로젝트 소개
 STUCK은 자기주도학습을 위한 AI 문제생성 및 질의응답 서비스입니다. 
 학생들의 자기주도적 학습 태도 정립을 목표로 만들어진 STUCK은 다음과 같이 소비자들의 painpoint를 해결합니다.
+#### 1. 문제 생성
+* 문제 생성 탭으로 이동하여 저장하고자 하는 폴더를 생성하거나, 선택한 후 문제를 생성할 수 있습니다.
+* 문제의 이름, 생성할 문제의 개수, 문제의 유형(객관식, 주관식), 생성하고자 하는 교재의 pdf나 이미지를 업로드할 수 있습니다.
+![img_1.png](img_1.png)
+![img.png](img.png)
+* 이미지를 업로드한 후 문제 생성 버튼을 클릭했다면 업로드한 이미지의 텍스트를 google cloud vision API를 통해 추출합니다.
+* 추출한 텍스트를 기반으로 프롬프팅을 통해 chatGPT에게 문제 생성을 요청합니다.
+* chatGPT의 응답을 기반으로 문제를 생성합니다.
+![img_2.png](img_2.png)
+![img_3.png](img_3.png)
+![img_4.png](img_4.png)
+![img_5.png](img_5.png)
 
 <br><br>
 ### 🦁 STUCK 개발 팀원 소개
@@ -18,10 +30,10 @@ STUCK은 자기주도학습을 위한 AI 문제생성 및 질의응답 서비스
 | <center> <img width="150px" src="https://ipainting.co.kr/wp-content/uploads/2019/02/%EB%8F%99%EB%AC%BC%EB%8F%84%EC%95%88_46.jpg"></center> | 
 | <center> 기획, 디자인 </center>                                                                                                                 |
 ####  ️Front-end
-| <center> 박수진 </center>                                                                         | <center> 송유선 </center>                                                                         | 
+| <center> 최수진 </center>                                                                            | <center> 송유선 </center>                                                                         | 
 |---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
 | <center> <img width="150px" src="https://avatars.githubusercontent.com/u/134383155?v=4"></center> | <center> <img width="150px" src="https://avatars.githubusercontent.com/u/164325907?v=4"></center> | 
-| <center> 역할1 </center>                                                                          | <center> 역할2 </center>                                                                           | 
+| <center> 역할1 </center>                                                                            | <center> 역할2 </center>                                                                           | 
 | <center>  [@jinsujini](https://github.com/jinsujini) </center>                                    | <center> [@s-uxun](https://github.com/s-uxun) </center>                                           | 
 
 #### Back-end
