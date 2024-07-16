@@ -7,6 +7,8 @@
 - id : Stuck
 - password : Stuck1234!!
 
+👉🏻 [여기톤 기사 보기](https://n.news.naver.com/article/092/0002337413?sid=105)
+
 
 <br><br>
 ### 📙 프로젝트 소개
