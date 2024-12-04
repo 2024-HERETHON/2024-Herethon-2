@@ -2,13 +2,21 @@ main {
     width: 1305px;
     margin: 0 auto;
 }
+.landing{
+    width: 100%;
+}
 .navbar .nav-home * {
     color: #09A8FA;
 }
 .mini-folder , .mini-quiz, .mini-test{
     width: 20px;
+    height: 20px;
     margin-right: 10px;
+    margin-bottom: 10px;
 
+}
+.mini-folder a, .mini-quiz a, .mini-test a{
+    line-height: 20px;
 }
 .today {
     font-weight: bold;
@@ -50,7 +58,7 @@ main {
     flex-direction: column;
     background-color: #F1F1F1;
     width: 280px;
-    height: 550px;
+    height: 380px;
     border-radius: 20px;
 }
 
@@ -92,7 +100,7 @@ main {
 }
 
 .progress-container {
-    width: 575px;
+    width: 900px;
     background-color: #F1F1F1;
     border-radius: 25px;
     overflow: hidden;
@@ -312,10 +320,11 @@ main {
     margin-left: 10px;
     color: #757575;
 }
-.scrap-list li{
+.scrap-list li, .recent li{
     height: 20px;
     display: flex;
     align-items: center;
+    margin: 10px 0;
 }
 a{
     cursor: pointer;

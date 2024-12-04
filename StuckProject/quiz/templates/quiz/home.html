@@ -30,7 +30,7 @@
                 <div class="ment">
                     <h5>{{ request.user.customuser.resolution }}</h5>
                 </div>
-                <div class="empty"></div>
+                <div class="empty" style="height: 20px;"></div>
                 <div class="graph">
                     <div class="month-goal">
                         <h5 class="date-month">{{ current_year }}년 {{ current_month }}월 <span id="h6">의 월간 목표달성률</span> {{ month_completion_rate }}%</h5>
@@ -54,7 +54,7 @@
             </div>
         </section>
         <section class="middle">
-            <div class="empty"></div>
+            <div class="empty" style="height: 50px;"></div>
             <wrap class="middle-sec">
                 <div class="calender">
                     <h4 class="title-date">{{ week_month }}</h4>
@@ -287,12 +287,12 @@
                             {% endfor %}
                             {% for scrap in quiz_scraps %}
                                 <li class="scrap-list1"><a href="{% url 'quiz:view-questions' scrap.quiz.folder.id scrap.quiz.id %}">
-                                    <img class="mini-quiz" src="{% static 'img/q_blue.svg' %}">{{ scrap.quiz.title }}</a></li>
+                                    <img class="mini-quiz" src="{% static 'img/q_blue.png' %}">{{ scrap.quiz.title }}</a></li>
                             {% endfor %}
                            
                             {% for scrap in question_room_scraps %}
                             <li class="scrap-list1"><a href="{% url 'qna:enter-question-room' scrap.question_room.folder.id scrap.question_room.id %}">
-                                <img class="mini-test" src="{% static 'img/t_blue.svg' %}"> {{ scrap.question_room.title }}</a></li>
+                                <img class="mini-test" src="{% static 'img/t_blue.png' %}"> {{ scrap.question_room.title }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -303,11 +303,17 @@
                         {% for doc in documents %}
                             <li class="scrap-list1">
                                 {% if doc.type == 'quiz' %}
+                                <img class="mini-quiz" src="{% static 'img/q_blue.png' %}">
                                     <a href="{% url 'quiz:quiz-results' doc.folder_id doc.obj.id %}">
-                                        <img class="mini-quiz" src="{% static 'img/q_blue.svg' %}">{{ doc.obj.title }}</a>
+
+                                        {{ doc.obj.title }}</a>
+
                                 {% elif doc.type == 'questionroom' %}
+                                <img class="mini-test" src="{% static 'img/t_blue.png' %}">
                                     <a href="{% url 'qna:enter-question-room' doc.folder_id doc.obj.id %}">
-                                        <img class="mini-test" src="{% static 'img/t_blue.svg' %}"> {{ doc.obj.title }}</a>
+
+                                         {{ doc.obj.title }}</a>
+
                                 {% endif %}
                             </li>
                         {% endfor %}
@@ -323,11 +329,17 @@
         <a href="{% url 'qna:select-folder' 0 %}"><button class="btn-qna">교재 내용 질문하기</button></a>
     </section>
     {% else %}
-    로그인을 진행해주세요
+    
+    <img class="landing" src="{% static 'img/landing.svg' %}">
+    <div class="empty"></div>
     {% endif %}
 </main>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+        window.scrollTo({
+        top: 0,
+        behavior: 'smooth' 
+    });
         const prevButton = document.querySelector(".left-btn");
         const nextButton = document.querySelector(".right-btn");
 

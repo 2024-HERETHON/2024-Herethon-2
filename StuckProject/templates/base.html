@@ -19,8 +19,8 @@
         <div class="navbar">
             <ul class="navbar_menu">
                 <li class="nav-home"><a href="/">HOME</a></li>
-                <li class="nav-quiz"><a href="{% url 'quiz:select-folder' 0 %}">문제풀이</a></li>
-                <li class="nav-qna"><a href="{% url 'qna:select-folder' 0 %}">질문하기</a></li>
+                <li class="nav-quiz"><a href="{% url 'quiz:landing-page' %}">문제풀이</a></li>
+                <li class="nav-qna"><a href="{% url 'qna:landing-page' %}">질문하기</a></li>
                 <li class="nav-mystuck"><a href="{% url 'quiz:folder-view' 0 %}">MYSTUCK</a></li>
                 <li class="nav-mypage"><a href="#" id="mypage-link">MYPAGE</a></li>
                 {% if request.user.is_authenticated %}

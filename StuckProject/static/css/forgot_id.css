@@ -73,7 +73,7 @@ input{
 input::placeholder {
     color: #D2D2D2;
   }
-  input[type="submit"] {
+  input[type="submit"] , button[type = "submit"]{
     margin-top: 50px;
     width: 586px;
     height: 60px;
